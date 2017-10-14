@@ -22,8 +22,8 @@ void setup_piso(uint8_t dataPin, uint8_t ploadPin, uint8_t clockPin) {
   PORTB |= piso.data;
 }
 
-int shift_in(void) {
-  int pisoVal = 0, bitVal = 0;
+uint8_t shift_in(void) {
+  uint8_t pisoVal = 0, bitVal = 0;
 
   // Load parallel values to '165.
   PORTB &= ~piso.pload;

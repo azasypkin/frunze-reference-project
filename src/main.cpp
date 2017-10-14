@@ -14,6 +14,7 @@
 #endif
 
 volatile bool interrupt = false;
+volatile uint8_t interruptDuration = 0;
 
 ISR(PCINT0_vect) {
   interrupt = true;
@@ -31,10 +32,15 @@ void debug(const char *str, bool newLine = true) {
 #endif
 }
 
-void printShiftRegister() {
+void printNumber(uint8_t number) {
   char buffer[8];
-  itoa(shift_in(), buffer, 2);
+  itoa(number, buffer, 2);
   debug(buffer);
+}
+
+void printShiftRegister() {
+  debug("Shift ", false);
+  printNumber(shift_in());
 }
 
 void enablePowerDownMode() {
@@ -81,7 +87,7 @@ int main(void) {
   DDRB |= _BV(DDB1);
   PORTB |= _BV(PB1);
 
-  setup_piso(DDB0, DDB2, DDB4);
+  setup_piso(PB0, PB2, PB4);
 
   // Enable interruption that comes from Reset/Set button.
   DDRB &= ~_BV(DDB3);
@@ -94,14 +100,22 @@ int main(void) {
 #pragma clang diagnostic ignored "-Wmissing-noreturn"
   while (1) {
     _delay_ms(100);
-    debug("Iterating...");
+    debug("Iterating... ", false);
+    printNumber((PINB & (1 << PB3)));
 
-    if (interrupt) {
+    if (interrupt && interruptDuration >= 20) {
       printShiftRegister();
-      interrupt = false;
-    }
 
-    enablePowerDownMode();
+      interrupt = false;
+      interruptDuration = 0;
+    } else if (interrupt && !(PINB & (1 << PB3))) {
+      interruptDuration++;
+    } else {
+      interrupt = false;
+      interruptDuration = 0;
+
+      enablePowerDownMode();
+    }
   }
 #pragma clang diagnostic pop
 }
