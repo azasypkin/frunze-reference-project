@@ -3,7 +3,7 @@
 #include <avr/sleep.h>
 #include <util/delay.h>
 #include "piso.h"
-/*#include <stdlib.h>*/
+#include "speaker.h"
 
 #define DEBUG_ENABLED true
 
@@ -13,8 +13,7 @@
 
 #endif
 
-/*volatile bool interrupt = false;*/
-volatile uint8_t interruptDuration = 0;
+volatile uint8_t resetButtonPressDuration = 0;
 
 enum Mode {
   SLEEP,
@@ -26,7 +25,7 @@ static const char * ModeStrings[] = { "SLEEP", "INPUT" };
 volatile Mode mode = Mode::SLEEP;
 
 ISR(PCINT0_vect) {
-  interruptDuration = 0;
+  resetButtonPressDuration = 0;
 }
 
 void debug(const char *str, bool newLine = true) {
@@ -41,12 +40,6 @@ void debug(const char *str, bool newLine = true) {
   }
 #endif
 }
-/*
-void printNumber(uint8_t number) {
-  char buffer[8];
-  itoa(number, buffer, 2);
-  debug(buffer);
-}*/
 
 void enablePowerDownMode() {
   debug("[app] going to power down...");
@@ -71,7 +64,7 @@ bool isResetPressed() {
 }
 
 bool isResetLongPressed() {
-  return isResetPressed() && interruptDuration >= 20;
+  return isResetPressed() && resetButtonPressDuration >= 20;
 }
 
 void readButtons() {
@@ -99,14 +92,19 @@ void readButtons() {
       TxByte('.');
       break;
   }
+
+  if (shift) {
+    Speaker::play(MELODY_BEEP);
+  }
 }
 
 void toggleMode() {
   mode = mode == Mode::SLEEP ? Mode::INPUT : Mode::SLEEP;
-  interruptDuration = 0;
+  resetButtonPressDuration = 0;
 
   debug("Mode toggled to: ", false);
   debug(ModeStrings[mode]);
+  Speaker::play(MELODY_MODE);
 }
 
 /**
@@ -144,6 +142,8 @@ int main(void) {
 
   debug("[app] all setup.");
 
+  Speaker::play(MELODY_ALARM);
+
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wmissing-noreturn"
   while (1) {
@@ -165,7 +165,7 @@ int main(void) {
       }
 
       if (isResetPressed()) {
-        interruptDuration++;
+        resetButtonPressDuration++;
       } else if (mode == INPUT) {
         readButtons();
       }
