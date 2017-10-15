@@ -3,7 +3,7 @@
 #include <avr/sleep.h>
 #include <util/delay.h>
 #include "piso.h"
-#include <stdlib.h>
+/*#include <stdlib.h>*/
 
 #define DEBUG_ENABLED true
 
@@ -13,11 +13,20 @@
 
 #endif
 
-volatile bool interrupt = false;
+/*volatile bool interrupt = false;*/
 volatile uint8_t interruptDuration = 0;
 
+enum Mode {
+  SLEEP,
+  INPUT
+};
+
+static const char * ModeStrings[] = { "SLEEP", "INPUT" };
+
+volatile Mode mode = Mode::SLEEP;
+
 ISR(PCINT0_vect) {
-  interrupt = true;
+  interruptDuration = 0;
 }
 
 void debug(const char *str, bool newLine = true) {
@@ -27,21 +36,17 @@ void debug(const char *str, bool newLine = true) {
   }
 
   if (newLine) {
+    TxByte('\r');
     TxByte('\n');
   }
 #endif
 }
-
+/*
 void printNumber(uint8_t number) {
   char buffer[8];
   itoa(number, buffer, 2);
   debug(buffer);
-}
-
-void printShiftRegister() {
-  debug("Shift ", false);
-  printNumber(shift_in());
-}
+}*/
 
 void enablePowerDownMode() {
   debug("[app] going to power down...");
@@ -59,6 +64,49 @@ void enablePowerDownMode() {
   PORTB |= _BV(PB1);
 
   debug("[app] waken up!");
+}
+
+bool isResetPressed() {
+  return !(PINB & _BV(PB3));
+}
+
+bool isResetLongPressed() {
+  return isResetPressed() && interruptDuration >= 20;
+}
+
+void readButtons() {
+  uint8_t shift = shift_in();
+  switch (shift) {
+    case 1:
+      TxByte('0');
+      break;
+    case 2:
+      TxByte('1');
+      break;
+    case 4:
+      TxByte('2');
+      break;
+    case 8:
+      TxByte('3');
+      break;
+    case 16:
+      TxByte('4');
+      break;
+    case 32:
+      TxByte('5');
+      break;
+    default:
+      TxByte('.');
+      break;
+  }
+}
+
+void toggleMode() {
+  mode = mode == Mode::SLEEP ? Mode::INPUT : Mode::SLEEP;
+  interruptDuration = 0;
+
+  debug("Mode toggled to: ", false);
+  debug(ModeStrings[mode]);
 }
 
 /**
@@ -99,22 +147,28 @@ int main(void) {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wmissing-noreturn"
   while (1) {
-    _delay_ms(100);
-    debug("Iterating... ", false);
-    printNumber((PINB & (1 << PB3)));
+    enablePowerDownMode();
 
-    if (interrupt && interruptDuration >= 20) {
-      printShiftRegister();
+    while(1) {
+      _delay_ms(100);
 
-      interrupt = false;
-      interruptDuration = 0;
-    } else if (interrupt && !(PINB & (1 << PB3))) {
-      interruptDuration++;
-    } else {
-      interrupt = false;
-      interruptDuration = 0;
+      if (mode == Mode::SLEEP && !isResetPressed()) {
+        break;
+      }
 
-      enablePowerDownMode();
+      if (isResetLongPressed()) {
+        toggleMode();
+
+        if (mode == Mode::SLEEP) {
+          break;
+        }
+      }
+
+      if (isResetPressed()) {
+        interruptDuration++;
+      } else if (mode == INPUT) {
+        readButtons();
+      }
     }
   }
 #pragma clang diagnostic pop
