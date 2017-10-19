@@ -1,0 +1,448 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<export version="D">
+  <design>
+    <source>/projects/frunze/reference-project/docs/schematics/reference-project/reference-project.sch</source>
+    <date>Tue 17 Oct 2017 06:13:59 PM CEST</date>
+    <tool>Eeschema 4.0.7</tool>
+    <sheet number="1" name="/" tstamps="/">
+      <title_block>
+        <title/>
+        <company/>
+        <rev/>
+        <date/>
+        <source>reference-project.sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+      </title_block>
+    </sheet>
+  </design>
+  <components>
+    <comp ref="SW2">
+      <value>INPUT_1</value>
+      <libsource lib="Switch" part="SW_Push"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>59E49805</tstamp>
+    </comp>
+    <comp ref="SW1">
+      <value>INPUT_0</value>
+      <libsource lib="Switch" part="SW_Push"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>59E49A39</tstamp>
+    </comp>
+    <comp ref="SW5">
+      <value>INPUT_4</value>
+      <libsource lib="Switch" part="SW_Push"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>59E49A78</tstamp>
+    </comp>
+    <comp ref="SW4">
+      <value>INPUT_3</value>
+      <libsource lib="Switch" part="SW_Push"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>59E49B10</tstamp>
+    </comp>
+    <comp ref="SW7">
+      <value>RESET</value>
+      <libsource lib="Switch" part="SW_Push"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>59E49B79</tstamp>
+    </comp>
+    <comp ref="SW6">
+      <value>INPUT_5</value>
+      <libsource lib="Switch" part="SW_Push"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>59E49BEA</tstamp>
+    </comp>
+    <comp ref="SW3">
+      <value>INPUT_2</value>
+      <libsource lib="Switch" part="SW_Push"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>59E49DB3</tstamp>
+    </comp>
+    <comp ref="U1">
+      <value>74HC165D</value>
+      <libsource lib="Logic_74xx" part="74LS165"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>59E50ACD</tstamp>
+    </comp>
+    <comp ref="U2">
+      <value>ATTINY85-20PU</value>
+      <footprint>Housings_DIP:DIP-8_W7.62mm</footprint>
+      <libsource lib="atmel" part="ATTINY85-20PU"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>59E50D10</tstamp>
+    </comp>
+    <comp ref="LS1">
+      <value>Buzzer</value>
+      <libsource lib="device" part="Speaker"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>59E51513</tstamp>
+    </comp>
+    <comp ref="R6">
+      <value>10K</value>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>59E53A35</tstamp>
+    </comp>
+    <comp ref="R5">
+      <value>10K</value>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>59E53B0E</tstamp>
+    </comp>
+    <comp ref="R4">
+      <value>10K</value>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>59E53B8A</tstamp>
+    </comp>
+    <comp ref="R3">
+      <value>10K</value>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>59E53C00</tstamp>
+    </comp>
+    <comp ref="R2">
+      <value>10K</value>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>59E53C86</tstamp>
+    </comp>
+    <comp ref="R1">
+      <value>10K</value>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>59E53D18</tstamp>
+    </comp>
+    <comp ref="R8">
+      <value>220</value>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>59E56D49</tstamp>
+    </comp>
+    <comp ref="D1">
+      <value>BAT54C</value>
+      <footprint>DIODE-1N4148</footprint>
+      <libsource lib="SparkFun-DiscreteSemi" part="DIODE1N4148"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>59E57678</tstamp>
+    </comp>
+    <comp ref="Q1">
+      <value>MMBT3904</value>
+      <footprint>TO_SOT_Packages_SMD:SOT-23</footprint>
+      <libsource lib="Transistor" part="MMBT3904"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>59E57A0D</tstamp>
+    </comp>
+    <comp ref="R9">
+      <value>10K</value>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>59E57C21</tstamp>
+    </comp>
+    <comp ref="R7">
+      <value>10K</value>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>59E587BF</tstamp>
+    </comp>
+    <comp ref="J1">
+      <value>UART</value>
+      <libsource lib="Connector" part="Conn_01x02_Female"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>59E5D1C9</tstamp>
+    </comp>
+  </components>
+  <libparts>
+    <libpart lib="Logic_74xx" part="74LS165">
+      <description>Shift Register 8-bit, parallel load</description>
+      <docs>http://www.ti.com/lit/gpn/sn74LS165</docs>
+      <footprints>
+        <fp>DIP?16*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">74LS165</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~PL" type="input"/>
+        <pin num="2" name="CP" type="input"/>
+        <pin num="3" name="D4" type="input"/>
+        <pin num="4" name="D5" type="input"/>
+        <pin num="5" name="D6" type="input"/>
+        <pin num="6" name="D7" type="input"/>
+        <pin num="7" name="~Q7" type="output"/>
+        <pin num="8" name="GND" type="power_in"/>
+        <pin num="9" name="Q7" type="output"/>
+        <pin num="10" name="DS" type="input"/>
+        <pin num="11" name="D0" type="input"/>
+        <pin num="12" name="D1" type="input"/>
+        <pin num="13" name="D2" type="input"/>
+        <pin num="14" name="D3" type="input"/>
+        <pin num="15" name="~CE" type="input"/>
+        <pin num="16" name="VCC" type="power_in"/>
+      </pins>
+    </libpart>
+    <libpart lib="atmel" part="ATTINY25-20PU">
+      <aliases>
+        <alias>ATTINY45-20PU</alias>
+        <alias>ATTINY85-20PU</alias>
+      </aliases>
+      <description>PDIP8, 2k Flash, 128B SRAM, 128B EEPROM, Debug Wire</description>
+      <docs>http://www.atmel.com/images/atmel-2586-avr-8-bit-microcontroller-attiny25-attiny45-attiny85_datasheet.pdf</docs>
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">ATTINY25-20PU</field>
+        <field name="Footprint">Housings_DIP:DIP-8_W7.62mm</field>
+      </fields>
+      <pins>
+        <pin num="1" name="PB5(~RESET~/dW/ADC0/PCINT5)" type="BiDi"/>
+        <pin num="2" name="PB3(XTAL1/CLKI/OC1B/ADC3/PCINT3)" type="BiDi"/>
+        <pin num="3" name="PB4(XTAL2/CLKO/OC1B/ADC2/PCINT4)" type="BiDi"/>
+        <pin num="4" name="GND" type="power_in"/>
+        <pin num="5" name="PB0(MOSI/DI/SDA/AIN0/OC0A/OC1A/AREF/PCINT0)" type="BiDi"/>
+        <pin num="6" name="PB1(MISO/DO/AIN1/OC0B/OC1A/PCINT1)" type="BiDi"/>
+        <pin num="7" name="PB2(SCK/USCK/SCL/T0/INT0/ADC1/PCINT2)" type="BiDi"/>
+        <pin num="8" name="VCC" type="power_in"/>
+      </pins>
+    </libpart>
+    <libpart lib="Transistor" part="BC817">
+      <aliases>
+        <alias>BC818</alias>
+        <alias>BC847</alias>
+        <alias>BC848</alias>
+        <alias>BC849</alias>
+        <alias>BC850</alias>
+        <alias>MMBT3904</alias>
+      </aliases>
+      <description>45V Vce, 0.8A Ic, NPN, SOT-23</description>
+      <docs>http://www.fairchildsemi.com/ds/BC/BC817.pdf</docs>
+      <footprints>
+        <fp>SOT?23*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">Q</field>
+        <field name="Value">BC817</field>
+        <field name="Footprint">TO_SOT_Packages_SMD:SOT-23</field>
+      </fields>
+      <pins>
+        <pin num="1" name="B" type="input"/>
+        <pin num="2" name="E" type="passive"/>
+        <pin num="3" name="C" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Connector" part="Conn_01x02_Female">
+      <description>Generic connector, single row, 01x02</description>
+      <docs>~</docs>
+      <footprints>
+        <fp>Connector*:*_??x*mm*</fp>
+        <fp>Connector*:*1x??x*mm*</fp>
+        <fp>Socket?Strip?Straight?1X*</fp>
+        <fp>Socket?Strip?Angled?1X*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">J</field>
+        <field name="Value">Conn_01x02_Female</field>
+      </fields>
+      <pins>
+        <pin num="1" name="Pin_1" type="passive"/>
+        <pin num="2" name="Pin_2" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="SparkFun-DiscreteSemi" part="DIODE1N4148">
+      <footprints>
+        <fp>*DIODE-1N4148*</fp>
+        <fp>*SOD-323*</fp>
+        <fp>*SMC*</fp>
+        <fp>*DIODE-HV*</fp>
+        <fp>*DIODE-1N4148-KIT*</fp>
+        <fp>*DIODE-1N4001-KIT*</fp>
+        <fp>*DIODE-1N4001*</fp>
+        <fp>*SMA-DIODE*</fp>
+        <fp>*SMA-DIODE_ALT*</fp>
+        <fp>*SMA-DIODE-KIT*</fp>
+        <fp>*SMB-DIODE*</fp>
+        <fp>*SOD-123*</fp>
+        <fp>*SOD523*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">D</field>
+        <field name="Value">DIODE1N4148</field>
+        <field name="Footprint">DIODE-1N4148</field>
+      </fields>
+      <pins>
+        <pin num="A" name="A" type="passive"/>
+        <pin num="C" name="C" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="device" part="R">
+      <description>Resistor</description>
+      <footprints>
+        <fp>R_*</fp>
+        <fp>R_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">R</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Switch" part="SW_Push">
+      <description>Push button switch, generic, two pins</description>
+      <fields>
+        <field name="Reference">SW</field>
+        <field name="Value">SW_Push</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="passive"/>
+        <pin num="2" name="2" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="device" part="Speaker">
+      <description>speaker</description>
+      <fields>
+        <field name="Reference">LS</field>
+        <field name="Value">Speaker</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="input"/>
+        <pin num="2" name="2" type="input"/>
+      </pins>
+    </libpart>
+  </libparts>
+  <libraries>
+    <library logical="device">
+      <uri>/usr/share/kicad/library/device.lib</uri>
+    </library>
+    <library logical="Connector">
+      <uri>/usr/share/kicad/library/Connector.lib</uri>
+    </library>
+    <library logical="Transistor">
+      <uri>/usr/share/kicad/library/Transistor.lib</uri>
+    </library>
+    <library logical="atmel">
+      <uri>/usr/share/kicad/library/atmel.lib</uri>
+    </library>
+    <library logical="Logic_74xx">
+      <uri>/usr/share/kicad/library/Logic_74xx.lib</uri>
+    </library>
+    <library logical="SparkFun-DiscreteSemi">
+      <uri>/projects/tools/SparkFun-Kicad-Libraries/SparkFun-DiscreteSemi.lib</uri>
+    </library>
+    <library logical="Switch">
+      <uri>/usr/share/kicad/library/Switch.lib</uri>
+    </library>
+  </libraries>
+  <nets>
+    <net code="1" name="Net-(R1-Pad1)">
+      <node ref="SW1" pin="2"/>
+      <node ref="U1" pin="11"/>
+      <node ref="R1" pin="1"/>
+    </net>
+    <net code="2" name="Net-(R4-Pad1)">
+      <node ref="SW4" pin="2"/>
+      <node ref="U1" pin="14"/>
+      <node ref="R4" pin="1"/>
+    </net>
+    <net code="3" name="Net-(R3-Pad1)">
+      <node ref="SW3" pin="2"/>
+      <node ref="U1" pin="13"/>
+      <node ref="R3" pin="1"/>
+    </net>
+    <net code="4" name="Net-(R2-Pad1)">
+      <node ref="U1" pin="12"/>
+      <node ref="SW2" pin="2"/>
+      <node ref="R2" pin="1"/>
+    </net>
+    <net code="5" name="Net-(U1-Pad1)">
+      <node ref="U1" pin="1"/>
+      <node ref="U2" pin="7"/>
+    </net>
+    <net code="6" name="Net-(R6-Pad1)">
+      <node ref="R6" pin="1"/>
+      <node ref="SW6" pin="2"/>
+      <node ref="U1" pin="4"/>
+    </net>
+    <net code="7" name="Net-(R5-Pad1)">
+      <node ref="U1" pin="3"/>
+      <node ref="SW5" pin="2"/>
+      <node ref="R5" pin="1"/>
+    </net>
+    <net code="8" name="Net-(R7-Pad2)">
+      <node ref="U2" pin="2"/>
+      <node ref="R7" pin="2"/>
+      <node ref="SW7" pin="1"/>
+    </net>
+    <net code="9" name="Net-(D1-PadC)">
+      <node ref="D1" pin="C"/>
+      <node ref="J1" pin="1"/>
+      <node ref="R9" pin="2"/>
+    </net>
+    <net code="10" name="Net-(J1-Pad2)">
+      <node ref="J1" pin="2"/>
+      <node ref="Q1" pin="3"/>
+    </net>
+    <net code="11" name="GND">
+      <node ref="U2" pin="4"/>
+      <node ref="R2" pin="2"/>
+      <node ref="U1" pin="8"/>
+      <node ref="LS1" pin="2"/>
+      <node ref="R6" pin="2"/>
+      <node ref="R1" pin="2"/>
+      <node ref="R3" pin="2"/>
+      <node ref="U1" pin="6"/>
+      <node ref="SW7" pin="2"/>
+      <node ref="R4" pin="2"/>
+      <node ref="U1" pin="5"/>
+      <node ref="R5" pin="2"/>
+      <node ref="U1" pin="15"/>
+    </net>
+    <net code="12" name="Net-(D1-PadA)">
+      <node ref="U2" pin="6"/>
+      <node ref="R8" pin="2"/>
+      <node ref="Q1" pin="2"/>
+      <node ref="D1" pin="A"/>
+    </net>
+    <net code="13" name="Net-(LS1-Pad1)">
+      <node ref="LS1" pin="1"/>
+      <node ref="R8" pin="1"/>
+    </net>
+    <net code="14" name="Net-(U1-Pad10)">
+      <node ref="U1" pin="10"/>
+    </net>
+    <net code="15" name="Net-(U2-Pad1)">
+      <node ref="U2" pin="1"/>
+    </net>
+    <net code="16" name="Net-(U1-Pad9)">
+      <node ref="U2" pin="5"/>
+      <node ref="U1" pin="9"/>
+    </net>
+    <net code="17" name="Net-(U1-Pad2)">
+      <node ref="U2" pin="3"/>
+      <node ref="U1" pin="2"/>
+    </net>
+    <net code="18" name="Net-(U1-Pad7)">
+      <node ref="U1" pin="7"/>
+    </net>
+    <net code="19" name="+3V3">
+      <node ref="SW2" pin="1"/>
+      <node ref="R7" pin="1"/>
+      <node ref="SW4" pin="1"/>
+      <node ref="SW3" pin="1"/>
+      <node ref="U1" pin="16"/>
+      <node ref="U2" pin="8"/>
+      <node ref="SW1" pin="1"/>
+      <node ref="SW5" pin="1"/>
+      <node ref="SW6" pin="1"/>
+    </net>
+    <net code="20" name="Net-(Q1-Pad1)">
+      <node ref="Q1" pin="1"/>
+      <node ref="R9" pin="1"/>
+    </net>
+  </nets>
+</export>
