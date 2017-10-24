@@ -3,7 +3,7 @@
   (general
     (links 61)
     (no_connects 12)
-    (area 44.924999 56.924999 83.075001 125.075001)
+    (area 37.0205 43.0022 83.075001 125.3765)
     (thickness 1.6)
     (drawings 4)
     (tracks 164)
@@ -62,7 +62,7 @@
     (pad_size 1.7 1)
     (pad_drill 0)
     (pad_to_mask_clearance 0.2)
-    (aux_axis_origin 0 0)
+    (aux_axis_origin 44.8564 125.095)
     (visible_elements FFFFFB69)
     (pcbplotparams
       (layerselection 0x00000_00000001)
@@ -72,7 +72,7 @@
       (plotframeref false)
       (viasonmask false)
       (mode 1)
-      (useauxorigin false)
+      (useauxorigin true)
       (hpglpennumber 1)
       (hpglpenspeed 20)
       (hpglpendiameter 15)
