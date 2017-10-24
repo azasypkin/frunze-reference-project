@@ -1,6 +1,9 @@
 #ifndef REFERENCE_PROJECT_PISO_H
 #define REFERENCE_PROJECT_PISO_H
 
+// Taken from https://github.com/rhthomas/avr-pi-zero
+// Read https://rhthomas.github.io/post/shift-regs/
+
 #include <avr/io.h>
 
 volatile struct {
