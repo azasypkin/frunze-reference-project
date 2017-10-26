@@ -647,7 +647,6 @@ Connection ~ 9750 3200
 Wire Wire Line
 	10450 3500 9500 3500
 Connection ~ 9500 3500
-Connection ~ 10450 3500
 Wire Wire Line
 	8750 4000 9650 4000
 Connection ~ 9500 4000
