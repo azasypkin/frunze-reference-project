@@ -2,10 +2,9 @@
 #include <avr/interrupt.h>
 #include <avr/sleep.h>
 #include <util/delay.h>
-#include "piso.h"
 #include "speaker.h"
 
-#define DEBUG_ENABLED true
+#define DEBUG_ENABLED false
 
 #if(DEBUG_ENABLED)
 
@@ -68,33 +67,8 @@ bool isResetLongPressed() {
 }
 
 void readButtons() {
-  uint8_t shift = shift_in();
-  switch (shift) {
-    case 1:
-      TxByte('0');
-      break;
-    case 2:
-      TxByte('1');
-      break;
-    case 4:
-      TxByte('2');
-      break;
-    case 8:
-      TxByte('3');
-      break;
-    case 16:
-      TxByte('4');
-      break;
-    case 32:
-      TxByte('5');
-      break;
-    default:
-      TxByte('.');
-      break;
-  }
-
-  if (shift) {
-    Speaker::play(MELODY_BEEP);
+  if (PINB & _BV(PB4)) {
+    Speaker::play(MELODY_DOUBLE_BEEP);
   }
 }
 
@@ -115,11 +89,15 @@ void toggleMode() {
  *  - PB3 (pin 2) - Alarm Interruption Pin;
  *  - PB4 (pin 3) - Snooze Button Pin.
  *
- *  - PB0 (pin 5) - Shift Register Data
+ *  - PB0 (pin 5) - Shift Register Data;
  *  - PB1 (pin 6) - PWM (speaker) + UART Rx/Tx;
- *  - PB2 (pin 7) - Shift Register Parallel Load
+ *  - PB2 (pin 7) - Shift Register Parallel Load;
  *  - PB3 (pin 2) - Reset Interruption Pin;
- *  - PB4 (pin 3) - Shift Register Clock
+ *  - PB4 (pin 3) - Shift Register Clock.
+ *
+ *  - PB1 (pin 6) - PWM (speaker) + UART Rx/Tx;
+ *  - PB3 (pin 2) - Reset Interruption Pin;
+ *  - PB4 (pin 3) - Enter Time Pin;
  *
  * UART Rx/Tx Layout:
  *            D1
@@ -133,10 +111,8 @@ int main(void) {
   DDRB |= _BV(DDB1);
   PORTB |= _BV(PB1);
 
-  setup_piso(PB0, PB2, PB4);
-
   // Enable interruption that comes from Reset/Set button.
-  DDRB &= ~_BV(DDB3);
+  DDRB &= ~(_BV(DDB3) | _BV(DDB4));
   PCMSK |= _BV(PCINT3);
   GIMSK |= _BV(PCIE);
 
@@ -148,6 +124,8 @@ int main(void) {
 #pragma clang diagnostic ignored "-Wmissing-noreturn"
   while (1) {
     enablePowerDownMode();
+
+    Speaker::play(MELODY_BEEP);
 
     while(1) {
       _delay_ms(100);
