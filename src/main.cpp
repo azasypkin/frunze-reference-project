@@ -119,6 +119,8 @@ int main(void) {
   debug("[app] all setup.");
 
   Speaker::play(MELODY_ALARM);
+  Speaker::play(MELODY_ALARM);
+  Speaker::play(MELODY_ALARM);
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wmissing-noreturn"

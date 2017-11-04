@@ -1,4 +1,4 @@
-EESchema Schematic File Version 2
+EESchema Schematic File Version 3
 LIBS:power
 LIBS:device
 LIBS:linear
@@ -22,11 +22,9 @@ LIBS:siliconi
 LIBS:opto
 LIBS:atmel
 LIBS:contrib
-LIBS:adafruit
 LIBS:User-Submitted
 LIBS:Teensy_3_and_LC_Series_Boards_v1.1
 LIBS:SparkFun-Sensors
-LIBS:SparkFun-Retired
 LIBS:SparkFun-Resistors
 LIBS:SparkFun-RF
 LIBS:SparkFun-PowerIC
@@ -34,7 +32,6 @@ LIBS:SparkFun-Passives
 LIBS:SparkFun-LED
 LIBS:SparkFun-FreqCtrl
 LIBS:SparkFun-Electromechanical
-LIBS:SparkFun-Displays
 LIBS:SparkFun-DiscreteSemi
 LIBS:SparkFun-DigitalIC
 LIBS:SparkFun-Connectors
@@ -155,7 +152,7 @@ LIBS:Vishay
 LIBS:Winbond
 LIBS:Xilinx
 LIBS:reference-project-cache
-EELAYER 25 0
+EELAYER 26 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
@@ -192,28 +189,6 @@ F 3 "" H 9800 5500 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L ATTINY85-20PU U1
-U 1 1 59E50D10
-P 7400 4150
-F 0 "U1" H 6250 4550 50  0000 C CNN
-F 1 "ATTINY85-20PU" H 8400 3750 50  0000 C CNN
-F 2 "Housings_DIP:DIP-8_W7.62mm" H 8400 4150 50  0001 C CIN
-F 3 "" H 7400 4150 50  0001 C CNN
-	1    7400 4150
-	-1   0    0    -1  
-$EndComp
-$Comp
-L Speaker LS1
-U 1 1 59E51513
-P 10300 4000
-F 0 "LS1" H 10350 4225 50  0000 R CNN
-F 1 "Buzzer" H 10350 4150 50  0000 R CNN
-F 2 "Buzzers_Beepers:Buzzer_12x9.5RM7.6" H 10300 3800 50  0001 C CNN
-F 3 "" H 10290 3950 50  0001 C CNN
-	1    10300 4000
-	1    0    0    -1  
-$EndComp
-$Comp
 L R R2
 U 1 1 59E53A35
 P 8850 4650
@@ -247,150 +222,170 @@ F 3 "" H 8850 3600 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L GND #PWR2
-U 1 1 59E5A2E5
-P 6050 5400
-F 0 "#PWR2" H 6050 5150 50  0001 C CNN
-F 1 "GND" H 6050 5250 50  0000 C CNN
-F 2 "" H 6050 5400 50  0001 C CNN
-F 3 "" H 6050 5400 50  0001 C CNN
-	1    6050 5400
-	1    0    0    -1  
-$EndComp
-NoConn ~ 8750 4400
-$Comp
-L +3.3V #PWR1
-U 1 1 59E632F2
-P 6050 2850
-F 0 "#PWR1" H 6050 2700 50  0001 C CNN
-F 1 "+3.3V" H 6050 2990 50  0000 C CNN
-F 2 "" H 6050 2850 50  0001 C CNN
-F 3 "" H 6050 2850 50  0001 C CNN
-	1    6050 2850
-	1    0    0    -1  
-$EndComp
-$Comp
-L +3.3V #PWR5
-U 1 1 59E635D9
-P 6750 1600
-F 0 "#PWR5" H 6750 1450 50  0001 C CNN
-F 1 "+3.3V" H 6750 1740 50  0000 C CNN
-F 2 "" H 6750 1600 50  0001 C CNN
-F 3 "" H 6750 1600 50  0001 C CNN
-	1    6750 1600
-	1    0    0    -1  
-$EndComp
-$Comp
-L GND #PWR6
-U 1 1 59E63687
-P 7200 1600
-F 0 "#PWR6" H 7200 1350 50  0001 C CNN
-F 1 "GND" H 7200 1450 50  0000 C CNN
-F 2 "" H 7200 1600 50  0001 C CNN
-F 3 "" H 7200 1600 50  0001 C CNN
-	1    7200 1600
-	1    0    0    -1  
-$EndComp
-$Comp
-L PWR_FLAG #FLG1
+L PWR_FLAG #FLG01
 U 1 1 59E6375F
-P 6750 1600
-F 0 "#FLG1" H 6750 1675 50  0001 C CNN
-F 1 "PWR_FLAG" H 6750 1750 50  0000 C CNN
-F 2 "" H 6750 1600 50  0001 C CNN
-F 3 "" H 6750 1600 50  0001 C CNN
-	1    6750 1600
+P 7850 2250
+F 0 "#FLG01" H 7850 2325 50  0001 C CNN
+F 1 "PWR_FLAG" H 7850 2400 50  0000 C CNN
+F 2 "" H 7850 2250 50  0001 C CNN
+F 3 "" H 7850 2250 50  0001 C CNN
+	1    7850 2250
 	-1   0    0    1   
 $EndComp
 $Comp
-L PWR_FLAG #FLG2
-U 1 1 59E636C7
-P 7200 1600
-F 0 "#FLG2" H 7200 1675 50  0001 C CNN
-F 1 "PWR_FLAG" H 7200 1750 50  0000 C CNN
-F 2 "" H 7200 1600 50  0001 C CNN
-F 3 "" H 7200 1600 50  0001 C CNN
-	1    7200 1600
-	1    0    0    -1  
+L ATTINY85-20SU U1
+U 1 1 59FA3237
+P 7400 4150
+F 0 "U1" H 7400 4667 50  0000 C CNN
+F 1 "ATTINY85-20SU" H 7400 4576 50  0000 C CNN
+F 2 "Housings_SOIC:SOIC-8_3.9x4.9mm_Pitch1.27mm" H 8350 4150 50  0001 C CIN
+F 3 "http://www.atmel.com/images/atmel-2586-avr-8-bit-microcontroller-attiny25-attiny45-attiny85_datasheet.pdf" H 7400 4150 50  0001 C CNN
+	1    7400 4150
+	-1   0    0    -1  
 $EndComp
 $Comp
-L CELL BT1
-U 1 1 59E7C376
-P 6350 1650
-F 0 "BT1" H 6350 1950 50  0000 C CNN
-F 1 "CELL" H 6250 1750 50  0000 C CNN
-F 2 "Connectors:bornier2" H 6350 1550 60  0000 C CNN
-F 3 "" H 6350 1550 60  0000 C CNN
-	1    6350 1650
-	1    0    0    -1  
+L Conn_01x08_Female J1
+U 1 1 59FCBF1A
+P 9100 1850
+F 0 "J1" V 9265 1780 50  0000 C CNN
+F 1 "Conn_01x08_Female" V 9174 1780 50  0000 C CNN
+F 2 "conn-100mil:CONN-100MIL-F-1x8" H 9100 1850 50  0001 C CNN
+F 3 "~" H 9100 1850 50  0001 C CNN
+	1    9100 1850
+	0    -1   -1   0   
 $EndComp
-$Comp
-L GND #PWR4
-U 1 1 59E7C403
-P 6350 1750
-F 0 "#PWR4" H 6350 1500 50  0001 C CNN
-F 1 "GND" H 6350 1600 50  0000 C CNN
-F 2 "" H 6350 1750 50  0001 C CNN
-F 3 "" H 6350 1750 50  0001 C CNN
-	1    6350 1750
-	1    0    0    -1  
-$EndComp
-$Comp
-L +3.3V #PWR3
-U 1 1 59E7C445
-P 6350 1550
-F 0 "#PWR3" H 6350 1400 50  0001 C CNN
-F 1 "+3.3V" H 6350 1690 50  0000 C CNN
-F 2 "" H 6350 1550 50  0001 C CNN
-F 3 "" H 6350 1550 50  0001 C CNN
-	1    6350 1550
-	1    0    0    -1  
-$EndComp
-NoConn ~ 8750 4100
-NoConn ~ 8750 3900
 Wire Wire Line
-	10100 5100 10100 4100
-Wire Wire Line
-	9950 4000 10100 4000
-Wire Wire Line
-	6050 3200 8850 3200
+	9950 4000 10350 4000
 Wire Wire Line
 	8750 4000 9650 4000
-Wire Wire Line
-	8850 4950 6050 4950
-Wire Wire Line
-	6050 4400 6050 5400
-Wire Wire Line
-	10100 5100 6050 5100
-Connection ~ 6050 5100
 Wire Wire Line
 	8750 4200 9350 4200
 Wire Wire Line
 	8850 4200 8850 3750
 Wire Wire Line
-	8850 3200 8850 3450
+	8850 3000 8850 3450
 Wire Wire Line
-	6050 2850 6050 3900
+	6050 3000 6050 3900
 Wire Wire Line
 	8750 4300 9600 4300
 Wire Wire Line
 	8850 4300 8850 4500
 Wire Wire Line
-	8850 4800 8850 4950
+	8850 4800 8850 5300
 Connection ~ 8850 4200
 Wire Wire Line
-	6050 5300 8950 5300
-Connection ~ 6050 5300
-Wire Wire Line
 	9350 4200 9350 5300
-Connection ~ 6050 4950
-Connection ~ 6050 3200
 Wire Wire Line
 	9600 4300 9600 5300
 Connection ~ 8850 4300
 Wire Wire Line
-	10000 5300 10000 3000
+	10000 3000 10000 5300
 Wire Wire Line
-	10000 3000 6050 3000
-Connection ~ 6050 3000
+	6050 3000 10000 3000
+Wire Wire Line
+	8750 4400 9050 4400
+Wire Wire Line
+	8750 3900 9150 3900
+Wire Wire Line
+	8750 4100 9350 4100
+Wire Wire Line
+	9400 2050 9400 2400
+Wire Wire Line
+	9300 2050 9300 2400
+Text GLabel 9300 2400 3    60   Input ~ 0
+SPKR-
+Wire Wire Line
+	9200 2050 9200 2400
+Text GLabel 9200 2400 3    60   Input ~ 0
+SPKR+
+Text GLabel 10350 3750 1    60   Input ~ 0
+SPKR+
+Text GLabel 9400 2400 3    60   Input ~ 0
+VCC
+Text GLabel 9500 2400 3    60   Input ~ 0
+GND
+Wire Wire Line
+	9500 2400 9500 2050
+Text GLabel 8800 2400 3    60   Input ~ 0
+PIN_1
+Text GLabel 9000 2400 3    60   Input ~ 0
+PIN_5
+Text GLabel 9100 2400 3    60   Input ~ 0
+PIN_6
+Text GLabel 8900 2400 3    60   Input ~ 0
+PIN_7
+Wire Wire Line
+	9100 2050 9100 2400
+Wire Wire Line
+	9000 2050 9000 2400
+Wire Wire Line
+	8900 2050 8900 2400
+Wire Wire Line
+	8800 2050 8800 2400
+Wire Wire Line
+	9050 4400 9050 3750
+Text GLabel 9050 3750 1    60   Input ~ 0
+PIN_1
+Text GLabel 9150 3750 1    60   Input ~ 0
+PIN_5
+Wire Wire Line
+	9150 3900 9150 3750
+Text GLabel 9250 3750 1    60   Input ~ 0
+PIN_6
+Wire Wire Line
+	9250 4000 9250 3750
+Connection ~ 9250 4000
+Text GLabel 9350 3750 1    60   Input ~ 0
+PIN_7
+Wire Wire Line
+	9350 4100 9350 3750
+Connection ~ 8850 3000
+Wire Wire Line
+	6050 5300 8950 5300
+Wire Wire Line
+	6050 4400 6050 5300
+Connection ~ 8850 5300
+Text GLabel 6050 5300 0    60   Input ~ 0
+GND
+Text GLabel 6050 3000 0    60   Input ~ 0
+VCC
+$Comp
+L GND #PWR01
+U 1 1 59FCE2B5
+P 10600 3750
+F 0 "#PWR01" H 10600 3500 50  0001 C CNN
+F 1 "GND" H 10605 3577 50  0000 C CNN
+F 2 "" H 10600 3750 50  0001 C CNN
+F 3 "" H 10600 3750 50  0001 C CNN
+	1    10600 3750
+	1    0    0    -1  
+$EndComp
+Text GLabel 10600 3750 1    60   Input ~ 0
+SPKR-
+Text GLabel 7850 2250 1    60   Input ~ 0
+VCC
+$Comp
+L GND #PWR06
+U 1 1 59E63687
+P 8300 2250
+F 0 "#PWR06" H 8300 2000 50  0001 C CNN
+F 1 "GND" H 8300 2100 50  0000 C CNN
+F 2 "" H 8300 2250 50  0001 C CNN
+F 3 "" H 8300 2250 50  0001 C CNN
+	1    8300 2250
+	1    0    0    -1  
+$EndComp
+$Comp
+L PWR_FLAG #FLG02
+U 1 1 59FCE95A
+P 8300 2250
+F 0 "#FLG02" H 8300 2325 50  0001 C CNN
+F 1 "PWR_FLAG" H 8300 2424 50  0000 C CNN
+F 2 "" H 8300 2250 50  0001 C CNN
+F 3 "" H 8300 2250 50  0001 C CNN
+	1    8300 2250
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	10350 4000 10350 3750
 $EndSCHEMATC
