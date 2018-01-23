@@ -34,7 +34,7 @@
   )
 
   (setup
-    (last_trace_width 0.508)
+    (last_trace_width 0.381)
     (user_trace_width 0.254)
     (user_trace_width 0.381)
     (user_trace_width 0.508)
@@ -69,7 +69,7 @@
     (grid_origin 50.01 119.78)
     (visible_elements FFFFFF99)
     (pcbplotparams
-      (layerselection 0x00000_7ffffffe)
+      (layerselection 0x01000_7ffffffe)
       (usegerberextensions false)
       (usegerberattributes true)
       (usegerberadvancedattributes true)
@@ -480,10 +480,10 @@
       (net 9 VCC))
     (pad 8 thru_hole trapezoid (at 8.89 0 180) (size 1.524 2.286) (drill 0.9) (layers *.Cu *.Mask F.SilkS)
       (net 1 GND))
-    (model pin_strip/pin_socket_8.wrl
-      (at (xyz 0 0 0))
+    (model "${KIPRJMOD}/3d models/Socket_Female_1x8.step"
+      (at (xyz 0.2992125984251969 -0.05118110236220473 -0.06299212598425198))
       (scale (xyz 1 1 1))
-      (rotate (xyz 0 0 0))
+      (rotate (xyz 90 0 90))
     )
   )
 
