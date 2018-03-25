@@ -5,13 +5,13 @@ include(CMakeListsPrivate.txt)
 
 add_custom_target(
     PLATFORMIO_BUILD ALL
-    COMMAND ${PLATFORMIO_CMD} -f -c clion run -v
+    COMMAND ${PLATFORMIO_CMD} -f -c clion run
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
 add_custom_target(
     PLATFORMIO_UPLOAD ALL
-    COMMAND ${PLATFORMIO_CMD} -f -c clion run --target upload
+    COMMAND ${PLATFORMIO_CMD} -f -c clion run --target upload -e disco_f051r8
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 )
 

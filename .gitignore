@@ -4,3 +4,4 @@ CMakeListsPrivate.txt
 .idea
 .vscode
 .vscode/c_cpp_properties.json
+cmake-build-debug
