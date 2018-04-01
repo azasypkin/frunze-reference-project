@@ -30,6 +30,7 @@ debug = true
 
 [dependencies]
 stm32f0x1 = { path = "../crates/stm32f0x1" }
+stm32f0x2 = { path = "../crates/stm32f0x2" }
 
 [dependencies.cortex-m]
 version = "0.4.0"

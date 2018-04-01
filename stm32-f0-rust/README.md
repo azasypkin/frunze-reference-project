@@ -24,9 +24,9 @@ dual licensed as above, without any additional terms or conditions.
 
 ## Instructions
 
-1. Build example with `xargo build --example hello`
+1. Build example with `xargo build --example blinky` or `USE_STM32F0x2=1 xargo build --example blinky-stm32f0x2`
 2. Run `openocd -f board/stm32f0discovery.cfg`
-3. In another terminal run `arm-none-eabi-gdb target/thumbv6m-none-eabi/debug/examples/hello`
+3. In another terminal run `arm-none-eabi-gdb target/thumbv6m-none-eabi/debug/examples/blinky` or `arm-none-eabi-gdb target/thumbv6m-none-eabi/debug/examples/blinky-stm32f0x2`
 4. Download SVD from http://www.st.com/en/microcontrollers/stm32f051r8.html
 5. Make sure that SVD doesn't contain any `bitWidth` that equals to `0` and generate
 Rust lib with `svd2rust -i STM32F0x1.svd | rustfmt | tee src/lib.rs`
