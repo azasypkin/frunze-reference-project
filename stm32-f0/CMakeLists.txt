@@ -11,7 +11,7 @@ add_custom_target(
 
 add_custom_target(
     PLATFORMIO_UPLOAD ALL
-    COMMAND ${PLATFORMIO_CMD} -f -c clion run --target upload -e disco_f051r8
+    COMMAND ${PLATFORMIO_CMD} -f -c clion run --target upload
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
