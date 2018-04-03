@@ -26,27 +26,33 @@ fn main() {
         cortex_m::Peripherals::take(),
         stm32f0x1::Peripherals::take(),
     ) {
-        let mut nvic = cp.NVIC;
         let rcc = p.RCC;
         let gpio = p.GPIOC;
 
+        // Enable EXTI0 interrupt line for PA0.
         let sys_cfg = p.SYSCFG_COMP;
-        let exti = p.EXTI;
-
         sys_cfg.syscfg_exticr1.write(|w| unsafe { w.exti0().bits(0) });
+
+        let exti = p.EXTI;
+        // Configure PA0 to trigger an interrupt event on the EXTI0 line on a rising edge.
         exti.rtsr.write(|w| w.tr0().set_bit());
+        // Unmask the external interrupt line EXTI0 by setting the bit corresponding to the
+        // EXTI0 "bit 0" in the EXT_IMR register.
         exti.imr.write(|w| w.mr0().set_bit());
 
+        let mut nvic = cp.NVIC;
+        // Set priority for the `EXTI0` line to `1`.
         unsafe { nvic.set_priority(Interrupt::EXTI0_1, 1); }
+        // Enable the interrupt in the NVIC.
         nvic.enable(Interrupt::EXTI0_1);
 
-        /* Enable clock for SYSCFG, else everything will behave funky! */
+        // Enable clock for SYSCFG, else everything will behave funky.
         rcc.apb2enr.modify(|_, w| w.syscfgen().set_bit());
 
-        /* Enable clock for GPIO Port C */
+        // Enable clock for GPIO Port C.
         rcc.ahbenr.modify(|_, w| w.iopcen().set_bit());
 
-        /* (Re-)configure PC8 as output */
+        // (Re-)configure PC8 as output.
         gpio.moder.modify(|_, w| unsafe { w.moder8().bits(1) });
 
         interrupt::free(|cs| {
@@ -65,22 +71,25 @@ interrupt!(EXTI0_1, tick, locals: {
 
 fn tick(locals: &mut EXTI0_1::Locals) {
     locals.tick = !locals.tick;
+
     let mut stdout = hio::hstdout().unwrap();
     writeln!(stdout, "I am in the interrupt! {}", locals.tick).unwrap();
 
     interrupt::free(|cs| {
-        if let Some(gpio) = GPIO.borrow(cs).borrow_mut().as_mut() {
-            if locals.tick {
-                // Turn PC8 on
-                gpio.bsrr.write(|w| w.bs8().set_bit());
-            } else {
-                // Turn PC8 off
-                gpio.bsrr.write(|w| w.br8().set_bit());
-            }
-        }
+        if let (Some(gpio), Some(exti)) = (
+            GPIO.borrow(cs).borrow_mut().as_mut(),
+            EXTI.borrow(cs).borrow_mut().as_mut(),
+        ) {
+            // Toggle PC8.
+            gpio.bsrr.write(|w| {
+                if locals.tick {
+                    w.bs8().set_bit()
+                } else {
+                    w.br8().set_bit()
+                }
+            });
 
-        if let Some(exti) = EXTI.borrow(cs).borrow_mut().as_mut() {
-            writeln!(stdout, "Clearing....").unwrap();
+            // Set pending register to mark interrupt as handled.
             exti.pr.modify(|_, w| w.pr0().set_bit());
         }
     });
