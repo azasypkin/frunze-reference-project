@@ -29,8 +29,12 @@ lto = true
 debug = true
 
 [dependencies]
-stm32f0x1 = { path = "../crates/stm32f0x1" }
 stm32f0x2 = { path = "../crates/stm32f0x2" }
+
+[dependencies.stm32f0x1]
+version = "0.1.0"
+path = "../crates/stm32f0x1"
+features = ["rt"]
 
 [dependencies.cortex-m]
 version = "0.4.0"

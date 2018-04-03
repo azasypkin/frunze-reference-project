@@ -24,6 +24,7 @@ dual licensed as above, without any additional terms or conditions.
 
 ## Instructions
 
+0. Read [Rust your ARM microcontroller!](http://blog.japaric.io/quickstart/).
 1. Build example with `xargo build --example blinky` or `USE_STM32F0x2=1 xargo build --example blinky-stm32f0x2`
 2. Run `openocd -f board/stm32f0discovery.cfg`
 3. In another terminal run `arm-none-eabi-gdb target/thumbv6m-none-eabi/debug/examples/blinky` or `arm-none-eabi-gdb target/thumbv6m-none-eabi/debug/examples/blinky-stm32f0x2`

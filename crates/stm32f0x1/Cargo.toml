@@ -7,3 +7,10 @@ authors = ["Aleh Zasypkin <aleh.zasypkin@gmail.com>"]
 cortex-m = "0.4.3"
 vcell = "0.1.0"
 bare-metal = "0.1.1"
+
+[dependencies.cortex-m-rt]
+optional = true
+version = "0.3.14"
+
+[features]
+rt = ["cortex-m-rt"]
