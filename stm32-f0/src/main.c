@@ -40,6 +40,8 @@ int main(void) {
 
   LEDPORT->MODER |= GPIOMODER;
 
+  __WFI();
+
   for (;;) {
   }
 

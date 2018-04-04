@@ -12,7 +12,7 @@ use core::cell::RefCell;
 use core::fmt::Write;
 
 use cortex_m::interrupt::{self, Mutex};
-//use cortex_m::asm;
+use cortex_m::asm;
 use cortex_m_semihosting::hio;
 use stm32f0x1::Interrupt;
 
@@ -21,6 +21,8 @@ static EXTI: Mutex<RefCell<Option<stm32f0x1::EXTI>>> =
 static GPIO: Mutex<RefCell<Option<stm32f0x1::GPIOC>>> =
     Mutex::new(RefCell::new(None));
 
+// Read about interrupt setup sequence at:
+// http://www.hertaville.com/external-interrupts-on-the-stm32f0.html
 fn main() {
     if let (Some(cp), Some(p)) = (
         cortex_m::Peripherals::take(),
@@ -59,6 +61,13 @@ fn main() {
             *EXTI.borrow(cs).borrow_mut() = Some(exti);
             *GPIO.borrow(cs).borrow_mut() = Some(gpio);
         });
+
+        let mut stdout = hio::hstdout().unwrap();
+        writeln!(stdout, "Before sleep").unwrap();
+
+        asm::wfi();
+
+        writeln!(stdout, "After sleep").unwrap();
 
         loop {
         }
