@@ -21,15 +21,16 @@ static CORE_PERIPHERALS: Mutex<RefCell<Option<cortex_m::Peripherals>>> =
 static PERIPHERALS: Mutex<RefCell<Option<stm32f0x1::Peripherals>>> =
     Mutex::new(RefCell::new(None));
 
+const CLOCK_SPEED: u32 = 8_000_000;
 const QUARTER_DOT_NOTE: u32 = 450;
 const QUARTER_NOTE: u32 = 300;
 const EIGHTH_NOTE: u32 = 150;
 
-static  SCALES: &'static [u32] = &[523,  554,  587,  622,  659,  698,  740,  784,  831,  880,  932,  988];
+static SCALES: &'static [u32] = &[523, 554, 587, 622, 659, 698, 740, 784, 831, 880, 932, 988];
 
 fn configure_pwm() {
     // Compute the value to be set in ARR register to generate signal frequency at 17.57 Khz.
-    let timer_period: u32 = (8_000_000 / 17_570) - 1;
+    let timer_period: u32 = (CLOCK_SPEED / 17_570) - 1;
     // Compute CCR1 value to generate a duty cycle at 50% for channel 1 and 1N.
     let channel_one_pulse: u32 = (5 * (timer_period - 1)) / 10;
     interrupt::free(|cs| {
@@ -118,12 +119,12 @@ fn toggle_pwm(enable: bool) {
     });
 }
 
-fn delay_ms(us: u32) {
+fn delay_us(us: u32) {
     interrupt::free(|cs| {
         if let Some(peripherals) = CORE_PERIPHERALS.borrow(cs).borrow_mut().as_mut() {
             let mut sys_tick = &mut peripherals.SYST;
 
-            let rvr = us * (8_000_000 / 1_000_000);
+            let rvr = us * (CLOCK_SPEED / 1_000_000);
 
             assert!(rvr < (1 << 24));
 
@@ -138,14 +139,19 @@ fn delay_ms(us: u32) {
     });
 }
 
+fn delay_ms(ms: u32) {
+    delay_us(ms * 1000);
+}
+
 fn play_note(note: u32, delay: u32) {
     interrupt::free(|cs| {
         if let Some(peripherals) = PERIPHERALS.borrow(cs).borrow_mut().as_mut() {
             let tim = &peripherals.TIM1;
-            tim.arr.write(|w| unsafe { w.bits((8_000_000 / note) - 1) });
-            delay_ms(delay * 100);
+            tim.arr.write(|w| unsafe { w.bits((CLOCK_SPEED / note) - 1) });
         }
     });
+
+    delay_ms(delay);
 }
 
 fn play_melody() {
@@ -166,7 +172,7 @@ fn play_melody() {
     play_note(SCALES[7], QUARTER_DOT_NOTE);   // G.
     play_note(SCALES[5], EIGHTH_NOTE);        // F
     play_note(SCALES[5], QUARTER_DOT_NOTE);   // F.
-    
+
     toggle_pwm(false);
 }
 
