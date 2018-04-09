@@ -10,7 +10,7 @@ bare-metal = "0.1.1"
 
 [dependencies.cortex-m-rt]
 optional = true
-version = "0.3.15"
+version = "0.4.0"
 
 [features]
 rt = ["cortex-m-rt"]

@@ -17,24 +17,14 @@
 #define GPIO_RESETTER (GPIO_BSRR_BR_4)
 #endif
 
-volatile int EXTI0Flag = 0;
-
-
-/* Private define ------------------------------------------------------------*/
-#define SCALE_LENGTH 12    // define scale length
-#define SCALE_COUNT 3      // define number os scales
-// note intervals in miliseconds
-#define FULL_NOTE 1200
-#define HALF_DOT_NOTE 900
-#define HALF_NOTE 600
+// Note intervals in milliseconds.
 #define QUARTER_DOT_NOTE 450
 #define QUARTER_NOTE 300
-#define EIGHTH_DOT_NOTE 225
 #define EIGHTH_NOTE 150
-#define SIXTINTH_DOT_NOTE 112
-#define SIXTINTH_NOTE 75
+#define PLL_MUL_X 3
 
-/* Global variables ----------------------------------------------------------*/
+volatile int EXTI0Flag = 0;
+
 // Scale and note definitions
 const unsigned int Scales[3][12] = {
     {523,  554,  587,  622,  659,  698,  740,  784,  831,  880,  932,  988},
@@ -42,14 +32,13 @@ const unsigned int Scales[3][12] = {
     {2093, 2217, 2349, 2489, 2637, 2794, 2960, 3136, 3322, 3520, 3729, 3951}};
 
 volatile uint32_t G_tickValue = 0;
-#define PLL_MUL_X 3
 
 /**
   * @brief  delay_ms  delay for some time in ms unit(accurate)
   * @param  n_ms is how many ms of time to delay
   * @retval None
   */
-void delay_ms(uint32_t n_ms) {
+void delayMs(uint32_t n_ms) {
   // SysTick interrupt each 1000 Hz with HCLK equal to 32MHz
   // - 30 to compensate the overhead of this sub routine
   SysTick_Config(8000 * PLL_MUL_X - 30);
@@ -68,26 +57,26 @@ void delay_ms(uint32_t n_ms) {
   * @param  Note to play, delay for note duration
   * @retval None
   */
-void Sound_Play(uint16_t note, uint16_t delay) {
+void playNote(uint16_t note, uint16_t delay) {
   TIM1->ARR = (SystemCoreClock / note) - 1;
-  delay_ms(delay);
+  delayMs(delay);
 }
 
 /**
   * @brief  Enables or disables the TIM peripheral Main Outputs.
   * @param  TIMx: where x can be 1, 15, 16 or 17 to select the TIMx peripheral.
-  * @param  NewState: new state of the TIM peripheral Main Outputs.
+  * @param  newState: new state of the TIM peripheral Main Outputs.
   *          This parameter can be: ENABLE or DISABLE.
   * @retval None
   */
-void TIM_CtrlPWMOutputs(TIM_TypeDef *TIMx, FunctionalState NewState) {
+void togglePWM(FunctionalState newState) {
   /* Check the parameters */
-  if (NewState != DISABLE) {
+  if (newState != DISABLE) {
     /* Enable the TIM Main Output */
-    TIMx->BDTR |= TIM_BDTR_MOE;
+    TIM1->BDTR |= TIM_BDTR_MOE;
   } else {
     /* Disable the TIM Main Output */
-    TIMx->BDTR &= (uint16_t) (~((uint16_t) TIM_BDTR_MOE));
+    TIM1->BDTR &= (uint16_t) (~((uint16_t) TIM_BDTR_MOE));
   }
 }
 
@@ -97,42 +86,25 @@ void TIM_CtrlPWMOutputs(TIM_TypeDef *TIMx, FunctionalState NewState) {
   * @retval None
   */
 void Ode_to_Joy(void) {
-  TIM_CtrlPWMOutputs(TIM1, ENABLE);
+  togglePWM(ENABLE);
 
-  Sound_Play(Scales[0][7], QUARTER_NOTE);       // G
-  Sound_Play(Scales[0][7], QUARTER_NOTE);       // G
-  Sound_Play(Scales[0][8], QUARTER_NOTE);       // A
-  Sound_Play(Scales[0][10], QUARTER_NOTE);       // B
-  Sound_Play(Scales[0][10], QUARTER_NOTE);       // B
-  Sound_Play(Scales[0][8], QUARTER_NOTE);       // A
-  Sound_Play(Scales[0][7], QUARTER_NOTE);       // G
-  Sound_Play(Scales[0][5], QUARTER_NOTE);       // F
-  Sound_Play(Scales[0][3], QUARTER_NOTE);       // D#
-  Sound_Play(Scales[0][3], QUARTER_NOTE);       // E
-  Sound_Play(Scales[0][5], QUARTER_NOTE);       // F
-  Sound_Play(Scales[0][7], QUARTER_NOTE);       // G
-  Sound_Play(Scales[0][7], QUARTER_DOT_NOTE);   // G.
-  Sound_Play(Scales[0][5], EIGHTH_NOTE);        // F
-  Sound_Play(Scales[0][5], QUARTER_DOT_NOTE);   // F.
+  playNote(Scales[0][7], QUARTER_NOTE);       // G
+  playNote(Scales[0][7], QUARTER_NOTE);       // G
+  playNote(Scales[0][8], QUARTER_NOTE);       // A
+  playNote(Scales[0][10], QUARTER_NOTE);       // B
+  playNote(Scales[0][10], QUARTER_NOTE);       // B
+  playNote(Scales[0][8], QUARTER_NOTE);       // A
+  playNote(Scales[0][7], QUARTER_NOTE);       // G
+  playNote(Scales[0][5], QUARTER_NOTE);       // F
+  playNote(Scales[0][3], QUARTER_NOTE);       // D#
+  playNote(Scales[0][3], QUARTER_NOTE);       // E
+  playNote(Scales[0][5], QUARTER_NOTE);       // F
+  playNote(Scales[0][7], QUARTER_NOTE);       // G
+  playNote(Scales[0][7], QUARTER_DOT_NOTE);   // G.
+  playNote(Scales[0][5], EIGHTH_NOTE);        // F
+  playNote(Scales[0][5], QUARTER_DOT_NOTE);   // F.
 
-  TIM_CtrlPWMOutputs(TIM1, DISABLE);
-}
-
-/**
-  * @brief   Test_scales  Play musical scale
-  * @param  None
-  * @retval None
-  */
-void Test_scales(void){
-  unsigned short note = 0, scale = 0;
-
-  TIM_CtrlPWMOutputs(TIM1, ENABLE);
-
-  for (scale = 0; scale < SCALE_COUNT; scale++)
-    for (note = 0; note < SCALE_LENGTH; note++)
-      Sound_Play(Scales[scale][note], 200);
-
-  TIM_CtrlPWMOutputs(TIM1, DISABLE);
+  togglePWM(DISABLE);
 }
 
 /**
@@ -140,7 +112,7 @@ void Test_scales(void){
   * @param  None
   * @retval None
   */
-void PWM_Config(void) {
+void configPWM(void) {
   uint16_t TimerPeriod = 0;
   uint16_t Channel1Pulse = 0;
 
@@ -213,12 +185,9 @@ void PWM_Config(void) {
 
   /* TIM1 counter enable */
   TIM1->CR1 |= TIM_CR1_CEN;
-
-  /* TIM1 Main Output Enable */
-  TIM_CtrlPWMOutputs(TIM1, ENABLE);
 }
 
-int main(void) {
+void configEXT() {
   // Reset EXTI0 to 0x0000
   SYSCFG->EXTICR[0] &= ~SYSCFG_EXTICR1_EXTI0;
 
@@ -236,19 +205,20 @@ int main(void) {
 
   // Enable the interrupt in the NVIC.
   NVIC_EnableIRQ(EXTI0_1_IRQn);
+}
 
+void configLED() {
   ENABLE_GPIO_CLOCK;
 
   LEDPORT->MODER |= GPIOMODER;
+}
 
-  PWM_Config();
+int main(void) {
+  configEXT();
 
-  /* TIM1 Main Output Disable */
-  TIM_CtrlPWMOutputs(TIM1, DISABLE);
+  configPWM();
 
-  Test_scales();
-
-  delay_ms(50);
+  configLED();
 
   Ode_to_Joy();
 

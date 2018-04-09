@@ -5,6 +5,7 @@
 extern crate cortex_m;
 extern crate cortex_m_rt;
 extern crate cortex_m_semihosting;
+extern crate panic_semihosting;
 #[macro_use(interrupt)]
 extern crate stm32f0x1;
 
