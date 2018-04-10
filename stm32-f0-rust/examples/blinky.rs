@@ -6,6 +6,7 @@ extern crate cortex_m;
 extern crate cortex_m_rt;
 extern crate cortex_m_semihosting;
 extern crate panic_semihosting;
+
 #[macro_use(interrupt)]
 extern crate stm32f0x1;
 
@@ -59,7 +60,7 @@ fn configure_pwm() {
             tim.psc.modify(|_, w| unsafe { w.bits(0b0) });
 
             tim.cr1.modify(|_, w| {
-                // Set direction: counter used as upcounter.
+                // Set direction: counter used as up-counter.
                 w.dir().clear_bit();
                 // Set clock division to t(DTS) = t(CK_INT).
                 unsafe { w.ckd().bits(0b00); }
