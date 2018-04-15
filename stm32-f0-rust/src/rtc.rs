@@ -10,6 +10,33 @@ pub mod rtc {
         seconds: u8
     }
 
+    impl Time {
+        pub fn add_seconds(&mut self, seconds: u8) {
+            if self.seconds + seconds < 60 {
+                self.seconds = self.seconds + seconds;
+            } else {
+                self.seconds = self.seconds + seconds - 60;
+                self.add_minutes(1);
+            }
+        }
+
+        pub fn add_minutes(&mut self, minutes: u8) {
+            if self.minutes + minutes < 60 {
+                self.minutes = self.minutes + minutes;
+            } else {
+                self.minutes = self.minutes + minutes - 60;
+                self.add_hours(1);
+            }
+        }
+
+        pub fn add_hours(&mut self, hours: u8) {
+            if self.hours + hours < 24 {
+                self.hours = self.hours + hours;
+            } else {
+                self.hours = self.hours + hours - 24;
+            }
+        }
+    }
 
     pub struct RTC<'a> {
         core_peripherals: &'a mut CorePeripherals,
@@ -94,7 +121,7 @@ pub mod rtc {
                 .modify(|_, w| w.pwren().clear_bit());
         }
 
-        fn configure_alarm(&self, time: &Time) {
+        pub fn configure_alarm(&self, time: &Time) {
             // Disable the write protection for RTC registers.
             self.peripherals.RTC.wpr.write(|w| unsafe { w.bits(0xCA) });
             self.peripherals.RTC.wpr.write(|w| unsafe { w.bits(0x53) });

@@ -67,7 +67,13 @@ fn on_alarm() {
 
             // Check alarm A flag.
             if rtc.is_alarm_interrupt() {
-                writeln!(stdout, "Clear pending... {:?}", rtc.get_time()).unwrap();
+                let mut current_time = rtc.get_time();
+                writeln!(stdout, "Clear pending... {:?}", current_time).unwrap();
+
+                current_time.add_seconds(5);
+
+                rtc.configure_alarm(&current_time);
+
                 rtc.clear_pending_interrupt();
             } else {
                 writeln!(stdout, "Disabling...").unwrap();
