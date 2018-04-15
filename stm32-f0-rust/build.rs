@@ -10,10 +10,18 @@ fn main() {
     let out = &PathBuf::from(env::var_os("OUT_DIR").unwrap());
     let mut file = File::create(out.join("memory.x")).unwrap();
 
-    println!("Using {}", if use_stm32f0x2 {  "memory_stm32f0x2.x" } else { "memory.x" });
+    println!(
+        "Using {}",
+        if use_stm32f0x2 {
+            "memory_stm32f0x2.x"
+        } else {
+            "memory.x"
+        }
+    );
 
     if use_stm32f0x2 {
-        file.write_all(include_bytes!("memory_stm32f0x2.x")).unwrap();
+        file.write_all(include_bytes!("memory_stm32f0x2.x"))
+            .unwrap();
     } else {
         file.write_all(include_bytes!("memory.x")).unwrap();
     }

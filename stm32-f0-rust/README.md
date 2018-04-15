@@ -37,3 +37,8 @@ $ USE_STM32F0x2=1 cargo build --example blinky-stm32f0x2 --target=thumbv6m-none-
 4. Download SVD from http://www.st.com/en/microcontrollers/stm32f051r8.html
 5. Make sure that SVD doesn't contain any `bitWidth` that equals to `0` and generate
 Rust lib with `svd2rust -i STM32F0x1.svd | rustfmt | tee src/lib.rs`
+
+
+## Examples
+
+0. RTC & Low Power modes: https://github.com/mattico/stm32f0-Discovery_Tools/blob/master/ST_Example_Projects/Projects/Peripheral_Examples/PWR_CurrentConsumption/stm32f0xx_lp_modes.c
