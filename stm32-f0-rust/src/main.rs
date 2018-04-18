@@ -10,15 +10,20 @@ extern crate panic_semihosting;
 #[macro_use(interrupt)]
 extern crate stm32f0x1;
 
+mod beeper;
+mod config;
 mod rtc;
+mod systick;
 
 use core::cell::RefCell;
 use core::fmt::Write;
 
+use cortex_m::asm;
 use cortex_m::interrupt::{self, Mutex};
 use cortex_m_semihosting::hio;
 
-use rtc::rtc::RTC;
+use beeper::Beeper;
+use rtc::RTC;
 
 static CORE_PERIPHERALS: Mutex<RefCell<Option<cortex_m::Peripherals>>> =
     Mutex::new(RefCell::new(None));
@@ -40,15 +45,41 @@ fn main() {
             let mut stdout = hio::hstdout().unwrap();
             writeln!(stdout, "Before RTC").unwrap();
 
-            let mut rtc = RTC::new(&mut cp, &p);
-            rtc.configure();
+            {
+                let mut rtc = RTC::new(&mut cp, &p);
+                rtc.configure();
+            }
 
-            let mut stdout = hio::hstdout().unwrap();
+            {
+                let beeper = Beeper::new(&mut cp, &p);
+                beeper.configure();
+            }
+
             writeln!(stdout, "After RTC").unwrap();
+
+            enter_standby_mode(&cp, p);
+
+            writeln!(stdout, "After StandBy").unwrap();
         }
     });
 
     loop {}
+}
+
+fn enter_standby_mode(
+    core_peripherals: &cortex_m::Peripherals,
+    peripherals: &stm32f0x1::Peripherals,
+) {
+    // Select STANDBY mode.
+    peripherals.PWR.cr.modify(|_, w| w.pdds().set_bit());
+
+    // Clear Wakeup flag.
+    peripherals.PWR.cr.modify(|_, w| w.cwuf().set_bit());
+
+    // Set SLEEPDEEP bit of Cortex-M0 System Control Register.
+    unsafe { core_peripherals.SCB.scr.modify(|w| w | w | 0b100) }
+
+    asm::wfi();
 }
 
 interrupt!(RTC, on_alarm);
@@ -62,15 +93,17 @@ fn on_alarm() {
             CORE_PERIPHERALS.borrow(cs).borrow_mut().as_mut(),
             PERIPHERALS.borrow(cs).borrow_mut().as_mut(),
         ) {
+            play_melody(Beeper::new(&mut cp, p));
 
             let mut rtc = RTC::new(&mut cp, &p);
 
             // Check alarm A flag.
             if rtc.is_alarm_interrupt() {
                 let mut current_time = rtc.get_time();
+
                 writeln!(stdout, "Clear pending... {:?}", current_time).unwrap();
 
-                current_time.add_seconds(5);
+                current_time.add_seconds(15);
 
                 rtc.configure_alarm(&current_time);
 
@@ -81,4 +114,8 @@ fn on_alarm() {
             }
         }
     });
+}
+
+fn play_melody(mut beeper: Beeper) {
+    beeper.play_melody();
 }

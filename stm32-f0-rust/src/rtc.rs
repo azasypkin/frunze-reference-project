@@ -1,230 +1,228 @@
-pub mod rtc {
-    use cortex_m::Peripherals as CorePeripherals;
-    use stm32f0x1::Interrupt;
-    use stm32f0x1::Peripherals;
+use cortex_m::Peripherals as CorePeripherals;
+use stm32f0x1::Interrupt;
+use stm32f0x1::Peripherals;
 
-    #[derive(Debug)]
-    pub struct Time {
-        hours: u8,
-        minutes: u8,
-        seconds: u8
-    }
+#[derive(Debug)]
+pub struct Time {
+    hours: u8,
+    minutes: u8,
+    seconds: u8,
+}
 
-    impl Time {
-        pub fn add_seconds(&mut self, seconds: u8) {
-            if self.seconds + seconds < 60 {
-                self.seconds = self.seconds + seconds;
-            } else {
-                self.seconds = self.seconds + seconds - 60;
-                self.add_minutes(1);
-            }
-        }
-
-        pub fn add_minutes(&mut self, minutes: u8) {
-            if self.minutes + minutes < 60 {
-                self.minutes = self.minutes + minutes;
-            } else {
-                self.minutes = self.minutes + minutes - 60;
-                self.add_hours(1);
-            }
-        }
-
-        pub fn add_hours(&mut self, hours: u8) {
-            if self.hours + hours < 24 {
-                self.hours = self.hours + hours;
-            } else {
-                self.hours = self.hours + hours - 24;
-            }
+impl Time {
+    pub fn add_seconds(&mut self, seconds: u8) {
+        if self.seconds + seconds < 60 {
+            self.seconds = self.seconds + seconds;
+        } else {
+            self.seconds = self.seconds + seconds - 60;
+            self.add_minutes(1);
         }
     }
 
-    pub struct RTC<'a> {
-        core_peripherals: &'a mut CorePeripherals,
-        peripherals: &'a Peripherals,
+    pub fn add_minutes(&mut self, minutes: u8) {
+        if self.minutes + minutes < 60 {
+            self.minutes = self.minutes + minutes;
+        } else {
+            self.minutes = self.minutes + minutes - 60;
+            self.add_hours(1);
+        }
     }
 
-    impl<'a> RTC<'a> {
-        pub fn new(
-            core_peripherals: &'a mut CorePeripherals,
-            peripherals: &'a Peripherals,
-        ) -> RTC<'a> {
-            RTC {
-                core_peripherals,
-                peripherals,
-            }
+    pub fn add_hours(&mut self, hours: u8) {
+        if self.hours + hours < 24 {
+            self.hours = self.hours + hours;
+        } else {
+            self.hours = self.hours + hours - 24;
         }
+    }
+}
 
-        pub fn configure(&mut self) {
-            // Enable the peripheral clock RTC.
-            self.configure_clock();
+pub struct RTC<'a> {
+    core_peripherals: &'a mut CorePeripherals,
+    peripherals: &'a Peripherals,
+}
 
-            // Configure alarm.
-            self.configure_alarm(&Time {
-                hours: 17,
-                minutes: 58,
-                seconds: 20
-            });
-
-            // Configure EXTI and NVIC for RTC IT.
-            self.configure_interrupts();
-
-            // Set time.
-            self.configure_time(&Time {
-                hours: 17,
-                minutes: 58,
-                seconds: 12
-            });
+impl<'a> RTC<'a> {
+    pub fn new(core_peripherals: &'a mut CorePeripherals, peripherals: &'a Peripherals) -> RTC<'a> {
+        RTC {
+            core_peripherals,
+            peripherals,
         }
+    }
 
-        pub fn is_alarm_interrupt(&self) -> bool {
-            self.peripherals.RTC.isr.read().alraf().bit_is_set()
-        }
+    pub fn configure(&mut self) {
+        // Enable the peripheral clock RTC.
+        self.configure_clock();
 
-        pub fn disable_interrupt(&mut self) {
-            // Disable RTC_IRQn in the NVIC.
-            self.core_peripherals.NVIC.disable(Interrupt::RTC);
-        }
+        // Configure alarm.
+        self.configure_alarm(&Time {
+            hours: 17,
+            minutes: 58,
+            seconds: 20,
+        });
 
-        pub fn clear_pending_interrupt(&self) {
-            // Clear Alarm A flag.
-            self.peripherals.RTC.isr.modify(|_, w| w.alraf().clear_bit());
-            // Clear exti line 17 flag.
-            self.peripherals.EXTI.pr.write(|w| w.pr17().set_bit());
-        }
+        // Configure EXTI and NVIC for RTC IT.
+        self.configure_interrupts();
 
-        fn configure_clock(&self) {
-            // Enable the LSI.
-            self.peripherals.RCC.csr.modify(|_, w| w.lsion().set_bit());
+        // Set time.
+        self.configure_time(&Time {
+            hours: 17,
+            minutes: 58,
+            seconds: 12,
+        });
+    }
 
-            // Wait while it is not ready.
-            while self.peripherals.RCC.csr.read().lsirdy().bit_is_clear() {}
+    pub fn is_alarm_interrupt(&self) -> bool {
+        self.peripherals.RTC.isr.read().alraf().bit_is_set()
+    }
 
-            // Enable PWR clock.
-            self.peripherals
-                .RCC
-                .apb1enr
-                .modify(|_, w| w.pwren().set_bit());
+    pub fn disable_interrupt(&mut self) {
+        // Disable RTC_IRQn in the NVIC.
+        self.core_peripherals.NVIC.disable(Interrupt::RTC);
+    }
 
-            // Enable write in RTC domain control register.
-            self.peripherals.PWR.cr.modify(|_, w| w.dbp().set_bit());
+    pub fn clear_pending_interrupt(&self) {
+        // Clear Alarm A flag.
+        self.peripherals
+            .RTC
+            .isr
+            .modify(|_, w| w.alraf().clear_bit());
+        // Clear exti line 17 flag.
+        self.peripherals.EXTI.pr.write(|w| w.pr17().set_bit());
+    }
 
-            // LSI for RTC clock.
-            self.peripherals.RCC.bdcr.modify(|_, w| {
-                w.rtcen().set_bit();
-                unsafe { w.rtcsel().bits(0b10) }
-            });
+    fn configure_clock(&self) {
+        // Enable the LSI.
+        self.peripherals.RCC.csr.modify(|_, w| w.lsion().set_bit());
 
-            // Disable PWR clock.
-            self.peripherals
-                .RCC
-                .apb1enr
-                .modify(|_, w| w.pwren().clear_bit());
-        }
+        // Wait while it is not ready.
+        while self.peripherals.RCC.csr.read().lsirdy().bit_is_clear() {}
 
-        pub fn configure_alarm(&self, time: &Time) {
-            // Disable the write protection for RTC registers.
-            self.peripherals.RTC.wpr.write(|w| unsafe { w.bits(0xCA) });
-            self.peripherals.RTC.wpr.write(|w| unsafe { w.bits(0x53) });
+        // Enable PWR clock.
+        self.peripherals
+            .RCC
+            .apb1enr
+            .modify(|_, w| w.pwren().set_bit());
 
-            // Disable alarm A to modify it.
-            self.peripherals.RTC.cr.modify(|_, w| w.alrae().clear_bit());
+        // Enable write in RTC domain control register.
+        self.peripherals.PWR.cr.modify(|_, w| w.dbp().set_bit());
 
-            // Wait until it is allowed to modify alarm A value.
-            while self.peripherals.RTC.isr.read().alrawf().bit_is_clear() {}
+        // LSI for RTC clock.
+        self.peripherals.RCC.bdcr.modify(|_, w| {
+            w.rtcen().set_bit();
+            unsafe { w.rtcsel().bits(0b10) }
+        });
 
-            // Modify alarm A mask to have an interrupt each minute.
-            self.peripherals.RTC.alrmar.modify(|_, w| {
-                unsafe {
-                    w.ht().bits(time.hours / 10);
-                    w.hu().bits(time.hours % 10);
-                    w.mnt().bits(time.minutes / 10);
-                    w.mnu().bits(time.minutes % 10);
-                    w.st().bits(time.seconds / 10);
-                    w.su().bits(time.seconds % 10);
-                }
+        // Disable PWR clock.
+        self.peripherals
+            .RCC
+            .apb1enr
+            .modify(|_, w| w.pwren().clear_bit());
+    }
 
-                w.msk1().clear_bit();
-                w.msk2().set_bit();
-                w.msk3().set_bit();
-                w.msk4().set_bit()
-            });
+    pub fn configure_alarm(&self, time: &Time) {
+        // Disable the write protection for RTC registers.
+        self.peripherals.RTC.wpr.write(|w| unsafe { w.bits(0xCA) });
+        self.peripherals.RTC.wpr.write(|w| unsafe { w.bits(0x53) });
 
-            // Enable alarm A and alarm A interrupt.
-            self.peripherals.RTC.cr.modify(|_, w| {
-                w.alraie().set_bit();
-                w.alrae().set_bit()
-            });
+        // Disable alarm A to modify it.
+        self.peripherals.RTC.cr.modify(|_, w| w.alrae().clear_bit());
 
-            // Enable the write protection for RTC registers.
-            self.peripherals.RTC.wpr.write(|w| unsafe { w.bits(0xFE) });
-            self.peripherals.RTC.wpr.write(|w| unsafe { w.bits(0x64) });
-        }
+        // Wait until it is allowed to modify alarm A value.
+        while self.peripherals.RTC.isr.read().alrawf().bit_is_clear() {}
 
-        fn configure_time(&self, time: &Time) {
-            // Disable the write protection for RTC registers.
-            self.peripherals.RTC.wpr.write(|w| unsafe { w.bits(0xCA) });
-            self.peripherals.RTC.wpr.write(|w| unsafe { w.bits(0x53) });
-
-            // Enable init phase.
-            self.peripherals.RTC.isr.modify(|_, w| w.init().set_bit());
-
-            // Wait until it is allowed to modify RTC register values.
-            while self.peripherals.RTC.isr.read().initf().bit_is_clear() {}
-
-            // Set prescaler, 40kHz/128 (0x7F + 1) => 312 Hz, 312Hz/312 (0x137 + 1) => 1Hz.
-            self.peripherals
-                .RTC
-                .prer
-                .modify(|_, w| unsafe { w.prediv_s().bits(0x137) });
-
-            self.peripherals
-                .RTC
-                .prer
-                .modify(|_, w| unsafe { w.prediv_a().bits(0x7F) });
-
-            // Configure Time register.
-            self.peripherals.RTC.tr.modify(|_, w| {
-                unsafe {
-                    w.ht().bits(time.hours / 10);
-                    w.hu().bits(time.hours % 10);
-                    w.mnt().bits(time.minutes / 10);
-                    w.mnu().bits(time.minutes % 10);
-                    w.st().bits(time.seconds / 10);
-                    w.su().bits(time.seconds % 10);
-                }
-
-                w
-            });
-
-            // Disable init phase.
-            self.peripherals.RTC.isr.modify(|_, w| w.init().clear_bit());
-
-            // Enable the write protection for RTC registers.
-            self.peripherals.RTC.wpr.write(|w| unsafe { w.bits(0xFE) });
-            self.peripherals.RTC.wpr.write(|w| unsafe { w.bits(0x64) });
-        }
-
-        pub fn get_time(&self) -> Time {
-            let tr = self.peripherals.RTC.tr.read();
-
-            Time {
-                hours: tr.ht().bits() * 10 + tr.hu().bits(),
-                minutes: tr.mnt().bits() * 10 + tr.mnu().bits(),
-                seconds: tr.st().bits() * 10 + tr.su().bits()
-            }
-        }
-
-        fn configure_interrupts(&mut self) {
-            // Unmask line 17, EXTI line 17 is connected to the RTC Alarm event.
-            self.peripherals.EXTI.imr.write(|w| w.mr17().set_bit());
-            // Rising edge for line 17.
-            self.peripherals.EXTI.rtsr.write(|w| w.tr17().set_bit());
-            // Set priority.
+        // Modify alarm A mask to have an interrupt each minute.
+        self.peripherals.RTC.alrmar.modify(|_, w| {
             unsafe {
-                self.core_peripherals.NVIC.set_priority(Interrupt::RTC, 0);
+                w.ht().bits(time.hours / 10);
+                w.hu().bits(time.hours % 10);
+                w.mnt().bits(time.minutes / 10);
+                w.mnu().bits(time.minutes % 10);
+                w.st().bits(time.seconds / 10);
+                w.su().bits(time.seconds % 10);
             }
-            // Enable RTC_IRQn in the NVIC.
-            self.core_peripherals.NVIC.enable(Interrupt::RTC);
+
+            w.msk1().clear_bit();
+            w.msk2().set_bit();
+            w.msk3().set_bit();
+            w.msk4().set_bit()
+        });
+
+        // Enable alarm A and alarm A interrupt.
+        self.peripherals.RTC.cr.modify(|_, w| {
+            w.alraie().set_bit();
+            w.alrae().set_bit()
+        });
+
+        // Enable the write protection for RTC registers.
+        self.peripherals.RTC.wpr.write(|w| unsafe { w.bits(0xFE) });
+        self.peripherals.RTC.wpr.write(|w| unsafe { w.bits(0x64) });
+    }
+
+    fn configure_time(&self, time: &Time) {
+        // Disable the write protection for RTC registers.
+        self.peripherals.RTC.wpr.write(|w| unsafe { w.bits(0xCA) });
+        self.peripherals.RTC.wpr.write(|w| unsafe { w.bits(0x53) });
+
+        // Enable init phase.
+        self.peripherals.RTC.isr.modify(|_, w| w.init().set_bit());
+
+        // Wait until it is allowed to modify RTC register values.
+        while self.peripherals.RTC.isr.read().initf().bit_is_clear() {}
+
+        // Set prescaler, 40kHz/128 (0x7F + 1) => 312 Hz, 312Hz/312 (0x137 + 1) => 1Hz.
+        self.peripherals
+            .RTC
+            .prer
+            .modify(|_, w| unsafe { w.prediv_s().bits(0x137) });
+
+        self.peripherals
+            .RTC
+            .prer
+            .modify(|_, w| unsafe { w.prediv_a().bits(0x7F) });
+
+        // Configure Time register.
+        self.peripherals.RTC.tr.modify(|_, w| {
+            unsafe {
+                w.ht().bits(time.hours / 10);
+                w.hu().bits(time.hours % 10);
+                w.mnt().bits(time.minutes / 10);
+                w.mnu().bits(time.minutes % 10);
+                w.st().bits(time.seconds / 10);
+                w.su().bits(time.seconds % 10);
+            }
+
+            w
+        });
+
+        // Disable init phase.
+        self.peripherals.RTC.isr.modify(|_, w| w.init().clear_bit());
+
+        // Enable the write protection for RTC registers.
+        self.peripherals.RTC.wpr.write(|w| unsafe { w.bits(0xFE) });
+        self.peripherals.RTC.wpr.write(|w| unsafe { w.bits(0x64) });
+    }
+
+    pub fn get_time(&self) -> Time {
+        let tr = self.peripherals.RTC.tr.read();
+
+        Time {
+            hours: tr.ht().bits() * 10 + tr.hu().bits(),
+            minutes: tr.mnt().bits() * 10 + tr.mnu().bits(),
+            seconds: tr.st().bits() * 10 + tr.su().bits(),
         }
+    }
+
+    fn configure_interrupts(&mut self) {
+        // Unmask line 17, EXTI line 17 is connected to the RTC Alarm event.
+        self.peripherals.EXTI.imr.write(|w| w.mr17().set_bit());
+        // Rising edge for line 17.
+        self.peripherals.EXTI.rtsr.write(|w| w.tr17().set_bit());
+        // Set priority.
+        unsafe {
+            self.core_peripherals.NVIC.set_priority(Interrupt::RTC, 0);
+        }
+        // Enable RTC_IRQn in the NVIC.
+        self.core_peripherals.NVIC.enable(Interrupt::RTC);
     }
 }
