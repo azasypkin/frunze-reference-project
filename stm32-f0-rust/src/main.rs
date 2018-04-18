@@ -50,10 +50,7 @@ fn main() {
                 rtc.configure();
             }
 
-            {
-                let beeper = Beeper::new(&mut cp, &p);
-                beeper.configure();
-            }
+            Beeper::configure(&p);
 
             writeln!(stdout, "After RTC").unwrap();
 
@@ -103,7 +100,7 @@ fn on_alarm() {
 
                 writeln!(stdout, "Clear pending... {:?}", current_time).unwrap();
 
-                current_time.add_seconds(15);
+                current_time.add_seconds(120);
 
                 rtc.configure_alarm(&current_time);
 

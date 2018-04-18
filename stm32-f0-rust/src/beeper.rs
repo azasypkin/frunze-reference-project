@@ -25,9 +25,9 @@ impl<'a> Beeper<'a> {
         }
     }
 
-    pub fn configure(&self) {
-        self.configure_pwm();
-        self.configure_timer();
+    pub fn configure(peripherals: &Peripherals) {
+        Self::configure_pwm(peripherals);
+        Self::configure_timer(peripherals);
     }
 
     pub fn play_melody(&mut self) {
@@ -61,39 +61,39 @@ impl<'a> Beeper<'a> {
         SysTick::delay_ms(&mut self.core_peripherals.SYST, delay);
     }
 
-    fn configure_pwm(&self) {
+    fn configure_pwm(peripherals: &Peripherals) {
         // Enable clock for GPIO Port A.
-        self.peripherals
+        peripherals
             .RCC
             .ahbenr
             .modify(|_, w| w.iopaen().set_bit());
 
         // Switch PA8 to alternate function mode.
-        self.peripherals
+        peripherals
             .GPIOA
             .moder
             .modify(|_, w| unsafe { w.moder8().bits(0b10) });
 
         // No pull-up, pull-down.
-        self.peripherals
+        peripherals
             .GPIOA
             .pupdr
             .modify(|_, w| unsafe { w.pupdr8().bits(0b0) });
 
         // Set "high" output speed.
-        self.peripherals
+        peripherals
             .GPIOA
             .ospeedr
             .modify(|_, w| unsafe { w.ospeedr8().bits(0b11) });
 
         // Set alternative function #2.
-        self.peripherals
+        peripherals
             .GPIOA
             .afrh
             .modify(|_, w| unsafe { w.afrh8().bits(0b0010) });
     }
 
-    fn configure_timer(&self) {
+    fn configure_timer(peripherals: &Peripherals) {
         // Compute the value to be set in ARR register to generate signal frequency at 17.57 Khz.
         let timer_period: u32 = (config::CLOCK_SPEED / 17_570) - 1;
 
@@ -101,19 +101,19 @@ impl<'a> Beeper<'a> {
         let channel_one_pulse: u32 = (5 * (timer_period - 1)) / 10;
 
         // Enable TIM1 clock.
-        self.peripherals
+        peripherals
             .RCC
             .apb2enr
             .modify(|_, w| w.tim1en().set_bit());
 
         // Set prescaler, the counter clock frequency (CK_CNT) is equal to
         // f(CK_PSC) / (PSC[15:0] + 1).
-        self.peripherals
+        peripherals
             .TIM1
             .psc
             .modify(|_, w| unsafe { w.bits(0b0) });
 
-        self.peripherals.TIM1.cr1.modify(|_, w| {
+        peripherals.TIM1.cr1.modify(|_, w| {
             // Set direction: counter used as up-counter.
             w.dir().clear_bit();
             // Set clock division to t(DTS) = t(CK_INT).
@@ -124,24 +124,24 @@ impl<'a> Beeper<'a> {
         });
 
         // Set value to auto-reload register.
-        self.peripherals
+        peripherals
             .TIM1
             .arr
             .write(|w| unsafe { w.bits(timer_period) });
 
         // Set repetition counter.
-        self.peripherals.TIM1.rcr.write(|w| unsafe { w.bits(0b0) });
+        peripherals.TIM1.rcr.write(|w| unsafe { w.bits(0b0) });
 
         // Enable PWM mode 2 - In up-counting, channel 1 is inactive as long as TIMx_CNT<TIMx_CCR1
         // else active. In down-counting, channel 1 is active as long as TIMx_CNT>TIMx_CCR1 else
         //inactive.
-        self.peripherals
+        peripherals
             .TIM1
             .ccmr1_output
             .modify(|_, w| unsafe { w.oc1m().bits(0b111) });
 
         // Configure capture/compare enable register.
-        self.peripherals.TIM1.ccer.modify(|_, w| {
+        peripherals.TIM1.ccer.modify(|_, w| {
             // Enable Capture/Compare 1 output.
             w.cc1e().set_bit();
             // Enable Capture/Compare 1 complementary output.
@@ -154,13 +154,13 @@ impl<'a> Beeper<'a> {
         });
 
         // CCR1 is the value to be loaded in the actual capture/compare 1 register (preload value).
-        self.peripherals
+        peripherals
             .TIM1
             .ccr1
             .write(|w| unsafe { w.bits(channel_one_pulse) });
 
         // Configure control register 2.
-        self.peripherals.TIM1.cr2.modify(|_, w| {
+        peripherals.TIM1.cr2.modify(|_, w| {
             // Set output Idle state 1 (OC1 output).
             w.ois1().set_bit();
             // Set output Idle state 1 (OC1N output).
@@ -169,7 +169,7 @@ impl<'a> Beeper<'a> {
         });
 
         // Enable counter.
-        self.peripherals.TIM1.cr1.modify(|_, w| w.cen().set_bit());
+        peripherals.TIM1.cr1.modify(|_, w| w.cen().set_bit());
     }
 
     fn toggle_pwm(&self, enable: bool) {
