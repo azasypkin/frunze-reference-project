@@ -7,8 +7,13 @@ extern crate cortex_m_rt;
 extern crate cortex_m_semihosting;
 extern crate panic_semihosting;
 
+#[cfg(feature="stm32f051")]
 #[macro_use(interrupt)]
-extern crate stm32f0x1;
+extern crate stm32f0x1 as stm32f0x;
+
+#[cfg(feature="stm32f042")]
+#[macro_use(interrupt)]
+extern crate stm32f0x2 as stm32f0x;
 
 mod beeper;
 mod config;
@@ -22,18 +27,24 @@ use cortex_m::asm;
 use cortex_m::interrupt::{self, Mutex};
 use cortex_m_semihosting::hio;
 
+use cortex_m::Peripherals as CorePeripherals;
+use stm32f0x::Peripherals;
+
 use beeper::Beeper;
 use rtc::RTC;
 
-static CORE_PERIPHERALS: Mutex<RefCell<Option<cortex_m::Peripherals>>> =
+static CORE_PERIPHERALS: Mutex<RefCell<Option<CorePeripherals>>> =
     Mutex::new(RefCell::new(None));
-static PERIPHERALS: Mutex<RefCell<Option<stm32f0x1::Peripherals>>> = Mutex::new(RefCell::new(None));
+static PERIPHERALS: Mutex<RefCell<Option<Peripherals>>> = Mutex::new(RefCell::new(None));
 
 // Read about interrupt setup sequence at:
 // http://www.hertaville.com/external-interrupts-on-the-stm32f0.html
 fn main() {
+    let mut stdout = hio::hstdout().unwrap();
+    writeln!(stdout, "Starting...").unwrap();
+
     interrupt::free(|cs| {
-        *PERIPHERALS.borrow(cs).borrow_mut() = Some(stm32f0x1::Peripherals::take().unwrap());
+        *PERIPHERALS.borrow(cs).borrow_mut() = Some(Peripherals::take().unwrap());
         *CORE_PERIPHERALS.borrow(cs).borrow_mut() = Some(cortex_m::Peripherals::take().unwrap());
     });
 
@@ -42,17 +53,20 @@ fn main() {
             CORE_PERIPHERALS.borrow(cs).borrow_mut().as_mut(),
             PERIPHERALS.borrow(cs).borrow_mut().as_mut(),
         ) {
-            let mut stdout = hio::hstdout().unwrap();
-            writeln!(stdout, "Before RTC").unwrap();
 
+            Beeper::configure(&p);
+            play_melody(Beeper::new(&mut cp, p));
+
+            writeln!(stdout, "Before RTC").unwrap();
+            let current_time;
             {
                 let mut rtc = RTC::new(&mut cp, &p);
                 rtc.configure();
+                writeln!(stdout, "RTC configured").unwrap();
+                current_time = rtc.get_time();
             }
 
-            Beeper::configure(&p);
-
-            writeln!(stdout, "After RTC").unwrap();
+            writeln!(stdout, "After RTC: {:?}", current_time).unwrap();
 
             enter_standby_mode(&cp, p);
 
@@ -64,8 +78,8 @@ fn main() {
 }
 
 fn enter_standby_mode(
-    core_peripherals: &cortex_m::Peripherals,
-    peripherals: &stm32f0x1::Peripherals,
+    core_peripherals: &CorePeripherals,
+    peripherals: &Peripherals,
 ) {
     // Select STANDBY mode.
     peripherals.PWR.cr.modify(|_, w| w.pdds().set_bit());
@@ -92,7 +106,7 @@ fn on_alarm() {
         ) {
             play_melody(Beeper::new(&mut cp, p));
 
-            let mut rtc = RTC::new(&mut cp, &p);
+           let mut rtc = RTC::new(&mut cp, &p);
 
             // Check alarm A flag.
             if rtc.is_alarm_interrupt() {
@@ -100,7 +114,7 @@ fn on_alarm() {
 
                 writeln!(stdout, "Clear pending... {:?}", current_time).unwrap();
 
-                current_time.add_seconds(120);
+                current_time.add_seconds(10);
 
                 rtc.configure_alarm(&current_time);
 

@@ -13,7 +13,6 @@ lto = true
 debug = true
 
 [dependencies]
-stm32f0x2 = { path = "../crates/stm32f0x2" }
 cortex-m-rt = "0.4.0"
 cortex-m = "0.4.3"
 cortex-m-semihosting = "0.2.0"
@@ -23,3 +22,16 @@ panic-semihosting = "0.1.0"
 version = "0.1.0"
 path = "../crates/stm32f0x1"
 features = ["rt"]
+optional = true
+
+[dependencies.stm32f0x2]
+version = "0.1.0"
+path = "../crates/stm32f0x2"
+features = ["rt"]
+optional = true
+
+[features]
+stm32f051 = ["stm32f0x1"]
+stm32f042 = ["stm32f0x2"]
+
+

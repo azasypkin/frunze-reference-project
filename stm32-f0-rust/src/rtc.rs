@@ -1,6 +1,6 @@
 use cortex_m::Peripherals as CorePeripherals;
-use stm32f0x1::Interrupt;
-use stm32f0x1::Peripherals;
+use stm32f0x::Interrupt;
+use stm32f0x::Peripherals;
 
 #[derive(Debug)]
 pub struct Time {
@@ -58,7 +58,7 @@ impl<'a> RTC<'a> {
         self.configure_alarm(&Time {
             hours: 17,
             minutes: 58,
-            seconds: 20,
+            seconds: 17,
         });
 
         // Configure EXTI and NVIC for RTC IT.
@@ -87,8 +87,15 @@ impl<'a> RTC<'a> {
             .RTC
             .isr
             .modify(|_, w| w.alraf().clear_bit());
+
         // Clear exti line 17 flag.
-        self.peripherals.EXTI.pr.write(|w| w.pr17().set_bit());
+        self.peripherals.EXTI.pr.write(|w| {
+            #[cfg(feature="stm32f051")]
+            return w.pr17().set_bit();
+
+            #[cfg(feature="stm32f042")]
+            return w.pif17().set_bit();
+        });
     }
 
     fn configure_clock(&self) {

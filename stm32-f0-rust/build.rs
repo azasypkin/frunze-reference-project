@@ -4,14 +4,14 @@ use std::io::Write;
 use std::path::PathBuf;
 
 fn main() {
-    let use_stm32f0x2 = env::var_os("USE_STM32F0x2").is_some();
+    let use_stm32f0x2 = cfg!(feature = "stm32f042");
 
     // Put the linker script somewhere the linker can find it
     let out = &PathBuf::from(env::var_os("OUT_DIR").unwrap());
     let mut file = File::create(out.join("memory.x")).unwrap();
 
     println!(
-        "Using {}",
+        "cargo:warning=Using {}",
         if use_stm32f0x2 {
             "memory_stm32f0x2.x"
         } else {

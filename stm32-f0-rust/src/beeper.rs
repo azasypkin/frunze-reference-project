@@ -1,6 +1,6 @@
 use config;
 use cortex_m::Peripherals as CorePeripherals;
-use stm32f0x1::Peripherals;
+use stm32f0x::Peripherals;
 use systick::SysTick;
 
 const QUARTER_DOT_NOTE: u32 = 450;
@@ -68,29 +68,29 @@ impl<'a> Beeper<'a> {
             .ahbenr
             .modify(|_, w| w.iopaen().set_bit());
 
-        // Switch PA8 to alternate function mode.
+        // Switch PA7 to alternate function mode.
         peripherals
             .GPIOA
             .moder
-            .modify(|_, w| unsafe { w.moder8().bits(0b10) });
+            .modify(|_, w| unsafe { w.moder7().bits(0b10) });
 
         // No pull-up, pull-down.
         peripherals
             .GPIOA
             .pupdr
-            .modify(|_, w| unsafe { w.pupdr8().bits(0b0) });
+            .modify(|_, w| unsafe { w.pupdr7().bits(0b0) });
 
         // Set "high" output speed.
         peripherals
             .GPIOA
             .ospeedr
-            .modify(|_, w| unsafe { w.ospeedr8().bits(0b11) });
+            .modify(|_, w| unsafe { w.ospeedr7().bits(0b11) });
 
         // Set alternative function #2.
         peripherals
             .GPIOA
-            .afrh
-            .modify(|_, w| unsafe { w.afrh8().bits(0b0010) });
+            .afrl
+            .modify(|_, w| unsafe { w.afrl7().bits(0b0010) });
     }
 
     fn configure_timer(peripherals: &Peripherals) {

@@ -27,16 +27,17 @@ dual licensed as above, without any additional terms or conditions.
 0. Read [Rust your ARM microcontroller!](http://blog.japaric.io/quickstart/).
 1. Build example with:
 ```bash
-$ cargo build --example blinky
-$ cargo build --example blinky --target=thumbv6m-none-eabi
-$ USE_STM32F0x2=1 cargo build --example blinky-stm32f0x2
-$ USE_STM32F0x2=1 cargo build --example blinky-stm32f0x2 --target=thumbv6m-none-eabi
+$ cargo build --features stm32f051
+$ cargo build --features stm32f051 --target=thumbv6m-none-eabi
+$ cargo build --features stm32f042
+$ cargo build --features stm32f042 --target=thumbv6m-none-eabi
 ```
 2. Run `openocd -f board/stm32f0discovery.cfg`
 3. In another terminal run `arm-none-eabi-gdb target/thumbv6m-none-eabi/debug/examples/blinky` or `arm-none-eabi-gdb target/thumbv6m-none-eabi/debug/examples/blinky-stm32f0x2`
 4. Download SVD from http://www.st.com/en/microcontrollers/stm32f051r8.html
 5. Make sure that SVD doesn't contain any `bitWidth` that equals to `0` and generate
 Rust lib with `svd2rust -i STM32F0x1.svd | rustfmt | tee src/lib.rs`
+6. If file size is too big GDB may fail so try to use `--release` flag with `cargo build`.
 
 
 ## Examples
