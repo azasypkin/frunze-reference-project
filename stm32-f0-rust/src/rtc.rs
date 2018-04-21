@@ -58,7 +58,7 @@ impl<'a> RTC<'a> {
         self.configure_alarm(&Time {
             hours: 17,
             minutes: 58,
-            seconds: 17,
+            seconds: 15,
         });
 
         // Configure EXTI and NVIC for RTC IT.
@@ -68,7 +68,7 @@ impl<'a> RTC<'a> {
         self.configure_time(&Time {
             hours: 17,
             minutes: 58,
-            seconds: 12,
+            seconds: 10,
         });
     }
 
@@ -89,11 +89,11 @@ impl<'a> RTC<'a> {
             .modify(|_, w| w.alraf().clear_bit());
 
         // Clear exti line 17 flag.
-        self.peripherals.EXTI.pr.write(|w| {
-            #[cfg(feature="stm32f051")]
+        self.peripherals.EXTI.pr.modify(|_, w| {
+            #[cfg(feature = "stm32f051")]
             return w.pr17().set_bit();
 
-            #[cfg(feature="stm32f042")]
+            #[cfg(feature = "stm32f042")]
             return w.pif17().set_bit();
         });
     }
@@ -222,9 +222,9 @@ impl<'a> RTC<'a> {
 
     fn configure_interrupts(&mut self) {
         // Unmask line 17, EXTI line 17 is connected to the RTC Alarm event.
-        self.peripherals.EXTI.imr.write(|w| w.mr17().set_bit());
+        self.peripherals.EXTI.imr.modify(|_, w| w.mr17().set_bit());
         // Rising edge for line 17.
-        self.peripherals.EXTI.rtsr.write(|w| w.tr17().set_bit());
+        self.peripherals.EXTI.rtsr.modify(|_, w| w.tr17().set_bit());
         // Set priority.
         unsafe {
             self.core_peripherals.NVIC.set_priority(Interrupt::RTC, 0);

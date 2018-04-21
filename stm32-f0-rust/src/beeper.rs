@@ -63,10 +63,7 @@ impl<'a> Beeper<'a> {
 
     fn configure_pwm(peripherals: &Peripherals) {
         // Enable clock for GPIO Port A.
-        peripherals
-            .RCC
-            .ahbenr
-            .modify(|_, w| w.iopaen().set_bit());
+        peripherals.RCC.ahbenr.modify(|_, w| w.iopaen().set_bit());
 
         // Switch PA7 to alternate function mode.
         peripherals
@@ -101,17 +98,11 @@ impl<'a> Beeper<'a> {
         let channel_one_pulse: u32 = (5 * (timer_period - 1)) / 10;
 
         // Enable TIM1 clock.
-        peripherals
-            .RCC
-            .apb2enr
-            .modify(|_, w| w.tim1en().set_bit());
+        peripherals.RCC.apb2enr.modify(|_, w| w.tim1en().set_bit());
 
         // Set prescaler, the counter clock frequency (CK_CNT) is equal to
         // f(CK_PSC) / (PSC[15:0] + 1).
-        peripherals
-            .TIM1
-            .psc
-            .modify(|_, w| unsafe { w.bits(0b0) });
+        peripherals.TIM1.psc.modify(|_, w| unsafe { w.bits(0b0) });
 
         peripherals.TIM1.cr1.modify(|_, w| {
             // Set direction: counter used as up-counter.

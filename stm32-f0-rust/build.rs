@@ -15,7 +15,7 @@ fn main() {
         if use_stm32f0x2 {
             "memory_stm32f0x2.x"
         } else {
-            "memory.x"
+            "memory_stm32f0x1.x"
         }
     );
 
@@ -23,11 +23,19 @@ fn main() {
         file.write_all(include_bytes!("memory_stm32f0x2.x"))
             .unwrap();
     } else {
-        file.write_all(include_bytes!("memory.x")).unwrap();
+        file.write_all(include_bytes!("memory_stm32f0x1.x"))
+            .unwrap();
     }
 
     println!("cargo:rustc-link-search={}", out.display());
 
     println!("cargo:rerun-if-changed=build.rs");
-    println!("cargo:rerun-if-changed=memory.x");
+    println!(
+        "cargo:rerun-if-changed={:?}",
+        if use_stm32f0x2 {
+            "memory_stm32f0x2.x"
+        } else {
+            "memory_stm32f0x1.x"
+        }
+    );
 }

@@ -7,11 +7,11 @@ extern crate cortex_m_rt;
 extern crate cortex_m_semihosting;
 extern crate panic_semihosting;
 
-#[cfg(feature="stm32f051")]
+#[cfg(feature = "stm32f051")]
 #[macro_use(interrupt)]
 extern crate stm32f0x1 as stm32f0x;
 
-#[cfg(feature="stm32f042")]
+#[cfg(feature = "stm32f042")]
 #[macro_use(interrupt)]
 extern crate stm32f0x2 as stm32f0x;
 
@@ -33,8 +33,7 @@ use stm32f0x::Peripherals;
 use beeper::Beeper;
 use rtc::RTC;
 
-static CORE_PERIPHERALS: Mutex<RefCell<Option<CorePeripherals>>> =
-    Mutex::new(RefCell::new(None));
+static CORE_PERIPHERALS: Mutex<RefCell<Option<CorePeripherals>>> = Mutex::new(RefCell::new(None));
 static PERIPHERALS: Mutex<RefCell<Option<Peripherals>>> = Mutex::new(RefCell::new(None));
 
 // Read about interrupt setup sequence at:
@@ -53,20 +52,14 @@ fn main() {
             CORE_PERIPHERALS.borrow(cs).borrow_mut().as_mut(),
             PERIPHERALS.borrow(cs).borrow_mut().as_mut(),
         ) {
-
             Beeper::configure(&p);
-            play_melody(Beeper::new(&mut cp, p));
+            writeln!(stdout, "Beeper configured.").unwrap();
 
-            writeln!(stdout, "Before RTC").unwrap();
-            let current_time;
             {
                 let mut rtc = RTC::new(&mut cp, &p);
                 rtc.configure();
-                writeln!(stdout, "RTC configured").unwrap();
-                current_time = rtc.get_time();
+                writeln!(stdout, "RTC configured: {:?}", rtc.get_time()).unwrap();
             }
-
-            writeln!(stdout, "After RTC: {:?}", current_time).unwrap();
 
             enter_standby_mode(&cp, p);
 
@@ -77,10 +70,7 @@ fn main() {
     loop {}
 }
 
-fn enter_standby_mode(
-    core_peripherals: &CorePeripherals,
-    peripherals: &Peripherals,
-) {
+fn enter_standby_mode(core_peripherals: &CorePeripherals, peripherals: &Peripherals) {
     // Select STANDBY mode.
     peripherals.PWR.cr.modify(|_, w| w.pdds().set_bit());
 
@@ -106,7 +96,7 @@ fn on_alarm() {
         ) {
             play_melody(Beeper::new(&mut cp, p));
 
-           let mut rtc = RTC::new(&mut cp, &p);
+            let mut rtc = RTC::new(&mut cp, &p);
 
             // Check alarm A flag.
             if rtc.is_alarm_interrupt() {

@@ -12,6 +12,11 @@ repository = "https://github.com/azasypkin/frunze-reference-projects"
 lto = true
 debug = true
 
+[profile.dev]
+lto = true
+incremental = false
+opt-level = 1
+
 [dependencies]
 cortex-m-rt = "0.4.0"
 cortex-m = "0.4.3"
