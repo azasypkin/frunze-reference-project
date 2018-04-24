@@ -11,6 +11,7 @@ repository = "https://github.com/azasypkin/frunze-reference-projects"
 [profile.release]
 lto = true
 debug = true
+opt-level = "s"
 
 [profile.dev]
 lto = true

@@ -32,12 +32,13 @@ $ cargo build --features stm32f051 --target=thumbv6m-none-eabi
 $ cargo build --features stm32f042
 $ cargo build --features stm32f042 --target=thumbv6m-none-eabi
 ```
-2. Run `openocd -f board/stm32f0discovery.cfg`
+2. Run `openocd -f openocd.cfg`
 3. In another terminal run `arm-none-eabi-gdb target/thumbv6m-none-eabi/debug/examples/blinky` or `arm-none-eabi-gdb target/thumbv6m-none-eabi/debug/examples/blinky-stm32f0x2`
 4. Download SVD from http://www.st.com/en/microcontrollers/stm32f051r8.html
 5. Make sure that SVD doesn't contain any `bitWidth` that equals to `0` and generate
 Rust lib with `svd2rust -i STM32F0x1.svd | rustfmt | tee src/lib.rs`
-6. If file size is too big GDB may fail so try to use `--release` flag with `cargo build`.
+6. If file size is too big GDB may fail so try to use `--release` flag with `cargo build`
+7. To reload program on the MCU use `monitor reset halt`
 
 
 ## Examples
