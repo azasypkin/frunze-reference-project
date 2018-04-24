@@ -4,9 +4,9 @@ use stm32f0x::Peripherals;
 
 #[derive(Debug)]
 pub struct Time {
-    hours: u8,
-    minutes: u8,
-    seconds: u8,
+    pub hours: u8,
+    pub minutes: u8,
+    pub seconds: u8,
 }
 
 impl Time {
@@ -54,22 +54,8 @@ impl<'a> RTC<'a> {
         // Enable the peripheral clock RTC.
         self.configure_clock();
 
-        // Configure alarm.
-        self.configure_alarm(&Time {
-            hours: 17,
-            minutes: 58,
-            seconds: 15,
-        });
-
         // Configure EXTI and NVIC for RTC IT.
         self.configure_interrupts();
-
-        // Set time.
-        self.configure_time(&Time {
-            hours: 17,
-            minutes: 58,
-            seconds: 10,
-        });
     }
 
     pub fn is_alarm_interrupt(&self) -> bool {
@@ -133,7 +119,7 @@ impl<'a> RTC<'a> {
         self.peripherals.RTC.wpr.write(|w| unsafe { w.bits(0x53) });
 
         // Disable alarm A to modify it.
-        self.peripherals.RTC.cr.modify(|_, w| w.alrae().clear_bit());
+        self.toggle_alarm(false);
 
         // Wait until it is allowed to modify alarm A value.
         while self.peripherals.RTC.isr.read().alrawf().bit_is_clear() {}
@@ -156,17 +142,26 @@ impl<'a> RTC<'a> {
         });
 
         // Enable alarm A and alarm A interrupt.
-        self.peripherals.RTC.cr.modify(|_, w| {
-            w.alraie().set_bit();
-            w.alrae().set_bit()
-        });
+        self.toggle_alarm(true);
 
         // Enable the write protection for RTC registers.
         self.peripherals.RTC.wpr.write(|w| unsafe { w.bits(0xFE) });
         self.peripherals.RTC.wpr.write(|w| unsafe { w.bits(0x64) });
     }
 
-    fn configure_time(&self, time: &Time) {
+    pub fn toggle_alarm(&self, enable: bool) {
+        self.peripherals.RTC.cr.modify(|_, w| {
+            if enable {
+                w.alraie().set_bit();
+                w.alrae().set_bit()
+            } else {
+                w.alraie().clear_bit();
+                w.alrae().clear_bit()
+            }
+        });
+    }
+
+    pub fn configure_time(&self, time: &Time) {
         // Disable the write protection for RTC registers.
         self.peripherals.RTC.wpr.write(|w| unsafe { w.bits(0xCA) });
         self.peripherals.RTC.wpr.write(|w| unsafe { w.bits(0x53) });

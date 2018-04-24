@@ -7,15 +7,18 @@ extern crate cortex_m_rt;
 extern crate cortex_m_semihosting;
 extern crate panic_semihosting;
 
-#[cfg(feature = "stm32f051")]
+/*#[cfg(feature = "stm32f051")]
 #[macro_use(interrupt)]
 extern crate stm32f0x1 as stm32f0x;
 
 #[cfg(feature = "stm32f042")]
 #[macro_use(interrupt)]
-extern crate stm32f0x2 as stm32f0x;
+extern crate stm32f0x2 as stm32f0x;*/
+#[macro_use(interrupt)]
+extern crate stm32f0x1 as stm32f0x;
 
 mod beeper;
+mod button;
 mod config;
 mod rtc;
 mod systick;
@@ -31,7 +34,8 @@ use cortex_m::Peripherals as CorePeripherals;
 use stm32f0x::Peripherals;
 
 use beeper::Beeper;
-use rtc::RTC;
+use button::Button;
+use rtc::{RTC, Time};
 
 static CORE_PERIPHERALS: Mutex<RefCell<Option<CorePeripherals>>> = Mutex::new(RefCell::new(None));
 static PERIPHERALS: Mutex<RefCell<Option<Peripherals>>> = Mutex::new(RefCell::new(None));
@@ -56,21 +60,45 @@ fn main() {
             writeln!(stdout, "Beeper configured.").unwrap();
 
             {
+                Button::configure(&p, &mut cp);
+                writeln!(stdout, "Button configured.").unwrap();
+            }
+
+            {
                 let mut rtc = RTC::new(&mut cp, &p);
                 rtc.configure();
+
+                // Configure alarm.
+                rtc.configure_alarm(&Time {
+                    hours: 17,
+                    minutes: 58,
+                    seconds: 15,
+                });
+
+                // Set time.
+                rtc.configure_time(&Time {
+                    hours: 17,
+                    minutes: 58,
+                    seconds: 10,
+                });
+
+                rtc.toggle_alarm(false);
+
                 writeln!(stdout, "RTC configured: {:?}", rtc.get_time()).unwrap();
             }
 
-            enter_standby_mode(&cp, p);
-
-            writeln!(stdout, "After StandBy").unwrap();
+            configure_standby_mode(&cp, p);
         }
     });
 
-    loop {}
+    loop {
+        writeln!(stdout, "Before StandBy").unwrap();
+        asm::wfi();
+        writeln!(stdout, "After StandBy").unwrap();
+    }
 }
 
-fn enter_standby_mode(core_peripherals: &CorePeripherals, peripherals: &Peripherals) {
+fn configure_standby_mode(core_peripherals: &CorePeripherals, peripherals: &Peripherals) {
     // Select STANDBY mode.
     peripherals.PWR.cr.modify(|_, w| w.pdds().set_bit());
 
@@ -79,8 +107,6 @@ fn enter_standby_mode(core_peripherals: &CorePeripherals, peripherals: &Peripher
 
     // Set SLEEPDEEP bit of Cortex-M0 System Control Register.
     unsafe { core_peripherals.SCB.scr.modify(|w| w | w | 0b100) }
-
-    asm::wfi();
 }
 
 interrupt!(RTC, on_alarm);
@@ -113,6 +139,31 @@ fn on_alarm() {
                 writeln!(stdout, "Disabling...").unwrap();
                 rtc.disable_interrupt();
             }
+        }
+    });
+}
+
+interrupt!(EXTI0_1, button_handler);
+
+fn button_handler() {
+    let mut stdout = hio::hstdout().unwrap();
+
+    interrupt::free(|cs| {
+        if let (Some(mut cp), Some(p)) = (
+            CORE_PERIPHERALS.borrow(cs).borrow_mut().as_mut(),
+            PERIPHERALS.borrow(cs).borrow_mut().as_mut(),
+        ) {
+            play_melody(Beeper::new(&mut cp, p));
+            writeln!(
+                stdout,
+                "Button interrupt, button is pressed: {:?}!",
+                p.GPIOA.idr.read().idr0().bit_is_set()
+            ).unwrap();
+
+            // Set pending register to mark interrupt as handled.
+            p.EXTI.pr.modify(|_, w| w.pr0().set_bit());
+            // Clear Wakeup flag.
+            p.PWR.cr.modify(|_, w| w.cwuf().set_bit());
         }
     });
 }
