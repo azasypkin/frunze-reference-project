@@ -15,10 +15,7 @@ pub struct Beeper<'a> {
 }
 
 impl<'a> Beeper<'a> {
-    pub fn new(
-        core_peripherals: &'a mut CorePeripherals,
-        peripherals: &'a Peripherals,
-    ) -> Beeper<'a> {
+    fn new(core_peripherals: &'a mut CorePeripherals, peripherals: &'a Peripherals) -> Beeper<'a> {
         Beeper {
             core_peripherals,
             peripherals,
@@ -30,7 +27,18 @@ impl<'a> Beeper<'a> {
         Self::configure_timer(peripherals);
     }
 
-    pub fn play_melody(&mut self) {
+    pub fn acquire<'b, F>(
+        core_peripherals: &'b mut CorePeripherals,
+        peripherals: &'b Peripherals,
+        f: F,
+    ) -> ()
+    where
+        F: FnOnce(Beeper),
+    {
+        f(Beeper::new(core_peripherals, peripherals));
+    }
+
+    pub fn play_wakeup(&mut self) {
         self.toggle_pwm(true);
 
         self.play_note(SCALES[7], QUARTER_NOTE); // G
@@ -48,6 +56,14 @@ impl<'a> Beeper<'a> {
         self.play_note(SCALES[7], QUARTER_DOT_NOTE); // G.
         self.play_note(SCALES[5], EIGHTH_NOTE); // F
         self.play_note(SCALES[5], QUARTER_DOT_NOTE); // F.
+
+        self.toggle_pwm(false);
+    }
+
+    pub fn beep(&mut self) {
+        self.toggle_pwm(true);
+
+        self.play_note(SCALES[7], QUARTER_NOTE); // G
 
         self.toggle_pwm(false);
     }

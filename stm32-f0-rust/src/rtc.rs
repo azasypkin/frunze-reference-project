@@ -43,19 +43,64 @@ pub struct RTC<'a> {
 }
 
 impl<'a> RTC<'a> {
-    pub fn new(core_peripherals: &'a mut CorePeripherals, peripherals: &'a Peripherals) -> RTC<'a> {
+    fn new(core_peripherals: &'a mut CorePeripherals, peripherals: &'a Peripherals) -> RTC<'a> {
         RTC {
             core_peripherals,
             peripherals,
         }
     }
 
-    pub fn configure(&mut self) {
+    pub fn configure(core_peripherals: &mut CorePeripherals, peripherals: &Peripherals) {
         // Enable the peripheral clock RTC.
-        self.configure_clock();
+        Self::configure_clock(peripherals);
+        Self::configure_interrupts(core_peripherals, peripherals);
+    }
 
-        // Configure EXTI and NVIC for RTC IT.
-        self.configure_interrupts();
+    fn configure_clock(peripherals: &Peripherals) {
+        // Enable the LSI.
+        peripherals.RCC.csr.modify(|_, w| w.lsion().set_bit());
+
+        // Wait while it is not ready.
+        while peripherals.RCC.csr.read().lsirdy().bit_is_clear() {}
+
+        // Enable PWR clock.
+        peripherals.RCC.apb1enr.modify(|_, w| w.pwren().set_bit());
+
+        // Enable write in RTC domain control register.
+        peripherals.PWR.cr.modify(|_, w| w.dbp().set_bit());
+
+        // LSI for RTC clock.
+        peripherals.RCC.bdcr.modify(|_, w| {
+            w.rtcen().set_bit();
+            unsafe { w.rtcsel().bits(0b10) }
+        });
+
+        // Disable PWR clock.
+        peripherals.RCC.apb1enr.modify(|_, w| w.pwren().clear_bit());
+    }
+
+    fn configure_interrupts(core_peripherals: &mut CorePeripherals, peripherals: &Peripherals) {
+        // Unmask line 17, EXTI line 17 is connected to the RTC Alarm event.
+        peripherals.EXTI.imr.modify(|_, w| w.mr17().set_bit());
+        // Rising edge for line 17.
+        peripherals.EXTI.rtsr.modify(|_, w| w.tr17().set_bit());
+        // Set priority.
+        unsafe {
+            core_peripherals.NVIC.set_priority(Interrupt::RTC, 0);
+        }
+        // Enable RTC_IRQn in the NVIC.
+        core_peripherals.NVIC.enable(Interrupt::RTC);
+    }
+
+    pub fn acquire<'b, F, R>(
+        core_peripherals: &'b mut CorePeripherals,
+        peripherals: &'b Peripherals,
+        f: F,
+    ) -> R
+    where
+        F: FnOnce(RTC) -> R,
+    {
+        f(RTC::new(core_peripherals, peripherals))
     }
 
     pub fn is_alarm_interrupt(&self) -> bool {
@@ -74,6 +119,9 @@ impl<'a> RTC<'a> {
             .isr
             .modify(|_, w| w.alraf().clear_bit());
 
+        // Clear Wakeup flag.
+        self.peripherals.PWR.cr.modify(|_, w| w.cwuf().set_bit());
+
         // Clear exti line 17 flag.
         self.peripherals.EXTI.pr.modify(|_, w| {
             #[cfg(feature = "stm32f051")]
@@ -82,35 +130,6 @@ impl<'a> RTC<'a> {
             #[cfg(feature = "stm32f042")]
             return w.pif17().set_bit();
         });
-    }
-
-    fn configure_clock(&self) {
-        // Enable the LSI.
-        self.peripherals.RCC.csr.modify(|_, w| w.lsion().set_bit());
-
-        // Wait while it is not ready.
-        while self.peripherals.RCC.csr.read().lsirdy().bit_is_clear() {}
-
-        // Enable PWR clock.
-        self.peripherals
-            .RCC
-            .apb1enr
-            .modify(|_, w| w.pwren().set_bit());
-
-        // Enable write in RTC domain control register.
-        self.peripherals.PWR.cr.modify(|_, w| w.dbp().set_bit());
-
-        // LSI for RTC clock.
-        self.peripherals.RCC.bdcr.modify(|_, w| {
-            w.rtcen().set_bit();
-            unsafe { w.rtcsel().bits(0b10) }
-        });
-
-        // Disable PWR clock.
-        self.peripherals
-            .RCC
-            .apb1enr
-            .modify(|_, w| w.pwren().clear_bit());
     }
 
     pub fn configure_alarm(&self, time: &Time) {
@@ -213,18 +232,5 @@ impl<'a> RTC<'a> {
             minutes: tr.mnt().bits() * 10 + tr.mnu().bits(),
             seconds: tr.st().bits() * 10 + tr.su().bits(),
         }
-    }
-
-    fn configure_interrupts(&mut self) {
-        // Unmask line 17, EXTI line 17 is connected to the RTC Alarm event.
-        self.peripherals.EXTI.imr.modify(|_, w| w.mr17().set_bit());
-        // Rising edge for line 17.
-        self.peripherals.EXTI.rtsr.modify(|_, w| w.tr17().set_bit());
-        // Set priority.
-        unsafe {
-            self.core_peripherals.NVIC.set_priority(Interrupt::RTC, 0);
-        }
-        // Enable RTC_IRQn in the NVIC.
-        self.core_peripherals.NVIC.enable(Interrupt::RTC);
     }
 }

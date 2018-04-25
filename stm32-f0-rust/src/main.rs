@@ -54,33 +54,8 @@ fn main() {
 
     interrupt_free(|mut cp, p| {
         Beeper::configure(&p);
-        writeln!(stdout, "Beeper configured.").unwrap();
-
         Button::configure(&p, &mut cp);
-        writeln!(stdout, "Button configured.").unwrap();
-
-        {
-            let mut rtc = RTC::new(&mut cp, &p);
-            rtc.configure();
-
-            // Configure alarm.
-            rtc.configure_alarm(&Time {
-                hours: 17,
-                minutes: 58,
-                seconds: 15,
-            });
-
-            // Set time.
-            rtc.configure_time(&Time {
-                hours: 17,
-                minutes: 58,
-                seconds: 10,
-            });
-
-            rtc.toggle_alarm(false);
-
-            writeln!(stdout, "RTC configured: {:?}", rtc.get_time()).unwrap();
-        }
+        RTC::configure(cp, p);
 
         configure_standby_mode(&cp, p);
     });
@@ -110,50 +85,60 @@ fn on_alarm() {
     writeln!(stdout, "Alarm interrupt!").unwrap();
 
     interrupt_free(|mut cp, p| {
-        play_melody(Beeper::new(&mut cp, p));
+        Beeper::acquire(&mut cp, p, |mut beeper| {
+            beeper.beep();
+        });
 
-        let mut rtc = RTC::new(&mut cp, &p);
+        RTC::acquire(&mut cp, p, |mut rtc| {
+            // Check alarm A flag.
+            if rtc.is_alarm_interrupt() {
+                let mut current_time = rtc.get_time();
 
-        // Check alarm A flag.
-        if rtc.is_alarm_interrupt() {
-            let mut current_time = rtc.get_time();
+                writeln!(stdout, "Clear pending... {:?}", current_time).unwrap();
 
-            writeln!(stdout, "Clear pending... {:?}", current_time).unwrap();
+                current_time.add_seconds(10);
 
-            current_time.add_seconds(10);
+                rtc.configure_alarm(&current_time);
 
-            rtc.configure_alarm(&current_time);
-
-            rtc.clear_pending_interrupt();
-        } else {
-            writeln!(stdout, "Disabling...").unwrap();
-            rtc.disable_interrupt();
-        }
+                rtc.clear_pending_interrupt();
+            } else {
+                writeln!(stdout, "Disabling...").unwrap();
+                rtc.disable_interrupt();
+            }
+        });
     });
 }
 
 interrupt!(EXTI0_1, button_handler);
 
 fn button_handler() {
-    let mut stdout = hio::hstdout().unwrap();
-
     interrupt_free(|mut cp, p| {
-        play_melody(Beeper::new(&mut cp, p));
-        writeln!(
-            stdout,
-            "Button interrupt, button is pressed: {:?}!",
-            p.GPIOA.idr.read().idr0().bit_is_set()
-        ).unwrap();
+        // Make sure we wait for 5 secs to play the melody.
+        let is_long_pressed = Button::acquire(&mut cp, p, |mut button| button.is_long_pressed());
 
-        // Set pending register to mark interrupt as handled.
-        p.EXTI.pr.modify(|_, w| w.pr0().set_bit());
-        // Clear Wakeup flag.
-        p.PWR.cr.modify(|_, w| w.cwuf().set_bit());
+        if is_long_pressed {
+            Beeper::acquire(&mut cp, p, |mut beeper| {
+                beeper.play_wakeup();
+            });
+
+            RTC::acquire(&mut cp, p, |rtc| {
+                rtc.configure_alarm(&Time {
+                    hours: 12,
+                    minutes: 0,
+                    seconds: 15,
+                });
+
+                // Set time.
+                rtc.configure_time(&Time {
+                    hours: 12,
+                    minutes: 0,
+                    seconds: 0,
+                });
+            });
+        }
+
+        Button::acquire(&mut cp, p, |button| button.clear_pending_interrupt());
     });
-}
-
-fn play_melody(mut beeper: Beeper) {
-    beeper.play_melody();
 }
 
 fn interrupt_free<F>(f: F) -> ()
@@ -161,11 +146,13 @@ where
     F: FnOnce(&mut CorePeripherals, &Peripherals),
 {
     interrupt::free(|cs| {
-        if let (Some(mut cp), Some(p)) = (
+        if let (Some(cp), Some(p)) = (
             CORE_PERIPHERALS.borrow(cs).borrow_mut().as_mut(),
             PERIPHERALS.borrow(cs).borrow_mut().as_mut(),
         ) {
             f(cp, p);
+        } else {
+            panic!("Can not borrow peripherals!");
         }
     });
 }

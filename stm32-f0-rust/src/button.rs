@@ -1,4 +1,3 @@
-use config;
 use cortex_m::Peripherals as CorePeripherals;
 use stm32f0x::Interrupt;
 use stm32f0x::Peripherals;
@@ -10,10 +9,7 @@ pub struct Button<'a> {
 }
 
 impl<'a> Button<'a> {
-    pub fn new(
-        core_peripherals: &'a mut CorePeripherals,
-        peripherals: &'a Peripherals,
-    ) -> Button<'a> {
+    fn new(core_peripherals: &'a mut CorePeripherals, peripherals: &'a Peripherals) -> Button<'a> {
         Button {
             core_peripherals,
             peripherals,
@@ -58,5 +54,37 @@ impl<'a> Button<'a> {
 
         // Enable waker
         peripherals.PWR.csr.modify(|_, w| w.ewup1().set_bit());
+    }
+
+    pub fn acquire<'b, F, R>(
+        core_peripherals: &'b mut CorePeripherals,
+        peripherals: &'b Peripherals,
+        f: F,
+    ) -> R
+    where
+        F: FnOnce(Button) -> R,
+    {
+        f(Button::new(core_peripherals, peripherals))
+    }
+
+    pub fn is_long_pressed(&mut self) -> bool {
+        let mut is_long_press = true;
+        for _ in 1..10 {
+            SysTick::delay_ms(&mut self.core_peripherals.SYST, 500);
+            if self.peripherals.GPIOA.idr.read().idr0().bit_is_clear() {
+                is_long_press = false;
+                break;
+            }
+        }
+
+        is_long_press
+    }
+
+    pub fn clear_pending_interrupt(&self) {
+        // Clear Wakeup flag.
+        self.peripherals.PWR.cr.modify(|_, w| w.cwuf().set_bit());
+
+        // Clear exti line 0 flag.
+        self.peripherals.EXTI.pr.modify(|_, w| w.pr0().set_bit());
     }
 }
