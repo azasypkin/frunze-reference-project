@@ -61,11 +61,19 @@ impl<'a> Beeper<'a> {
     }
 
     pub fn beep(&mut self) {
-        self.toggle_pwm(true);
+        self.beep_n(1);
+    }
 
-        self.play_note(SCALES[7], QUARTER_NOTE); // G
+    pub fn beep_n(&mut self, n: u8) {
+        for i in 1..n + 1 {
+            self.toggle_pwm(true);
+            self.play_note(SCALES[7], QUARTER_NOTE);
+            self.toggle_pwm(false);
 
-        self.toggle_pwm(false);
+            if i < n {
+                SysTick::delay_ms(&mut self.core_peripherals.SYST, 100);
+            }
+        }
     }
 
     fn play_note(&mut self, note: u32, delay: u32) {

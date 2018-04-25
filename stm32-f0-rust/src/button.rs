@@ -3,6 +3,18 @@ use stm32f0x::Interrupt;
 use stm32f0x::Peripherals;
 use systick::SysTick;
 
+/// Defines type of the press (short, long, very long).
+pub enum PressType {
+    /// Button is not pressed.
+    None,
+    /// Button is keep pressed for less then a second.
+    Short,
+    /// Button is pressed for more than a second, but less than 3 seconds.
+    Long,
+    /// Button is pressed for more than 3 seconds.
+    VeryLong,
+}
+
 pub struct Button<'a> {
     core_peripherals: &'a mut CorePeripherals,
     peripherals: &'a Peripherals,
@@ -67,17 +79,23 @@ impl<'a> Button<'a> {
         f(Button::new(core_peripherals, peripherals))
     }
 
-    pub fn is_long_pressed(&mut self) -> bool {
-        let mut is_long_press = true;
-        for _ in 1..10 {
+    pub fn get_press_type(&mut self) -> PressType {
+        if self.peripherals.GPIOA.idr.read().idr0().bit_is_clear() {
+            return PressType::None;
+        }
+
+        for n in 1..10 {
             SysTick::delay_ms(&mut self.core_peripherals.SYST, 500);
             if self.peripherals.GPIOA.idr.read().idr0().bit_is_clear() {
-                is_long_press = false;
-                break;
+                return match n {
+                    1...2 => PressType::Short,
+                    3...6 => PressType::Long,
+                    _ => PressType::VeryLong,
+                };
             }
         }
 
-        is_long_press
+        PressType::VeryLong
     }
 
     pub fn clear_pending_interrupt(&self) {

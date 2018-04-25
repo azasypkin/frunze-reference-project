@@ -35,7 +35,7 @@ use cortex_m::Peripherals as CorePeripherals;
 use stm32f0x::Peripherals;
 
 use beeper::Beeper;
-use button::Button;
+use button::{Button, PressType};
 use rtc::{Time, RTC};
 
 static CORE_PERIPHERALS: Mutex<RefCell<Option<CorePeripherals>>> = Mutex::new(RefCell::new(None));
@@ -114,27 +114,40 @@ interrupt!(EXTI0_1, button_handler);
 fn button_handler() {
     interrupt_free(|mut cp, p| {
         // Make sure we wait for 5 secs to play the melody.
-        let is_long_pressed = Button::acquire(&mut cp, p, |mut button| button.is_long_pressed());
+        let press_type = Button::acquire(&mut cp, p, |mut button| button.get_press_type());
 
-        if is_long_pressed {
-            Beeper::acquire(&mut cp, p, |mut beeper| {
-                beeper.play_wakeup();
-            });
-
-            RTC::acquire(&mut cp, p, |rtc| {
-                rtc.configure_alarm(&Time {
-                    hours: 12,
-                    minutes: 0,
-                    seconds: 15,
+        match press_type {
+            PressType::None => {}
+            PressType::Short => {
+                Beeper::acquire(&mut cp, p, |mut beeper| {
+                    beeper.beep();
+                });
+            }
+            PressType::Long => {
+                Beeper::acquire(&mut cp, p, |mut beeper| {
+                    beeper.beep_n(2);
+                });
+            }
+            PressType::VeryLong => {
+                Beeper::acquire(&mut cp, p, |mut beeper| {
+                    beeper.beep_n(3);
                 });
 
-                // Set time.
-                rtc.configure_time(&Time {
-                    hours: 12,
-                    minutes: 0,
-                    seconds: 0,
+                RTC::acquire(&mut cp, p, |rtc| {
+                    rtc.configure_alarm(&Time {
+                        hours: 12,
+                        minutes: 0,
+                        seconds: 15,
+                    });
+
+                    // Set time.
+                    rtc.configure_time(&Time {
+                        hours: 12,
+                        minutes: 0,
+                        seconds: 0,
+                    });
                 });
-            });
+            }
         }
 
         Button::acquire(&mut cp, p, |button| button.clear_pending_interrupt());
