@@ -6,7 +6,7 @@ authors = ["Aleh Zasypkin <aleh.zasypkin@gmail.com>"]
 [dependencies]
 cortex-m = "0.4.3"
 vcell = "0.1.0"
-bare-metal = "0.1.1"
+bare-metal = "0.1.2"
 
 [dependencies.cortex-m-rt]
 optional = true
