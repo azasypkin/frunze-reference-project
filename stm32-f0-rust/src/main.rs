@@ -72,9 +72,9 @@ fn main() {
     });
 
     loop {
-        writeln!(stdout, "Before StandBy").unwrap();
+        writeln!(stdout, "Sleep").unwrap();
         asm::wfi();
-        writeln!(stdout, "After StandBy").unwrap();
+        writeln!(stdout, "Wake").unwrap();
     }
 }
 
@@ -97,59 +97,37 @@ fn button_handler() {
             button.get_press_type(PressType::Long)
         });
 
-        let press_type = match press_type {
+        match press_type {
             PressType::Long => {
+                RTC::acquire(&mut cp, p, reset_alarm);
+
                 Beeper::acquire(&mut cp, p, |mut beeper| {
                     beeper.beep_n(2);
                 });
 
-                Button::acquire(&mut cp, p, |mut button| {
+                let press_type = Button::acquire(&mut cp, p, |mut button| {
                     button.get_press_type(PressType::Long)
-                })
+                });
+
+                match press_type {
+                    PressType::Long => {
+                        *mode = Mode::Sleep;
+
+                        Beeper::acquire(&mut cp, p, |mut beeper| {
+                            beeper.beep_n(3);
+                        });
+                    }
+                    _ => {
+                        *mode = Mode::Setup;
+
+                        RTC::acquire(&mut cp, p, |mut rtc| {
+                            set_alarm(rtc);
+                        });
+                    }
+                }
             }
-            _ => PressType::None,
+            _ => {}
         };
-
-        match press_type {
-            PressType::Long => {
-                Beeper::acquire(&mut cp, p, |mut beeper| {
-                    beeper.beep_n(3);
-                });
-
-                *mode = Mode::Sleep;
-
-                RTC::acquire(&mut cp, p, |mut rtc| {
-                    let reset_time = Time {
-                        hours: 0,
-                        minutes: 0,
-                        seconds: 0,
-                    };
-
-                    rtc.configure_time(&reset_time);
-                    rtc.configure_alarm(&reset_time);
-                    rtc.toggle_alarm(false);
-                });
-            }
-
-            _ => {
-                *mode = Mode::Setup;
-
-                RTC::acquire(&mut cp, p, |mut rtc| {
-                    // Set time.
-                    rtc.configure_time(&Time {
-                        hours: 12,
-                        minutes: 1,
-                        seconds: 1,
-                    });
-
-                    rtc.configure_alarm(&Time {
-                        hours: 12,
-                        minutes: 1,
-                        seconds: 15,
-                    });
-                });
-            }
-        }
 
         Button::acquire(&mut cp, p, |button| button.clear_pending_interrupt());
     });
@@ -165,16 +143,38 @@ fn on_alarm() {
 
         RTC::acquire(&mut cp, p, |mut rtc| {
             let mut current_time = rtc.get_time();
-
-            let mut stdout = hio::hstdout().unwrap();
-            writeln!(stdout, "Alarm at {:?}", current_time).unwrap();
-
             current_time.add_seconds(15);
 
             rtc.configure_alarm(&current_time);
 
             rtc.clear_pending_interrupt();
         });
+    });
+}
+
+fn reset_alarm(mut rtc: RTC) {
+    let reset_time = Time {
+        hours: 0,
+        minutes: 0,
+        seconds: 0,
+    };
+
+    rtc.configure_time(&reset_time);
+    rtc.configure_alarm(&reset_time);
+    rtc.toggle_alarm(false);
+}
+
+fn set_alarm(mut rtc: RTC) {
+    rtc.configure_time(&Time {
+        hours: 1,
+        minutes: 1,
+        seconds: 1,
+    });
+
+    rtc.configure_alarm(&Time {
+        hours: 1,
+        minutes: 1,
+        seconds: 15,
     });
 }
 

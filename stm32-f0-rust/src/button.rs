@@ -11,8 +11,6 @@ pub enum PressType {
     Short,
     /// Button is pressed for more than a second, but less than 3 seconds.
     Long,
-    /// Button is pressed for more than 3 seconds.
-    VeryLong,
 }
 
 pub struct Button<'a> {
@@ -88,7 +86,6 @@ impl<'a> Button<'a> {
             PressType::None => 0,
             PressType::Short => 2,
             PressType::Long => 6,
-            PressType::VeryLong => 10,
         };
 
         for i in 1..n + 1 {
@@ -96,8 +93,7 @@ impl<'a> Button<'a> {
             if self.peripherals.GPIOA.idr.read().idr0().bit_is_clear() {
                 return match i {
                     1...2 => PressType::Short,
-                    3...6 => PressType::Long,
-                    _ => PressType::VeryLong,
+                    _ => PressType::Long,
                 };
             }
         }
