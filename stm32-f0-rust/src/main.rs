@@ -38,8 +38,15 @@ use beeper::Beeper;
 use button::{Button, PressType};
 use rtc::{Time, RTC};
 
+#[derive(Debug)]
+enum Mode {
+    Sleep,
+    Setup,
+}
+
 static CORE_PERIPHERALS: Mutex<RefCell<Option<CorePeripherals>>> = Mutex::new(RefCell::new(None));
 static PERIPHERALS: Mutex<RefCell<Option<Peripherals>>> = Mutex::new(RefCell::new(None));
+static MODE: Mutex<RefCell<Mode>> = Mutex::new(RefCell::new(Mode::Sleep));
 
 // Read about interrupt setup sequence at:
 // http://www.hertaville.com/external-interrupts-on-the-stm32f0.html
@@ -52,10 +59,14 @@ fn main() {
         *CORE_PERIPHERALS.borrow(cs).borrow_mut() = Some(cortex_m::Peripherals::take().unwrap());
     });
 
-    interrupt_free(|mut cp, p| {
+    interrupt_free(|mut cp, p, _| {
         Beeper::configure(&p);
         Button::configure(&p, &mut cp);
         RTC::configure(cp, p);
+
+        RTC::acquire(cp, p, |mut rtc| {
+            rtc.toggle_alarm(false);
+        });
 
         configure_standby_mode(&cp, p);
     });
@@ -78,73 +89,63 @@ fn configure_standby_mode(core_peripherals: &CorePeripherals, peripherals: &Peri
     unsafe { core_peripherals.SCB.scr.modify(|w| w | w | 0b100) }
 }
 
-interrupt!(RTC, on_alarm);
-
-fn on_alarm() {
-    let mut stdout = hio::hstdout().unwrap();
-    writeln!(stdout, "Alarm interrupt!").unwrap();
-
-    interrupt_free(|mut cp, p| {
-        Beeper::acquire(&mut cp, p, |mut beeper| {
-            beeper.beep();
-        });
-
-        RTC::acquire(&mut cp, p, |mut rtc| {
-            // Check alarm A flag.
-            if rtc.is_alarm_interrupt() {
-                let mut current_time = rtc.get_time();
-
-                writeln!(stdout, "Clear pending... {:?}", current_time).unwrap();
-
-                current_time.add_seconds(10);
-
-                rtc.configure_alarm(&current_time);
-
-                rtc.clear_pending_interrupt();
-            } else {
-                writeln!(stdout, "Disabling...").unwrap();
-                rtc.disable_interrupt();
-            }
-        });
-    });
-}
-
 interrupt!(EXTI0_1, button_handler);
 
 fn button_handler() {
-    interrupt_free(|mut cp, p| {
-        // Make sure we wait for 5 secs to play the melody.
-        let press_type = Button::acquire(&mut cp, p, |mut button| button.get_press_type());
+    interrupt_free(|mut cp, p, mode| {
+        let press_type = Button::acquire(&mut cp, p, |mut button| {
+            button.get_press_type(PressType::Long)
+        });
 
-        match press_type {
-            PressType::None => {}
-            PressType::Short => {
-                Beeper::acquire(&mut cp, p, |mut beeper| {
-                    beeper.beep();
-                });
-            }
+        let press_type = match press_type {
             PressType::Long => {
                 Beeper::acquire(&mut cp, p, |mut beeper| {
                     beeper.beep_n(2);
                 });
+
+                Button::acquire(&mut cp, p, |mut button| {
+                    button.get_press_type(PressType::Long)
+                })
             }
-            PressType::VeryLong => {
+            _ => PressType::None,
+        };
+
+        match press_type {
+            PressType::Long => {
                 Beeper::acquire(&mut cp, p, |mut beeper| {
                     beeper.beep_n(3);
                 });
 
-                RTC::acquire(&mut cp, p, |rtc| {
-                    rtc.configure_alarm(&Time {
-                        hours: 12,
-                        minutes: 0,
-                        seconds: 15,
-                    });
+                *mode = Mode::Sleep;
 
+                RTC::acquire(&mut cp, p, |mut rtc| {
+                    let reset_time = Time {
+                        hours: 0,
+                        minutes: 0,
+                        seconds: 0,
+                    };
+
+                    rtc.configure_time(&reset_time);
+                    rtc.configure_alarm(&reset_time);
+                    rtc.toggle_alarm(false);
+                });
+            }
+
+            _ => {
+                *mode = Mode::Setup;
+
+                RTC::acquire(&mut cp, p, |mut rtc| {
                     // Set time.
                     rtc.configure_time(&Time {
                         hours: 12,
-                        minutes: 0,
-                        seconds: 0,
+                        minutes: 1,
+                        seconds: 1,
+                    });
+
+                    rtc.configure_alarm(&Time {
+                        hours: 12,
+                        minutes: 1,
+                        seconds: 15,
                     });
                 });
             }
@@ -154,16 +155,40 @@ fn button_handler() {
     });
 }
 
+interrupt!(RTC, on_alarm);
+
+fn on_alarm() {
+    interrupt_free(|mut cp, p, _| {
+        Beeper::acquire(&mut cp, p, |mut beeper| {
+            beeper.beep();
+        });
+
+        RTC::acquire(&mut cp, p, |mut rtc| {
+            let mut current_time = rtc.get_time();
+
+            let mut stdout = hio::hstdout().unwrap();
+            writeln!(stdout, "Alarm at {:?}", current_time).unwrap();
+
+            current_time.add_seconds(15);
+
+            rtc.configure_alarm(&current_time);
+
+            rtc.clear_pending_interrupt();
+        });
+    });
+}
+
 fn interrupt_free<F>(f: F) -> ()
 where
-    F: FnOnce(&mut CorePeripherals, &Peripherals),
+    F: FnOnce(&mut CorePeripherals, &Peripherals, &mut Mode),
 {
     interrupt::free(|cs| {
-        if let (Some(cp), Some(p)) = (
+        if let (Some(cp), Some(p), mut m) = (
             CORE_PERIPHERALS.borrow(cs).borrow_mut().as_mut(),
             PERIPHERALS.borrow(cs).borrow_mut().as_mut(),
+            MODE.borrow(cs).borrow_mut(),
         ) {
-            f(cp, p);
+            f(cp, p, &mut m);
         } else {
             panic!("Can not borrow peripherals!");
         }

@@ -79,15 +79,22 @@ impl<'a> Button<'a> {
         f(Button::new(core_peripherals, peripherals))
     }
 
-    pub fn get_press_type(&mut self) -> PressType {
+    pub fn get_press_type(&mut self, limit: PressType) -> PressType {
         if self.peripherals.GPIOA.idr.read().idr0().bit_is_clear() {
             return PressType::None;
         }
 
-        for n in 1..10 {
-            SysTick::delay_ms(&mut self.core_peripherals.SYST, 500);
+        let n: u8 = match limit {
+            PressType::None => 0,
+            PressType::Short => 2,
+            PressType::Long => 6,
+            PressType::VeryLong => 10,
+        };
+
+        for i in 1..n + 1 {
+            SysTick::delay_ms(&mut self.core_peripherals.SYST, 250);
             if self.peripherals.GPIOA.idr.read().idr0().bit_is_clear() {
-                return match n {
+                return match i {
                     1...2 => PressType::Short,
                     3...6 => PressType::Long,
                     _ => PressType::VeryLong,
@@ -95,7 +102,7 @@ impl<'a> Button<'a> {
             }
         }
 
-        PressType::VeryLong
+        limit
     }
 
     pub fn clear_pending_interrupt(&self) {

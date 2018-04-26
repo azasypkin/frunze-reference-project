@@ -88,8 +88,6 @@ impl<'a> RTC<'a> {
         unsafe {
             core_peripherals.NVIC.set_priority(Interrupt::RTC, 0);
         }
-        // Enable RTC_IRQn in the NVIC.
-        core_peripherals.NVIC.enable(Interrupt::RTC);
     }
 
     pub fn acquire<'b, F, R>(
@@ -101,15 +99,6 @@ impl<'a> RTC<'a> {
         F: FnOnce(RTC) -> R,
     {
         f(RTC::new(core_peripherals, peripherals))
-    }
-
-    pub fn is_alarm_interrupt(&self) -> bool {
-        self.peripherals.RTC.isr.read().alraf().bit_is_set()
-    }
-
-    pub fn disable_interrupt(&mut self) {
-        // Disable RTC_IRQn in the NVIC.
-        self.core_peripherals.NVIC.disable(Interrupt::RTC);
     }
 
     pub fn clear_pending_interrupt(&self) {
@@ -132,7 +121,7 @@ impl<'a> RTC<'a> {
         });
     }
 
-    pub fn configure_alarm(&self, time: &Time) {
+    pub fn configure_alarm(&mut self, time: &Time) {
         // Disable the write protection for RTC registers.
         self.peripherals.RTC.wpr.write(|w| unsafe { w.bits(0xCA) });
         self.peripherals.RTC.wpr.write(|w| unsafe { w.bits(0x53) });
@@ -168,7 +157,7 @@ impl<'a> RTC<'a> {
         self.peripherals.RTC.wpr.write(|w| unsafe { w.bits(0x64) });
     }
 
-    pub fn toggle_alarm(&self, enable: bool) {
+    pub fn toggle_alarm(&mut self, enable: bool) {
         self.peripherals.RTC.cr.modify(|_, w| {
             if enable {
                 w.alraie().set_bit();
@@ -178,6 +167,13 @@ impl<'a> RTC<'a> {
                 w.alrae().clear_bit()
             }
         });
+
+        // Enable/disable RTC_IRQn in the NVIC.
+        if enable {
+            self.core_peripherals.NVIC.enable(Interrupt::RTC);
+        } else {
+            self.core_peripherals.NVIC.disable(Interrupt::RTC);
+        }
     }
 
     pub fn configure_time(&self, time: &Time) {
