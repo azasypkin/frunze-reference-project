@@ -11,28 +11,28 @@ pub struct Time {
 
 impl Time {
     pub fn add_seconds(&mut self, seconds: u8) {
-        if self.seconds + seconds < 60 {
-            self.seconds += seconds;
-        } else {
-            self.seconds += seconds - 60;
+        self.seconds += seconds;
+
+        if self.seconds >= 60 {
+            self.seconds -= 60;
             self.add_minutes(1);
         }
     }
 
     pub fn add_minutes(&mut self, minutes: u8) {
-        if self.minutes + minutes < 60 {
-            self.minutes += minutes;
-        } else {
-            self.minutes += minutes - 60;
+        self.minutes += minutes;
+
+        if self.minutes >= 60 {
+            self.minutes -= 60;
             self.add_hours(1);
         }
     }
 
     pub fn add_hours(&mut self, hours: u8) {
-        if self.hours + hours < 24 {
-            self.hours += hours;
-        } else {
-            self.hours += hours - 24;
+        self.hours += hours;
+
+        if self.hours >= 24 {
+            self.hours -= 24;
         }
     }
 }
@@ -86,7 +86,7 @@ impl<'a> RTC<'a> {
         peripherals.EXTI.rtsr.modify(|_, w| w.tr17().set_bit());
         // Set priority.
         unsafe {
-            core_peripherals.NVIC.set_priority(Interrupt::RTC, 0);
+            core_peripherals.NVIC.set_priority(Interrupt::RTC, 2);
         }
     }
 
@@ -107,9 +107,6 @@ impl<'a> RTC<'a> {
             .RTC
             .isr
             .modify(|_, w| w.alraf().clear_bit());
-
-        // Clear Wakeup flag.
-        self.peripherals.PWR.cr.modify(|_, w| w.cwuf().set_bit());
 
         // Clear exti line 17 flag.
         self.peripherals.EXTI.pr.modify(|_, w| {

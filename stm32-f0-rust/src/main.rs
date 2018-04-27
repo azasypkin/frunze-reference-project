@@ -40,8 +40,9 @@ use rtc::{Time, RTC};
 
 #[derive(Debug)]
 enum Mode {
+    Alarm,
     Sleep,
-    Setup,
+    Setup(u8),
 }
 
 static CORE_PERIPHERALS: Mutex<RefCell<Option<CorePeripherals>>> = Mutex::new(RefCell::new(None));
@@ -72,9 +73,7 @@ fn main() {
     });
 
     loop {
-        writeln!(stdout, "Sleep").unwrap();
         asm::wfi();
-        writeln!(stdout, "Wake").unwrap();
     }
 }
 
@@ -97,36 +96,58 @@ fn button_handler() {
             button.get_press_type(PressType::Long)
         });
 
-        if let PressType::Long = press_type {
-            RTC::acquire(&mut cp, p, reset_alarm);
-
-            Beeper::acquire(&mut cp, p, |mut beeper| {
-                beeper.beep_n(2);
-            });
-
-            let press_type = Button::acquire(&mut cp, p, |mut button| {
-                button.get_press_type(PressType::Long)
-            });
-
-            match press_type {
-                PressType::Long => {
-                    *mode = Mode::Sleep;
-
+        match press_type {
+            PressType::Short => {
+                if let Mode::Setup(ref s) = mode {
                     Beeper::acquire(&mut cp, p, |mut beeper| {
-                        beeper.beep_n(3);
+                        beeper.beep();
                     });
-                }
-                _ => {
-                    *mode = Mode::Setup;
 
-                    RTC::acquire(&mut cp, p, |rtc| {
-                        set_alarm(rtc);
-                    });
+                    let num_sec = s + 1;
+                    *mode = Mode::Setup(num_sec);
                 }
             }
+
+            PressType::Long => {
+                RTC::acquire(&mut cp, p, reset_alarm);
+
+                Beeper::acquire(&mut cp, p, |mut beeper| {
+                    beeper.beep_n(2);
+                });
+
+                let press_type = Button::acquire(&mut cp, p, |mut button| {
+                    button.get_press_type(PressType::Long)
+                });
+
+                match press_type {
+                    PressType::Long => {
+                        *mode = Mode::Sleep;
+
+                        Beeper::acquire(&mut cp, p, |mut beeper| {
+                            beeper.beep_n(3);
+                        });
+                    }
+                    _ => {
+                        if let Mode::Setup(ref s) = mode {
+                            *mode = Mode::Alarm;
+
+                            RTC::acquire(&mut cp, p, |rtc| {
+                                set_alarm(rtc, s);
+                            });
+                        } else {
+                            *mode = Mode::Setup(0);
+                        }
+                    }
+                }
+            }
+
+            _ => {}
         }
 
         Button::acquire(&mut cp, p, |button| button.clear_pending_interrupt());
+
+        // Clear Wakeup flag.
+        p.PWR.cr.modify(|_, w| w.cwuf().set_bit());
     });
 }
 
@@ -138,14 +159,10 @@ fn on_alarm() {
             beeper.beep();
         });
 
-        RTC::acquire(&mut cp, p, |mut rtc| {
-            let mut current_time = rtc.get_time();
-            current_time.add_seconds(15);
+        RTC::acquire(&mut cp, p, reset_alarm);
 
-            rtc.configure_alarm(&current_time);
-
-            rtc.clear_pending_interrupt();
-        });
+        // Clear Wakeup flag.
+        p.PWR.cr.modify(|_, w| w.cwuf().set_bit());
     });
 }
 
@@ -159,9 +176,10 @@ fn reset_alarm(mut rtc: RTC) {
     rtc.configure_time(&reset_time);
     rtc.configure_alarm(&reset_time);
     rtc.toggle_alarm(false);
+    rtc.clear_pending_interrupt();
 }
 
-fn set_alarm(mut rtc: RTC) {
+fn set_alarm(mut rtc: RTC, num_secs: &u8) {
     rtc.configure_time(&Time {
         hours: 1,
         minutes: 1,
@@ -171,7 +189,7 @@ fn set_alarm(mut rtc: RTC) {
     rtc.configure_alarm(&Time {
         hours: 1,
         minutes: 1,
-        seconds: 15,
+        seconds: *num_secs,
     });
 }
 

@@ -102,9 +102,6 @@ impl<'a> Button<'a> {
     }
 
     pub fn clear_pending_interrupt(&self) {
-        // Clear Wakeup flag.
-        self.peripherals.PWR.cr.modify(|_, w| w.cwuf().set_bit());
-
         // Clear exti line 0 flag.
         self.peripherals.EXTI.pr.modify(|_, w| w.pr0().set_bit());
     }
