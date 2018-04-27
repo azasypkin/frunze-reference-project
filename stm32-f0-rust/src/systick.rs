@@ -5,7 +5,7 @@ use cortex_m::peripheral::SYST;
 pub struct SysTick {}
 
 impl SysTick {
-    pub fn delay_us<'a>(systick: &'a mut SYST, us: u32) {
+    pub fn delay_us(systick: &mut SYST, us: u32) {
         let rvr = us * (config::CLOCK_SPEED / 1_000_000);
 
         assert!(rvr < (1 << 24));
@@ -20,7 +20,7 @@ impl SysTick {
         systick.disable_counter();
     }
 
-    pub fn delay_ms<'a>(systick: &'a mut SYST, ms: u32) {
+    pub fn delay_ms(systick: &mut SYST, ms: u32) {
         Self::delay_us(systick, ms * 1000);
     }
 }

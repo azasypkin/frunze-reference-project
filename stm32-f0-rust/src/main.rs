@@ -86,7 +86,7 @@ fn configure_standby_mode(core_peripherals: &CorePeripherals, peripherals: &Peri
     peripherals.PWR.cr.modify(|_, w| w.cwuf().set_bit());
 
     // Set SLEEPDEEP bit of Cortex-M0 System Control Register.
-    unsafe { core_peripherals.SCB.scr.modify(|w| w | w | 0b100) }
+    unsafe { core_peripherals.SCB.scr.modify(|w| w | 0b100) }
 }
 
 interrupt!(EXTI0_1, button_handler);
@@ -97,37 +97,34 @@ fn button_handler() {
             button.get_press_type(PressType::Long)
         });
 
-        match press_type {
-            PressType::Long => {
-                RTC::acquire(&mut cp, p, reset_alarm);
+        if let PressType::Long = press_type {
+            RTC::acquire(&mut cp, p, reset_alarm);
 
-                Beeper::acquire(&mut cp, p, |mut beeper| {
-                    beeper.beep_n(2);
-                });
+            Beeper::acquire(&mut cp, p, |mut beeper| {
+                beeper.beep_n(2);
+            });
 
-                let press_type = Button::acquire(&mut cp, p, |mut button| {
-                    button.get_press_type(PressType::Long)
-                });
+            let press_type = Button::acquire(&mut cp, p, |mut button| {
+                button.get_press_type(PressType::Long)
+            });
 
-                match press_type {
-                    PressType::Long => {
-                        *mode = Mode::Sleep;
+            match press_type {
+                PressType::Long => {
+                    *mode = Mode::Sleep;
 
-                        Beeper::acquire(&mut cp, p, |mut beeper| {
-                            beeper.beep_n(3);
-                        });
-                    }
-                    _ => {
-                        *mode = Mode::Setup;
+                    Beeper::acquire(&mut cp, p, |mut beeper| {
+                        beeper.beep_n(3);
+                    });
+                }
+                _ => {
+                    *mode = Mode::Setup;
 
-                        RTC::acquire(&mut cp, p, |mut rtc| {
-                            set_alarm(rtc);
-                        });
-                    }
+                    RTC::acquire(&mut cp, p, |rtc| {
+                        set_alarm(rtc);
+                    });
                 }
             }
-            _ => {}
-        };
+        }
 
         Button::acquire(&mut cp, p, |button| button.clear_pending_interrupt());
     });

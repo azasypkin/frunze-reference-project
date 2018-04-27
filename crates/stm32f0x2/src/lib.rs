@@ -2,10 +2,11 @@
 #![cfg_attr(feature = "rt", feature(macro_reexport))]
 #![cfg_attr(feature = "rt", feature(used))]
 #![doc = "Peripheral access API for STM32F0X2 microcontrollers (generated using svd2rust v0.12.0)\n\nYou can find an overview of the API [here].\n\n[here]: https://docs.rs/svd2rust/0.12.0/svd2rust/#peripheral-api"]
-#![allow(private_no_mangle_statics)]
-#![deny(missing_docs)]
-#![deny(warnings)]
-#![allow(non_camel_case_types)]
+#![allow(
+    private_no_mangle_statics, non_camel_case_types, unreadable_literal, redundant_field_names,
+    cast_lossless
+)]
+#![deny(missing_docs, warnings)]
 #![feature(const_fn)]
 #![no_std]
 extern crate bare_metal;
