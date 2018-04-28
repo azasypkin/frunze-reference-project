@@ -60,6 +60,28 @@ impl<'a> Beeper<'a> {
         self.toggle_pwm(false);
     }
 
+    pub fn play_setup(&mut self) {
+        self.toggle_pwm(true);
+
+        self.play_note(SCALES[3], QUARTER_NOTE); // D#
+        self.play_note(SCALES[3], QUARTER_NOTE); // E
+
+        self.toggle_pwm(false);
+    }
+
+    pub fn play_reset(&mut self) {
+        self.toggle_pwm(true);
+
+        self.play_note(SCALES[5], QUARTER_NOTE); // F
+        self.play_note(SCALES[5], EIGHTH_NOTE); // F
+        self.play_note(SCALES[7], QUARTER_DOT_NOTE); // G.
+        self.play_note(SCALES[5], QUARTER_NOTE); // F
+        self.play_note(SCALES[5], EIGHTH_NOTE); // F
+        self.play_note(SCALES[7], QUARTER_DOT_NOTE); // G.
+
+        self.toggle_pwm(false);
+    }
+
     pub fn beep(&mut self) {
         self.beep_n(1);
     }

@@ -112,10 +112,12 @@ fn button_handler() {
             }
 
             PressType::Long => {
-                RTC::acquire(&mut cp, p, reset_alarm);
+                RTC::acquire(&mut cp, p, |mut rtc| {
+                    reset_alarm(&mut rtc);
+                });
 
                 Beeper::acquire(&mut cp, p, |mut beeper| {
-                    beeper.beep_n(2);
+                    beeper.play_setup();
                 });
 
                 let press_type = Button::acquire(&mut cp, p, |mut button| {
@@ -127,15 +129,15 @@ fn button_handler() {
                         *mode = Mode::Sleep;
 
                         Beeper::acquire(&mut cp, p, |mut beeper| {
-                            beeper.beep_n(3);
+                            beeper.play_reset();
                         });
                     }
                     _ => {
                         if let Mode::Setup(ref s) = mode {
                             *mode = Mode::Alarm;
 
-                            RTC::acquire(&mut cp, p, |rtc| {
-                                set_alarm(rtc, &(s * 10));
+                            RTC::acquire(&mut cp, p, |mut rtc| {
+                                set_alarm(&mut rtc, &(s * 10));
                             });
                         } else {
                             *mode = Mode::Setup(0);
@@ -162,14 +164,18 @@ fn on_alarm() {
             beeper.play_melody();
         });
 
-        RTC::acquire(&mut cp, p, reset_alarm);
+        // Repeat alarm in 10 seconds until it's reset.
+        RTC::acquire(&mut cp, p, |mut rtc| {
+            reset_alarm(&mut rtc);
+            set_alarm(&mut rtc, &10);
+        });
 
         // Clear Wakeup flag.
         p.PWR.cr.modify(|_, w| w.cwuf().set_bit());
     });
 }
 
-fn reset_alarm(mut rtc: RTC) {
+fn reset_alarm(rtc: &mut RTC) {
     let reset_time = Time {
         hours: 0,
         minutes: 0,
@@ -182,7 +188,7 @@ fn reset_alarm(mut rtc: RTC) {
     rtc.clear_pending_interrupt();
 }
 
-fn set_alarm(mut rtc: RTC, num_secs: &u8) {
+fn set_alarm(rtc: &mut RTC, num_secs: &u8) {
     rtc.configure_time(&Time {
         hours: 1,
         minutes: 0,
