@@ -49,6 +49,8 @@ static CORE_PERIPHERALS: Mutex<RefCell<Option<CorePeripherals>>> = Mutex::new(Re
 static PERIPHERALS: Mutex<RefCell<Option<Peripherals>>> = Mutex::new(RefCell::new(None));
 static MODE: Mutex<RefCell<Mode>> = Mutex::new(RefCell::new(Mode::Sleep));
 
+const PRESET_COUNT: u8 = 3;
+
 // Read about interrupt setup sequence at:
 // http://www.hertaville.com/external-interrupts-on-the-stm32f0.html
 fn main() {
@@ -99,11 +101,12 @@ fn button_handler() {
         match press_type {
             PressType::Short => {
                 if let Mode::Setup(ref s) = mode {
+                    let num_sec = if *s == PRESET_COUNT { 1 } else { s + 1 };
+
                     Beeper::acquire(&mut cp, p, |mut beeper| {
-                        beeper.beep();
+                        beeper.beep_n(num_sec);
                     });
 
-                    let num_sec = s + 1;
                     *mode = Mode::Setup(num_sec);
                 }
             }
@@ -132,7 +135,7 @@ fn button_handler() {
                             *mode = Mode::Alarm;
 
                             RTC::acquire(&mut cp, p, |rtc| {
-                                set_alarm(rtc, s);
+                                set_alarm(rtc, &(s * 10));
                             });
                         } else {
                             *mode = Mode::Setup(0);
@@ -156,7 +159,7 @@ interrupt!(RTC, on_alarm);
 fn on_alarm() {
     interrupt_free(|mut cp, p, _| {
         Beeper::acquire(&mut cp, p, |mut beeper| {
-            beeper.beep();
+            beeper.play_melody();
         });
 
         RTC::acquire(&mut cp, p, reset_alarm);
@@ -182,13 +185,13 @@ fn reset_alarm(mut rtc: RTC) {
 fn set_alarm(mut rtc: RTC, num_secs: &u8) {
     rtc.configure_time(&Time {
         hours: 1,
-        minutes: 1,
-        seconds: 1,
+        minutes: 0,
+        seconds: 0,
     });
 
     rtc.configure_alarm(&Time {
         hours: 1,
-        minutes: 1,
+        minutes: 0,
         seconds: *num_secs,
     });
 }

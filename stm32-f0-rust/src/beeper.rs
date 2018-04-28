@@ -3,8 +3,8 @@ use cortex_m::Peripherals as CorePeripherals;
 use stm32f0x::Peripherals;
 use systick::SysTick;
 
-/*const EIGHTH_NOTE: u32 = 150;
-const QUARTER_DOT_NOTE: u32 = 450;*/
+const EIGHTH_NOTE: u32 = 150;
+const QUARTER_DOT_NOTE: u32 = 450;
 const QUARTER_NOTE: u32 = 300;
 
 static SCALES: &'static [u32] = &[523, 554, 587, 622, 659, 698, 740, 784, 831, 880, 932, 988];
@@ -38,7 +38,7 @@ impl<'a> Beeper<'a> {
         f(Beeper::new(core_peripherals, peripherals));
     }
 
-    /*pub fn play_wakeup(&mut self) {
+    pub fn play_melody(&mut self) {
         self.toggle_pwm(true);
 
         self.play_note(SCALES[7], QUARTER_NOTE); // G
@@ -58,7 +58,7 @@ impl<'a> Beeper<'a> {
         self.play_note(SCALES[5], QUARTER_DOT_NOTE); // F.
 
         self.toggle_pwm(false);
-    }*/
+    }
 
     pub fn beep(&mut self) {
         self.beep_n(1);
