@@ -7,16 +7,13 @@ extern crate cortex_m_rt;
 extern crate cortex_m_semihosting;
 extern crate panic_semihosting;
 
-/*#[cfg(feature = "stm32f051")]
+#[cfg(feature = "stm32f051")]
 #[macro_use(interrupt)]
 extern crate stm32f0x1 as stm32f0x;
 
 #[cfg(feature = "stm32f042")]
 #[macro_use(interrupt)]
-extern crate stm32f0x2 as stm32f0x;*/
-
-#[macro_use(interrupt)]
-extern crate stm32f0x1 as stm32f0x;
+extern crate stm32f0x2 as stm32f0x;
 
 mod beeper;
 mod button;
@@ -54,8 +51,8 @@ const PRESET_COUNT: u8 = 3;
 // Read about interrupt setup sequence at:
 // http://www.hertaville.com/external-interrupts-on-the-stm32f0.html
 fn main() {
-    let mut stdout = hio::hstdout().unwrap();
-    writeln!(stdout, "Starting...").unwrap();
+    //let mut stdout = hio::hstdout().unwrap();
+    //writeln!(stdout, "Starting...").unwrap();
 
     interrupt::free(|cs| {
         *PERIPHERALS.borrow(cs).borrow_mut() = Some(Peripherals::take().unwrap());
@@ -72,6 +69,10 @@ fn main() {
         });
 
         configure_standby_mode(&cp, p);
+
+        Beeper::acquire(&mut cp, p, |mut beeper| {
+            beeper.play_melody();
+        });
     });
 
     loop {

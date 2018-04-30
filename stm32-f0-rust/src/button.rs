@@ -31,7 +31,7 @@ impl<'a> Button<'a> {
         peripherals
             .SYSCFG_COMP
             .syscfg_exticr1
-            .write(|w| unsafe { w.exti0().bits(0) });
+            .modify(|_, w| unsafe { w.exti0().bits(0) });
 
         // Configure PA0 to trigger an interrupt event on the EXTI0 line on a rising edge.
         peripherals.EXTI.rtsr.modify(|_, w| w.tr0().set_bit());
@@ -42,6 +42,12 @@ impl<'a> Button<'a> {
 
         // Enable clock for GPIO Port A.
         peripherals.RCC.ahbenr.modify(|_, w| w.iopaen().set_bit());
+
+        // Pull-down.
+        peripherals
+            .GPIOA
+            .pupdr
+            .modify(|_, w| unsafe { w.pupdr0().bits(0b10) });
 
         // Switch PA0 to alternate function mode.
         peripherals
@@ -103,6 +109,12 @@ impl<'a> Button<'a> {
 
     pub fn clear_pending_interrupt(&self) {
         // Clear exti line 0 flag.
-        self.peripherals.EXTI.pr.modify(|_, w| w.pr0().set_bit());
+        self.peripherals.EXTI.pr.modify(|_, w| {
+            #[cfg(feature = "stm32f051")]
+                return w.pr0().set_bit();
+
+            #[cfg(feature = "stm32f042")]
+                return w.pif0().set_bit();
+        });
     }
 }

@@ -8,6 +8,8 @@ categories = ["embedded", "no-std"]
 license = "MIT"
 repository = "https://github.com/azasypkin/frunze-reference-projects"
 
+#cargo-features = ["profile-overrides"]
+
 [profile.release]
 lto = true
 debug = true
@@ -17,6 +19,9 @@ opt-level = "s"
 lto = true
 incremental = false
 opt-level = 1
+
+#[profile.dev.overrides."*"]
+#opt-level = 3
 
 [dependencies]
 cortex-m-rt = "0.4.0"
