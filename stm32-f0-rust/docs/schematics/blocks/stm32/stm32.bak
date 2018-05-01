@@ -1,4 +1,5 @@
 EESchema Schematic File Version 4
+LIBS:stm32-cache
 EELAYER 26 0
 EELAYER END
 $Descr A4 11693 8268
@@ -19,7 +20,7 @@ U 1 1 5AE8B0F8
 P 10300 1550
 F 0 "J1" H 10327 1576 50  0000 L CNN
 F 1 "Conn_01x05_Female" H 10327 1485 50  0000 L CNN
-F 2 "" H 10300 1550 50  0001 C CNN
+F 2 "Connector_PinSocket_2.54mm:PinSocket_1x05_P2.54mm_Vertical" H 10300 1550 50  0001 C CNN
 F 3 "~" H 10300 1550 50  0001 C CNN
 	1    10300 1550
 	1    0    0    -1  
@@ -30,7 +31,7 @@ U 1 1 5AE8B17F
 P 10300 2100
 F 0 "J2" H 10327 2076 50  0000 L CNN
 F 1 "Conn_01x02_Female" H 10327 1985 50  0000 L CNN
-F 2 "" H 10300 2100 50  0001 C CNN
+F 2 "Connector_PinSocket_1.27mm:PinSocket_1x02_P1.27mm_Vertical" H 10300 2100 50  0001 C CNN
 F 3 "~" H 10300 2100 50  0001 C CNN
 	1    10300 2100
 	1    0    0    -1  
@@ -78,7 +79,6 @@ F 3 "http://www.st.com/st-web-ui/static/active/en/resource/technical/document/da
 	1    5700 3150
 	1    0    0    -1  
 $EndComp
-NoConn ~ 10100 1350
 Text GLabel 5700 4050 3    50   Input ~ 0
 GND
 Text GLabel 10000 2700 0    50   Input ~ 0
@@ -108,14 +108,16 @@ VDD
 Text GLabel 10000 2850 0    50   Input ~ 0
 VDD
 $Comp
-L power:PWR_FLAG #FLG?
+L power:PWR_FLAG #FLG0101
 U 1 1 5AE8CF34
 P 10000 2850
-F 0 "#FLG?" H 10000 2925 50  0001 C CNN
+F 0 "#FLG0101" H 10000 2925 50  0001 C CNN
 F 1 "PWR_FLAG" V 10000 2978 50  0000 L CNN
 F 2 "" H 10000 2850 50  0001 C CNN
 F 3 "" H 10000 2850 50  0001 C CNN
 	1    10000 2850
 	0    1    1    0   
 $EndComp
+Text GLabel 10100 1350 0    50   Input ~ 0
+VDD
 $EndSCHEMATC

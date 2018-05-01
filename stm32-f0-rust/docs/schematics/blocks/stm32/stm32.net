@@ -1,7 +1,7 @@
 (export (version D)
   (design
     (source /projects/frunze/reference-projects/stm32-f0-rust/docs/schematics/blocks/stm32/stm32.sch)
-    (date "Tue 01 May 2018 08:09:59 PM CEST")
+    (date "Tue 01 May 2018 08:29:32 PM CEST")
     (tool "Eeschema (5.0.0-rc2-dev-607-gccb668c10)")
     (sheet (number 1) (name /) (tstamps /)
       (title_block
@@ -17,11 +17,13 @@
   (components
     (comp (ref J1)
       (value Conn_01x05_Female)
+      (footprint Connector_PinSocket_2.54mm:PinSocket_1x05_P2.54mm_Vertical)
       (libsource (lib Connector_Generic) (part Conn_01x05_Female))
       (sheetpath (names /) (tstamps /))
       (tstamp 5AE8B0F8))
     (comp (ref J2)
       (value Conn_01x02_Female)
+      (footprint Connector_PinSocket_2.54mm:PinSocket_1x02_P2.54mm_Vertical)
       (libsource (lib Connector_Generic) (part Conn_01x02_Female))
       (sheetpath (names /) (tstamps /))
       (tstamp 5AE8B17F))
