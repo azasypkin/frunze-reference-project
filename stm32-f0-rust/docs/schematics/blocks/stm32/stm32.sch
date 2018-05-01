@@ -14,37 +14,15 @@ Comment2 ""
 Comment3 ""
 Comment4 ""
 $EndDescr
-$Comp
-L Connector_Generic:Conn_01x05_Female J1
-U 1 1 5AE8B0F8
-P 10300 1550
-F 0 "J1" H 10327 1576 50  0000 L CNN
-F 1 "Conn_01x05_Female" H 10327 1485 50  0000 L CNN
-F 2 "Connector_PinSocket_2.54mm:PinSocket_1x05_P2.54mm_Vertical" H 10300 1550 50  0001 C CNN
-F 3 "~" H 10300 1550 50  0001 C CNN
-	1    10300 1550
-	1    0    0    -1  
-$EndComp
-$Comp
-L Connector_Generic:Conn_01x02_Female J2
-U 1 1 5AE8B17F
-P 10300 2100
-F 0 "J2" H 10327 2076 50  0000 L CNN
-F 1 "Conn_01x02_Female" H 10327 1985 50  0000 L CNN
-F 2 "Connector_PinSocket_2.54mm:PinSocket_1x02_P2.54mm_Vertical" H 10300 2100 50  0001 C CNN
-F 3 "~" H 10300 2100 50  0001 C CNN
-	1    10300 2100
-	1    0    0    -1  
-$EndComp
-Text GLabel 10100 1450 0    50   Input ~ 0
+Text GLabel 9100 1700 0    50   Input ~ 0
 SWCLK
-Text GLabel 10100 1650 0    50   Input ~ 0
+Text GLabel 9100 1600 0    50   Input ~ 0
 SWDIO
-Text GLabel 10100 1750 0    50   Input ~ 0
+Text GLabel 9100 1800 0    50   Input ~ 0
 NRST
-Text GLabel 10100 2100 0    50   Input ~ 0
+Text GLabel 9100 1200 0    50   Input ~ 0
 Button
-Text GLabel 10100 2200 0    50   Input ~ 0
+Text GLabel 9100 1300 0    50   Input ~ 0
 Buzzer
 Text GLabel 2800 2550 0    50   Input ~ 0
 NRST
@@ -94,7 +72,7 @@ F 3 "" H 10000 2700 50  0001 C CNN
 	1    10000 2700
 	0    1    1    0   
 $EndComp
-Text GLabel 10100 1550 0    50   Input ~ 0
+Text GLabel 9100 1400 0    50   Input ~ 0
 GND
 Wire Wire Line
 	5600 2150 5650 2150
@@ -118,6 +96,17 @@ F 3 "" H 10000 2850 50  0001 C CNN
 	1    10000 2850
 	0    1    1    0   
 $EndComp
-Text GLabel 10100 1350 0    50   Input ~ 0
+Text GLabel 9100 1500 0    50   Input ~ 0
 VDD
+$Comp
+L Connector_Generic:Conn_01x07_Female J1
+U 1 1 5AE8B9BA
+P 9300 1500
+F 0 "J1" H 9327 1526 50  0000 L CNN
+F 1 "Conn_01x07_Female" H 9327 1435 50  0000 L CNN
+F 2 "Connector_PinSocket_2.54mm:PinSocket_1x07_P2.54mm_Horizontal" H 9300 1500 50  0001 C CNN
+F 3 "~" H 9300 1500 50  0001 C CNN
+	1    9300 1500
+	1    0    0    -1  
+$EndComp
 $EndSCHEMATC
