@@ -1,4 +1,3 @@
-use vcell::VolatileCell;
 #[doc = r" Register block"]
 #[repr(C)]
 pub struct RegisterBlock {
@@ -189,535 +188,535 @@ pub struct RegisterBlock {
 }
 #[doc = "CAN_MCR"]
 pub struct CAN_MCR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "CAN_MCR"]
 pub mod can_mcr;
 #[doc = "CAN_MSR"]
 pub struct CAN_MSR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "CAN_MSR"]
 pub mod can_msr;
 #[doc = "CAN_TSR"]
 pub struct CAN_TSR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "CAN_TSR"]
 pub mod can_tsr;
 #[doc = "CAN_RF0R"]
 pub struct CAN_RF0R {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "CAN_RF0R"]
 pub mod can_rf0r;
 #[doc = "CAN_RF1R"]
 pub struct CAN_RF1R {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "CAN_RF1R"]
 pub mod can_rf1r;
 #[doc = "CAN_IER"]
 pub struct CAN_IER {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "CAN_IER"]
 pub mod can_ier;
 #[doc = "CAN_ESR"]
 pub struct CAN_ESR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "CAN_ESR"]
 pub mod can_esr;
 #[doc = "CAN BTR"]
 pub struct CAN_BTR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "CAN BTR"]
 pub mod can_btr;
 #[doc = "CAN_TI0R"]
 pub struct CAN_TI0R {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "CAN_TI0R"]
 pub mod can_ti0r;
 #[doc = "CAN_TDT0R"]
 pub struct CAN_TDT0R {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "CAN_TDT0R"]
 pub mod can_tdt0r;
 #[doc = "CAN_TDL0R"]
 pub struct CAN_TDL0R {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "CAN_TDL0R"]
 pub mod can_tdl0r;
 #[doc = "CAN_TDH0R"]
 pub struct CAN_TDH0R {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "CAN_TDH0R"]
 pub mod can_tdh0r;
 #[doc = "CAN_TI1R"]
 pub struct CAN_TI1R {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "CAN_TI1R"]
 pub mod can_ti1r;
 #[doc = "CAN_TDT1R"]
 pub struct CAN_TDT1R {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "CAN_TDT1R"]
 pub mod can_tdt1r;
 #[doc = "CAN_TDL1R"]
 pub struct CAN_TDL1R {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "CAN_TDL1R"]
 pub mod can_tdl1r;
 #[doc = "CAN_TDH1R"]
 pub struct CAN_TDH1R {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "CAN_TDH1R"]
 pub mod can_tdh1r;
 #[doc = "CAN_TI2R"]
 pub struct CAN_TI2R {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "CAN_TI2R"]
 pub mod can_ti2r;
 #[doc = "CAN_TDT2R"]
 pub struct CAN_TDT2R {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "CAN_TDT2R"]
 pub mod can_tdt2r;
 #[doc = "CAN_TDL2R"]
 pub struct CAN_TDL2R {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "CAN_TDL2R"]
 pub mod can_tdl2r;
 #[doc = "CAN_TDH2R"]
 pub struct CAN_TDH2R {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "CAN_TDH2R"]
 pub mod can_tdh2r;
 #[doc = "CAN_RI0R"]
 pub struct CAN_RI0R {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "CAN_RI0R"]
 pub mod can_ri0r;
 #[doc = "CAN_RDT0R"]
 pub struct CAN_RDT0R {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "CAN_RDT0R"]
 pub mod can_rdt0r;
 #[doc = "CAN_RDL0R"]
 pub struct CAN_RDL0R {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "CAN_RDL0R"]
 pub mod can_rdl0r;
 #[doc = "CAN_RDH0R"]
 pub struct CAN_RDH0R {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "CAN_RDH0R"]
 pub mod can_rdh0r;
 #[doc = "CAN_RI1R"]
 pub struct CAN_RI1R {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "CAN_RI1R"]
 pub mod can_ri1r;
 #[doc = "CAN_RDT1R"]
 pub struct CAN_RDT1R {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "CAN_RDT1R"]
 pub mod can_rdt1r;
 #[doc = "CAN_RDL1R"]
 pub struct CAN_RDL1R {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "CAN_RDL1R"]
 pub mod can_rdl1r;
 #[doc = "CAN_RDH1R"]
 pub struct CAN_RDH1R {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "CAN_RDH1R"]
 pub mod can_rdh1r;
 #[doc = "CAN_FMR"]
 pub struct CAN_FMR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "CAN_FMR"]
 pub mod can_fmr;
 #[doc = "CAN_FM1R"]
 pub struct CAN_FM1R {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "CAN_FM1R"]
 pub mod can_fm1r;
 #[doc = "CAN_FS1R"]
 pub struct CAN_FS1R {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "CAN_FS1R"]
 pub mod can_fs1r;
 #[doc = "CAN_FFA1R"]
 pub struct CAN_FFA1R {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "CAN_FFA1R"]
 pub mod can_ffa1r;
 #[doc = "CAN_FA1R"]
 pub struct CAN_FA1R {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "CAN_FA1R"]
 pub mod can_fa1r;
 #[doc = "Filter bank 0 register 1"]
 pub struct F0R1 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Filter bank 0 register 1"]
 pub mod f0r1;
 #[doc = "Filter bank 0 register 2"]
 pub struct F0R2 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Filter bank 0 register 2"]
 pub mod f0r2;
 #[doc = "Filter bank 1 register 1"]
 pub struct F1R1 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Filter bank 1 register 1"]
 pub mod f1r1;
 #[doc = "Filter bank 1 register 2"]
 pub struct F1R2 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Filter bank 1 register 2"]
 pub mod f1r2;
 #[doc = "Filter bank 2 register 1"]
 pub struct F2R1 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Filter bank 2 register 1"]
 pub mod f2r1;
 #[doc = "Filter bank 2 register 2"]
 pub struct F2R2 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Filter bank 2 register 2"]
 pub mod f2r2;
 #[doc = "Filter bank 3 register 1"]
 pub struct F3R1 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Filter bank 3 register 1"]
 pub mod f3r1;
 #[doc = "Filter bank 3 register 2"]
 pub struct F3R2 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Filter bank 3 register 2"]
 pub mod f3r2;
 #[doc = "Filter bank 4 register 1"]
 pub struct F4R1 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Filter bank 4 register 1"]
 pub mod f4r1;
 #[doc = "Filter bank 4 register 2"]
 pub struct F4R2 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Filter bank 4 register 2"]
 pub mod f4r2;
 #[doc = "Filter bank 5 register 1"]
 pub struct F5R1 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Filter bank 5 register 1"]
 pub mod f5r1;
 #[doc = "Filter bank 5 register 2"]
 pub struct F5R2 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Filter bank 5 register 2"]
 pub mod f5r2;
 #[doc = "Filter bank 6 register 1"]
 pub struct F6R1 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Filter bank 6 register 1"]
 pub mod f6r1;
 #[doc = "Filter bank 6 register 2"]
 pub struct F6R2 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Filter bank 6 register 2"]
 pub mod f6r2;
 #[doc = "Filter bank 7 register 1"]
 pub struct F7R1 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Filter bank 7 register 1"]
 pub mod f7r1;
 #[doc = "Filter bank 7 register 2"]
 pub struct F7R2 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Filter bank 7 register 2"]
 pub mod f7r2;
 #[doc = "Filter bank 8 register 1"]
 pub struct F8R1 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Filter bank 8 register 1"]
 pub mod f8r1;
 #[doc = "Filter bank 8 register 2"]
 pub struct F8R2 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Filter bank 8 register 2"]
 pub mod f8r2;
 #[doc = "Filter bank 9 register 1"]
 pub struct F9R1 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Filter bank 9 register 1"]
 pub mod f9r1;
 #[doc = "Filter bank 9 register 2"]
 pub struct F9R2 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Filter bank 9 register 2"]
 pub mod f9r2;
 #[doc = "Filter bank 10 register 1"]
 pub struct F10R1 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Filter bank 10 register 1"]
 pub mod f10r1;
 #[doc = "Filter bank 10 register 2"]
 pub struct F10R2 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Filter bank 10 register 2"]
 pub mod f10r2;
 #[doc = "Filter bank 11 register 1"]
 pub struct F11R1 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Filter bank 11 register 1"]
 pub mod f11r1;
 #[doc = "Filter bank 11 register 2"]
 pub struct F11R2 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Filter bank 11 register 2"]
 pub mod f11r2;
 #[doc = "Filter bank 4 register 1"]
 pub struct F12R1 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Filter bank 4 register 1"]
 pub mod f12r1;
 #[doc = "Filter bank 12 register 2"]
 pub struct F12R2 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Filter bank 12 register 2"]
 pub mod f12r2;
 #[doc = "Filter bank 13 register 1"]
 pub struct F13R1 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Filter bank 13 register 1"]
 pub mod f13r1;
 #[doc = "Filter bank 13 register 2"]
 pub struct F13R2 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Filter bank 13 register 2"]
 pub mod f13r2;
 #[doc = "Filter bank 14 register 1"]
 pub struct F14R1 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Filter bank 14 register 1"]
 pub mod f14r1;
 #[doc = "Filter bank 14 register 2"]
 pub struct F14R2 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Filter bank 14 register 2"]
 pub mod f14r2;
 #[doc = "Filter bank 15 register 1"]
 pub struct F15R1 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Filter bank 15 register 1"]
 pub mod f15r1;
 #[doc = "Filter bank 15 register 2"]
 pub struct F15R2 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Filter bank 15 register 2"]
 pub mod f15r2;
 #[doc = "Filter bank 16 register 1"]
 pub struct F16R1 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Filter bank 16 register 1"]
 pub mod f16r1;
 #[doc = "Filter bank 16 register 2"]
 pub struct F16R2 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Filter bank 16 register 2"]
 pub mod f16r2;
 #[doc = "Filter bank 17 register 1"]
 pub struct F17R1 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Filter bank 17 register 1"]
 pub mod f17r1;
 #[doc = "Filter bank 17 register 2"]
 pub struct F17R2 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Filter bank 17 register 2"]
 pub mod f17r2;
 #[doc = "Filter bank 18 register 1"]
 pub struct F18R1 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Filter bank 18 register 1"]
 pub mod f18r1;
 #[doc = "Filter bank 18 register 2"]
 pub struct F18R2 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Filter bank 18 register 2"]
 pub mod f18r2;
 #[doc = "Filter bank 19 register 1"]
 pub struct F19R1 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Filter bank 19 register 1"]
 pub mod f19r1;
 #[doc = "Filter bank 19 register 2"]
 pub struct F19R2 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Filter bank 19 register 2"]
 pub mod f19r2;
 #[doc = "Filter bank 20 register 1"]
 pub struct F20R1 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Filter bank 20 register 1"]
 pub mod f20r1;
 #[doc = "Filter bank 20 register 2"]
 pub struct F20R2 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Filter bank 20 register 2"]
 pub mod f20r2;
 #[doc = "Filter bank 21 register 1"]
 pub struct F21R1 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Filter bank 21 register 1"]
 pub mod f21r1;
 #[doc = "Filter bank 21 register 2"]
 pub struct F21R2 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Filter bank 21 register 2"]
 pub mod f21r2;
 #[doc = "Filter bank 22 register 1"]
 pub struct F22R1 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Filter bank 22 register 1"]
 pub mod f22r1;
 #[doc = "Filter bank 22 register 2"]
 pub struct F22R2 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Filter bank 22 register 2"]
 pub mod f22r2;
 #[doc = "Filter bank 23 register 1"]
 pub struct F23R1 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Filter bank 23 register 1"]
 pub mod f23r1;
 #[doc = "Filter bank 23 register 2"]
 pub struct F23R2 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Filter bank 23 register 2"]
 pub mod f23r2;
 #[doc = "Filter bank 24 register 1"]
 pub struct F24R1 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Filter bank 24 register 1"]
 pub mod f24r1;
 #[doc = "Filter bank 24 register 2"]
 pub struct F24R2 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Filter bank 24 register 2"]
 pub mod f24r2;
 #[doc = "Filter bank 25 register 1"]
 pub struct F25R1 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Filter bank 25 register 1"]
 pub mod f25r1;
 #[doc = "Filter bank 25 register 2"]
 pub struct F25R2 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Filter bank 25 register 2"]
 pub mod f25r2;
 #[doc = "Filter bank 26 register 1"]
 pub struct F26R1 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Filter bank 26 register 1"]
 pub mod f26r1;
 #[doc = "Filter bank 26 register 2"]
 pub struct F26R2 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Filter bank 26 register 2"]
 pub mod f26r2;
 #[doc = "Filter bank 27 register 1"]
 pub struct F27R1 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Filter bank 27 register 1"]
 pub mod f27r1;
 #[doc = "Filter bank 27 register 2"]
 pub struct F27R2 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Filter bank 27 register 2"]
 pub mod f27r2;

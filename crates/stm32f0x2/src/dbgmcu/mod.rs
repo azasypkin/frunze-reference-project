@@ -1,4 +1,3 @@
-use vcell::VolatileCell;
 #[doc = r" Register block"]
 #[repr(C)]
 pub struct RegisterBlock {
@@ -13,25 +12,25 @@ pub struct RegisterBlock {
 }
 #[doc = "MCU Device ID Code Register"]
 pub struct IDCODE {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "MCU Device ID Code Register"]
 pub mod idcode;
 #[doc = "Debug MCU Configuration Register"]
 pub struct CR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Debug MCU Configuration Register"]
 pub mod cr;
 #[doc = "Debug MCU APB1 freeze register"]
 pub struct APB1_FZ {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Debug MCU APB1 freeze register"]
 pub mod apb1_fz;
 #[doc = "Debug MCU APB2 freeze register"]
 pub struct APB2_FZ {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Debug MCU APB2 freeze register"]
 pub mod apb2_fz;

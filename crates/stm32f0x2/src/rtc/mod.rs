@@ -1,4 +1,3 @@
-use vcell::VolatileCell;
 #[doc = r" Register block"]
 #[repr(C)]
 pub struct RegisterBlock {
@@ -48,121 +47,121 @@ pub struct RegisterBlock {
 }
 #[doc = "time register"]
 pub struct TR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "time register"]
 pub mod tr;
 #[doc = "date register"]
 pub struct DR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "date register"]
 pub mod dr;
 #[doc = "control register"]
 pub struct CR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "control register"]
 pub mod cr;
 #[doc = "initialization and status register"]
 pub struct ISR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "initialization and status register"]
 pub mod isr;
 #[doc = "prescaler register"]
 pub struct PRER {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "prescaler register"]
 pub mod prer;
 #[doc = "alarm A register"]
 pub struct ALRMAR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "alarm A register"]
 pub mod alrmar;
 #[doc = "write protection register"]
 pub struct WPR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "write protection register"]
 pub mod wpr;
 #[doc = "sub second register"]
 pub struct SSR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "sub second register"]
 pub mod ssr;
 #[doc = "shift control register"]
 pub struct SHIFTR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "shift control register"]
 pub mod shiftr;
 #[doc = "timestamp time register"]
 pub struct TSTR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "timestamp time register"]
 pub mod tstr;
 #[doc = "timestamp date register"]
 pub struct TSDR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "timestamp date register"]
 pub mod tsdr;
 #[doc = "time-stamp sub second register"]
 pub struct TSSSR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "time-stamp sub second register"]
 pub mod tsssr;
 #[doc = "calibration register"]
 pub struct CALR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "calibration register"]
 pub mod calr;
 #[doc = "tamper and alternate function configuration register"]
 pub struct TAFCR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "tamper and alternate function configuration register"]
 pub mod tafcr;
 #[doc = "alarm A sub second register"]
 pub struct ALRMASSR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "alarm A sub second register"]
 pub mod alrmassr;
 #[doc = "backup register"]
 pub struct BKP0R {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "backup register"]
 pub mod bkp0r;
 #[doc = "backup register"]
 pub struct BKP1R {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "backup register"]
 pub mod bkp1r;
 #[doc = "backup register"]
 pub struct BKP2R {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "backup register"]
 pub mod bkp2r;
 #[doc = "backup register"]
 pub struct BKP3R {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "backup register"]
 pub mod bkp3r;
 #[doc = "backup register"]
 pub struct BKP4R {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "backup register"]
 pub mod bkp4r;

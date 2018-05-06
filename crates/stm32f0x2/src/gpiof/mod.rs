@@ -1,4 +1,3 @@
-use vcell::VolatileCell;
 #[doc = r" Register block"]
 #[repr(C)]
 pub struct RegisterBlock {
@@ -27,67 +26,67 @@ pub struct RegisterBlock {
 }
 #[doc = "GPIO port mode register"]
 pub struct MODER {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "GPIO port mode register"]
 pub mod moder;
 #[doc = "GPIO port output type register"]
 pub struct OTYPER {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "GPIO port output type register"]
 pub mod otyper;
 #[doc = "GPIO port output speed register"]
 pub struct OSPEEDR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "GPIO port output speed register"]
 pub mod ospeedr;
 #[doc = "GPIO port pull-up/pull-down register"]
 pub struct PUPDR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "GPIO port pull-up/pull-down register"]
 pub mod pupdr;
 #[doc = "GPIO port input data register"]
 pub struct IDR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "GPIO port input data register"]
 pub mod idr;
 #[doc = "GPIO port output data register"]
 pub struct ODR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "GPIO port output data register"]
 pub mod odr;
 #[doc = "GPIO port bit set/reset register"]
 pub struct BSRR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "GPIO port bit set/reset register"]
 pub mod bsrr;
 #[doc = "GPIO port configuration lock register"]
 pub struct LCKR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "GPIO port configuration lock register"]
 pub mod lckr;
 #[doc = "GPIO alternate function low register"]
 pub struct AFRL {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "GPIO alternate function low register"]
 pub mod afrl;
 #[doc = "GPIO alternate function high register"]
 pub struct AFRH {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "GPIO alternate function high register"]
 pub mod afrh;
 #[doc = "Port bit reset register"]
 pub struct BRR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Port bit reset register"]
 pub mod brr;

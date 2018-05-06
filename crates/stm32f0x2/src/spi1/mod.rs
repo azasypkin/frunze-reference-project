@@ -1,4 +1,3 @@
-use vcell::VolatileCell;
 #[doc = r" Register block"]
 #[repr(C)]
 pub struct RegisterBlock {
@@ -23,55 +22,55 @@ pub struct RegisterBlock {
 }
 #[doc = "control register 1"]
 pub struct CR1 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "control register 1"]
 pub mod cr1;
 #[doc = "control register 2"]
 pub struct CR2 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "control register 2"]
 pub mod cr2;
 #[doc = "status register"]
 pub struct SR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "status register"]
 pub mod sr;
 #[doc = "data register"]
 pub struct DR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "data register"]
 pub mod dr;
 #[doc = "CRC polynomial register"]
 pub struct CRCPR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "CRC polynomial register"]
 pub mod crcpr;
 #[doc = "RX CRC register"]
 pub struct RXCRCR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "RX CRC register"]
 pub mod rxcrcr;
 #[doc = "TX CRC register"]
 pub struct TXCRCR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "TX CRC register"]
 pub mod txcrcr;
 #[doc = "I2S configuration register"]
 pub struct I2SCFGR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "I2S configuration register"]
 pub mod i2scfgr;
 #[doc = "I2S prescaler register"]
 pub struct I2SPR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "I2S prescaler register"]
 pub mod i2spr;

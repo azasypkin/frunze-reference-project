@@ -1,4 +1,3 @@
-use vcell::VolatileCell;
 #[doc = r" Register block"]
 #[repr(C)]
 pub struct RegisterBlock {
@@ -17,37 +16,37 @@ pub struct RegisterBlock {
 }
 #[doc = "control register"]
 pub struct CR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "control register"]
 pub mod cr;
 #[doc = "configuration register"]
 pub struct CFGR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "configuration register"]
 pub mod cfgr;
 #[doc = "Tx data register"]
 pub struct TXDR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Tx data register"]
 pub mod txdr;
 #[doc = "Rx Data Register"]
 pub struct RXDR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Rx Data Register"]
 pub mod rxdr;
 #[doc = "Interrupt and Status Register"]
 pub struct ISR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Interrupt and Status Register"]
 pub mod isr;
 #[doc = "interrupt enable register"]
 pub struct IER {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "interrupt enable register"]
 pub mod ier;

@@ -1,4 +1,3 @@
-use vcell::VolatileCell;
 #[doc = r" Register block"]
 #[repr(C)]
 pub struct RegisterBlock {
@@ -71,181 +70,181 @@ pub struct RegisterBlock {
 }
 #[doc = "DMA interrupt status register (DMA_ISR)"]
 pub struct ISR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "DMA interrupt status register (DMA_ISR)"]
 pub mod isr;
 #[doc = "DMA interrupt flag clear register (DMA_IFCR)"]
 pub struct IFCR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "DMA interrupt flag clear register (DMA_IFCR)"]
 pub mod ifcr;
 #[doc = "DMA channel configuration register (DMA_CCR)"]
 pub struct CCR1 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "DMA channel configuration register (DMA_CCR)"]
 pub mod ccr1;
 #[doc = "DMA channel 1 number of data register"]
 pub struct CNDTR1 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "DMA channel 1 number of data register"]
 pub mod cndtr1;
 #[doc = "DMA channel 1 peripheral address register"]
 pub struct CPAR1 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "DMA channel 1 peripheral address register"]
 pub mod cpar1;
 #[doc = "DMA channel 1 memory address register"]
 pub struct CMAR1 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "DMA channel 1 memory address register"]
 pub mod cmar1;
 #[doc = "DMA channel configuration register (DMA_CCR)"]
 pub struct CCR2 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "DMA channel configuration register (DMA_CCR)"]
 pub mod ccr2;
 #[doc = "DMA channel 2 number of data register"]
 pub struct CNDTR2 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "DMA channel 2 number of data register"]
 pub mod cndtr2;
 #[doc = "DMA channel 2 peripheral address register"]
 pub struct CPAR2 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "DMA channel 2 peripheral address register"]
 pub mod cpar2;
 #[doc = "DMA channel 2 memory address register"]
 pub struct CMAR2 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "DMA channel 2 memory address register"]
 pub mod cmar2;
 #[doc = "DMA channel configuration register (DMA_CCR)"]
 pub struct CCR3 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "DMA channel configuration register (DMA_CCR)"]
 pub mod ccr3;
 #[doc = "DMA channel 3 number of data register"]
 pub struct CNDTR3 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "DMA channel 3 number of data register"]
 pub mod cndtr3;
 #[doc = "DMA channel 3 peripheral address register"]
 pub struct CPAR3 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "DMA channel 3 peripheral address register"]
 pub mod cpar3;
 #[doc = "DMA channel 3 memory address register"]
 pub struct CMAR3 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "DMA channel 3 memory address register"]
 pub mod cmar3;
 #[doc = "DMA channel configuration register (DMA_CCR)"]
 pub struct CCR4 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "DMA channel configuration register (DMA_CCR)"]
 pub mod ccr4;
 #[doc = "DMA channel 4 number of data register"]
 pub struct CNDTR4 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "DMA channel 4 number of data register"]
 pub mod cndtr4;
 #[doc = "DMA channel 4 peripheral address register"]
 pub struct CPAR4 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "DMA channel 4 peripheral address register"]
 pub mod cpar4;
 #[doc = "DMA channel 4 memory address register"]
 pub struct CMAR4 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "DMA channel 4 memory address register"]
 pub mod cmar4;
 #[doc = "DMA channel configuration register (DMA_CCR)"]
 pub struct CCR5 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "DMA channel configuration register (DMA_CCR)"]
 pub mod ccr5;
 #[doc = "DMA channel 5 number of data register"]
 pub struct CNDTR5 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "DMA channel 5 number of data register"]
 pub mod cndtr5;
 #[doc = "DMA channel 5 peripheral address register"]
 pub struct CPAR5 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "DMA channel 5 peripheral address register"]
 pub mod cpar5;
 #[doc = "DMA channel 5 memory address register"]
 pub struct CMAR5 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "DMA channel 5 memory address register"]
 pub mod cmar5;
 #[doc = "DMA channel configuration register (DMA_CCR)"]
 pub struct CCR6 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "DMA channel configuration register (DMA_CCR)"]
 pub mod ccr6;
 #[doc = "DMA channel 6 number of data register"]
 pub struct CNDTR6 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "DMA channel 6 number of data register"]
 pub mod cndtr6;
 #[doc = "DMA channel 6 peripheral address register"]
 pub struct CPAR6 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "DMA channel 6 peripheral address register"]
 pub mod cpar6;
 #[doc = "DMA channel 6 memory address register"]
 pub struct CMAR6 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "DMA channel 6 memory address register"]
 pub mod cmar6;
 #[doc = "DMA channel configuration register (DMA_CCR)"]
 pub struct CCR7 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "DMA channel configuration register (DMA_CCR)"]
 pub mod ccr7;
 #[doc = "DMA channel 7 number of data register"]
 pub struct CNDTR7 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "DMA channel 7 number of data register"]
 pub mod cndtr7;
 #[doc = "DMA channel 7 peripheral address register"]
 pub struct CPAR7 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "DMA channel 7 peripheral address register"]
 pub mod cpar7;
 #[doc = "DMA channel 7 memory address register"]
 pub struct CMAR7 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "DMA channel 7 memory address register"]
 pub mod cmar7;

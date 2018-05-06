@@ -1,4 +1,3 @@
-use vcell::VolatileCell;
 #[doc = r" Register block"]
 #[repr(C)]
 pub struct RegisterBlock {
@@ -33,85 +32,85 @@ pub struct RegisterBlock {
 }
 #[doc = "Clock control register"]
 pub struct CR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Clock control register"]
 pub mod cr;
 #[doc = "Clock configuration register (RCC_CFGR)"]
 pub struct CFGR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Clock configuration register (RCC_CFGR)"]
 pub mod cfgr;
 #[doc = "Clock interrupt register (RCC_CIR)"]
 pub struct CIR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Clock interrupt register (RCC_CIR)"]
 pub mod cir;
 #[doc = "APB2 peripheral reset register (RCC_APB2RSTR)"]
 pub struct APB2RSTR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "APB2 peripheral reset register (RCC_APB2RSTR)"]
 pub mod apb2rstr;
 #[doc = "APB1 peripheral reset register (RCC_APB1RSTR)"]
 pub struct APB1RSTR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "APB1 peripheral reset register (RCC_APB1RSTR)"]
 pub mod apb1rstr;
 #[doc = "AHB Peripheral Clock enable register (RCC_AHBENR)"]
 pub struct AHBENR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "AHB Peripheral Clock enable register (RCC_AHBENR)"]
 pub mod ahbenr;
 #[doc = "APB2 peripheral clock enable register (RCC_APB2ENR)"]
 pub struct APB2ENR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "APB2 peripheral clock enable register (RCC_APB2ENR)"]
 pub mod apb2enr;
 #[doc = "APB1 peripheral clock enable register (RCC_APB1ENR)"]
 pub struct APB1ENR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "APB1 peripheral clock enable register (RCC_APB1ENR)"]
 pub mod apb1enr;
 #[doc = "Backup domain control register (RCC_BDCR)"]
 pub struct BDCR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Backup domain control register (RCC_BDCR)"]
 pub mod bdcr;
 #[doc = "Control/status register (RCC_CSR)"]
 pub struct CSR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Control/status register (RCC_CSR)"]
 pub mod csr;
 #[doc = "AHB peripheral reset register"]
 pub struct AHBRSTR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "AHB peripheral reset register"]
 pub mod ahbrstr;
 #[doc = "Clock configuration register 2"]
 pub struct CFGR2 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Clock configuration register 2"]
 pub mod cfgr2;
 #[doc = "Clock configuration register 3"]
 pub struct CFGR3 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Clock configuration register 3"]
 pub mod cfgr3;
 #[doc = "Clock control register 2"]
 pub struct CR2 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Clock control register 2"]
 pub mod cr2;

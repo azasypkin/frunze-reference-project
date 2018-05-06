@@ -1,4 +1,3 @@
-use vcell::VolatileCell;
 #[doc = r" Register block"]
 #[repr(C)]
 pub struct RegisterBlock {
@@ -43,121 +42,121 @@ pub struct RegisterBlock {
 }
 #[doc = "control register 1"]
 pub struct CR1 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "control register 1"]
 pub mod cr1;
 #[doc = "control register 2"]
 pub struct CR2 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "control register 2"]
 pub mod cr2;
 #[doc = "slave mode control register"]
 pub struct SMCR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "slave mode control register"]
 pub mod smcr;
 #[doc = "DMA/Interrupt enable register"]
 pub struct DIER {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "DMA/Interrupt enable register"]
 pub mod dier;
 #[doc = "status register"]
 pub struct SR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "status register"]
 pub mod sr;
 #[doc = "event generation register"]
 pub struct EGR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "event generation register"]
 pub mod egr;
 #[doc = "capture/compare mode register 1 (output mode)"]
 pub struct CCMR1_OUTPUT {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "capture/compare mode register 1 (output mode)"]
 pub mod ccmr1_output;
 #[doc = "capture/compare mode register 1 (input mode)"]
 pub struct CCMR1_INPUT {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "capture/compare mode register 1 (input mode)"]
 pub mod ccmr1_input;
 #[doc = "capture/compare mode register 2 (output mode)"]
 pub struct CCMR2_OUTPUT {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "capture/compare mode register 2 (output mode)"]
 pub mod ccmr2_output;
 #[doc = "capture/compare mode register 2 (input mode)"]
 pub struct CCMR2_INPUT {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "capture/compare mode register 2 (input mode)"]
 pub mod ccmr2_input;
 #[doc = "capture/compare enable register"]
 pub struct CCER {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "capture/compare enable register"]
 pub mod ccer;
 #[doc = "counter"]
 pub struct CNT {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "counter"]
 pub mod cnt;
 #[doc = "prescaler"]
 pub struct PSC {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "prescaler"]
 pub mod psc;
 #[doc = "auto-reload register"]
 pub struct ARR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "auto-reload register"]
 pub mod arr;
 #[doc = "capture/compare register 1"]
 pub struct CCR1 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "capture/compare register 1"]
 pub mod ccr1;
 #[doc = "capture/compare register 2"]
 pub struct CCR2 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "capture/compare register 2"]
 pub mod ccr2;
 #[doc = "capture/compare register 3"]
 pub struct CCR3 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "capture/compare register 3"]
 pub mod ccr3;
 #[doc = "capture/compare register 4"]
 pub struct CCR4 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "capture/compare register 4"]
 pub mod ccr4;
 #[doc = "DMA control register"]
 pub struct DCR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "DMA control register"]
 pub mod dcr;
 #[doc = "DMA address for full transfer"]
 pub struct DMAR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "DMA address for full transfer"]
 pub mod dmar;

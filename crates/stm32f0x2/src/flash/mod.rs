@@ -1,4 +1,3 @@
-use vcell::VolatileCell;
 #[doc = r" Register block"]
 #[repr(C)]
 pub struct RegisterBlock {
@@ -22,49 +21,49 @@ pub struct RegisterBlock {
 }
 #[doc = "Flash access control register"]
 pub struct ACR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Flash access control register"]
 pub mod acr;
 #[doc = "Flash key register"]
 pub struct KEYR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Flash key register"]
 pub mod keyr;
 #[doc = "Flash option key register"]
 pub struct OPTKEYR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Flash option key register"]
 pub mod optkeyr;
 #[doc = "Flash status register"]
 pub struct SR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Flash status register"]
 pub mod sr;
 #[doc = "Flash control register"]
 pub struct CR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Flash control register"]
 pub mod cr;
 #[doc = "Flash address register"]
 pub struct AR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Flash address register"]
 pub mod ar;
 #[doc = "Option byte register"]
 pub struct OBR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Option byte register"]
 pub mod obr;
 #[doc = "Write protection register"]
 pub struct WRPR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Write protection register"]
 pub mod wrpr;

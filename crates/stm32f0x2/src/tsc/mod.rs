@@ -1,4 +1,3 @@
-use vcell::VolatileCell;
 #[doc = r" Register block"]
 #[repr(C)]
 pub struct RegisterBlock {
@@ -39,91 +38,91 @@ pub struct RegisterBlock {
 }
 #[doc = "control register"]
 pub struct CR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "control register"]
 pub mod cr;
 #[doc = "interrupt enable register"]
 pub struct IER {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "interrupt enable register"]
 pub mod ier;
 #[doc = "interrupt clear register"]
 pub struct ICR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "interrupt clear register"]
 pub mod icr;
 #[doc = "interrupt status register"]
 pub struct ISR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "interrupt status register"]
 pub mod isr;
 #[doc = "I/O hysteresis control register"]
 pub struct IOHCR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "I/O hysteresis control register"]
 pub mod iohcr;
 #[doc = "I/O analog switch control register"]
 pub struct IOASCR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "I/O analog switch control register"]
 pub mod ioascr;
 #[doc = "I/O sampling control register"]
 pub struct IOSCR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "I/O sampling control register"]
 pub mod ioscr;
 #[doc = "I/O channel control register"]
 pub struct IOCCR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "I/O channel control register"]
 pub mod ioccr;
 #[doc = "I/O group control status register"]
 pub struct IOGCSR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "I/O group control status register"]
 pub mod iogcsr;
 #[doc = "I/O group x counter register"]
 pub struct IOG1CR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "I/O group x counter register"]
 pub mod iog1cr;
 #[doc = "I/O group x counter register"]
 pub struct IOG2CR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "I/O group x counter register"]
 pub mod iog2cr;
 #[doc = "I/O group x counter register"]
 pub struct IOG3CR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "I/O group x counter register"]
 pub mod iog3cr;
 #[doc = "I/O group x counter register"]
 pub struct IOG4CR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "I/O group x counter register"]
 pub mod iog4cr;
 #[doc = "I/O group x counter register"]
 pub struct IOG5CR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "I/O group x counter register"]
 pub mod iog5cr;
 #[doc = "I/O group x counter register"]
 pub struct IOG6CR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "I/O group x counter register"]
 pub mod iog6cr;

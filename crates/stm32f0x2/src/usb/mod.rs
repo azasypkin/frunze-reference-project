@@ -1,4 +1,3 @@
-use vcell::VolatileCell;
 #[doc = r" Register block"]
 #[repr(C)]
 pub struct RegisterBlock {
@@ -36,91 +35,91 @@ pub struct RegisterBlock {
 }
 #[doc = "endpoint 0 register"]
 pub struct EP0R {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "endpoint 0 register"]
 pub mod ep0r;
 #[doc = "endpoint 1 register"]
 pub struct EP1R {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "endpoint 1 register"]
 pub mod ep1r;
 #[doc = "endpoint 2 register"]
 pub struct EP2R {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "endpoint 2 register"]
 pub mod ep2r;
 #[doc = "endpoint 3 register"]
 pub struct EP3R {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "endpoint 3 register"]
 pub mod ep3r;
 #[doc = "endpoint 4 register"]
 pub struct EP4R {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "endpoint 4 register"]
 pub mod ep4r;
 #[doc = "endpoint 5 register"]
 pub struct EP5R {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "endpoint 5 register"]
 pub mod ep5r;
 #[doc = "endpoint 6 register"]
 pub struct EP6R {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "endpoint 6 register"]
 pub mod ep6r;
 #[doc = "endpoint 7 register"]
 pub struct EP7R {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "endpoint 7 register"]
 pub mod ep7r;
 #[doc = "control register"]
 pub struct CNTR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "control register"]
 pub mod cntr;
 #[doc = "interrupt status register"]
 pub struct ISTR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "interrupt status register"]
 pub mod istr;
 #[doc = "frame number register"]
 pub struct FNR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "frame number register"]
 pub mod fnr;
 #[doc = "device address"]
 pub struct DADDR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "device address"]
 pub mod daddr;
 #[doc = "Buffer table address"]
 pub struct BTABLE {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Buffer table address"]
 pub mod btable;
 #[doc = "LPM control and status register"]
 pub struct LPMCSR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "LPM control and status register"]
 pub mod lpmcsr;
 #[doc = "Battery charging detector"]
 pub struct BCDR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Battery charging detector"]
 pub mod bcdr;

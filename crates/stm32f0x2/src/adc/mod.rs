@@ -1,4 +1,3 @@
-use vcell::VolatileCell;
 #[doc = r" Register block"]
 #[repr(C)]
 pub struct RegisterBlock {
@@ -29,61 +28,61 @@ pub struct RegisterBlock {
 }
 #[doc = "interrupt and status register"]
 pub struct ISR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "interrupt and status register"]
 pub mod isr;
 #[doc = "interrupt enable register"]
 pub struct IER {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "interrupt enable register"]
 pub mod ier;
 #[doc = "control register"]
 pub struct CR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "control register"]
 pub mod cr;
 #[doc = "configuration register 1"]
 pub struct CFGR1 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "configuration register 1"]
 pub mod cfgr1;
 #[doc = "configuration register 2"]
 pub struct CFGR2 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "configuration register 2"]
 pub mod cfgr2;
 #[doc = "sampling time register"]
 pub struct SMPR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "sampling time register"]
 pub mod smpr;
 #[doc = "watchdog threshold register"]
 pub struct TR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "watchdog threshold register"]
 pub mod tr;
 #[doc = "channel selection register"]
 pub struct CHSELR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "channel selection register"]
 pub mod chselr;
 #[doc = "data register"]
 pub struct DR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "data register"]
 pub mod dr;
 #[doc = "common configuration register"]
 pub struct CCR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "common configuration register"]
 pub mod ccr;

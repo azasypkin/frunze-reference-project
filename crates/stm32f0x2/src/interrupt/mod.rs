@@ -184,6 +184,48 @@ unsafe impl Nr for Interrupt {
         }
     }
 }
+use core::convert::TryFrom;
+#[derive(Debug, Copy, Clone)]
+pub struct TryFromInterruptError(());
+impl TryFrom<u8> for Interrupt {
+    type Error = TryFromInterruptError;
+    #[inline]
+    fn try_from(value: u8) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Interrupt::WWDG),
+            1 => Ok(Interrupt::PVD),
+            2 => Ok(Interrupt::RTC),
+            3 => Ok(Interrupt::FLASH),
+            4 => Ok(Interrupt::RCC_CRS),
+            5 => Ok(Interrupt::EXTI0_1),
+            6 => Ok(Interrupt::EXTI2_3),
+            7 => Ok(Interrupt::EXTI4_15),
+            8 => Ok(Interrupt::TSC),
+            9 => Ok(Interrupt::DMA1_CH1),
+            12 => Ok(Interrupt::ADC_COMP),
+            13 => Ok(Interrupt::TIM1_BRK_UP_TRG_COM),
+            14 => Ok(Interrupt::TIM1_CC),
+            15 => Ok(Interrupt::TIM2),
+            16 => Ok(Interrupt::TIM3),
+            17 => Ok(Interrupt::TIM6_DAC),
+            18 => Ok(Interrupt::TIM7),
+            19 => Ok(Interrupt::TIM14),
+            20 => Ok(Interrupt::TIM15),
+            21 => Ok(Interrupt::TIM16),
+            22 => Ok(Interrupt::TIM17),
+            23 => Ok(Interrupt::I2C1),
+            24 => Ok(Interrupt::I2C2),
+            25 => Ok(Interrupt::SPI1),
+            26 => Ok(Interrupt::SPI2),
+            27 => Ok(Interrupt::USART1),
+            28 => Ok(Interrupt::USART2),
+            29 => Ok(Interrupt::USART3_4),
+            30 => Ok(Interrupt::CEC_CAN),
+            31 => Ok(Interrupt::USB),
+            _ => Err(TryFromInterruptError(())),
+        }
+    }
+}
 #[cfg(feature = "rt")]
 #[macro_export]
 macro_rules ! interrupt { ( $ NAME : ident , $ path : path , locals : { $ ( $ lvar : ident : $ lty : ty = $ lval : expr ; ) * } ) => { # [ allow ( non_snake_case ) ] mod $ NAME { pub struct Locals { $ ( pub $ lvar : $ lty , ) * } } # [ allow ( non_snake_case ) ] # [ no_mangle ] pub extern "C" fn $ NAME ( ) { let _ = $ crate :: interrupt :: Interrupt :: $ NAME ; static mut LOCALS : self :: $ NAME :: Locals = self :: $ NAME :: Locals { $ ( $ lvar : $ lval , ) * } ; let f : fn ( & mut self :: $ NAME :: Locals ) = $ path ; f ( unsafe { & mut LOCALS } ) ; } } ; ( $ NAME : ident , $ path : path ) => { # [ allow ( non_snake_case ) ] # [ no_mangle ] pub extern "C" fn $ NAME ( ) { let _ = $ crate :: interrupt :: Interrupt :: $ NAME ; let f : fn ( ) = $ path ; f ( ) ; } } }

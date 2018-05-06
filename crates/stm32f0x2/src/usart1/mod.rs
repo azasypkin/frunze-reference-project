@@ -1,4 +1,3 @@
-use vcell::VolatileCell;
 #[doc = r" Register block"]
 #[repr(C)]
 pub struct RegisterBlock {
@@ -27,67 +26,67 @@ pub struct RegisterBlock {
 }
 #[doc = "Control register 1"]
 pub struct CR1 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Control register 1"]
 pub mod cr1;
 #[doc = "Control register 2"]
 pub struct CR2 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Control register 2"]
 pub mod cr2;
 #[doc = "Control register 3"]
 pub struct CR3 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Control register 3"]
 pub mod cr3;
 #[doc = "Baud rate register"]
 pub struct BRR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Baud rate register"]
 pub mod brr;
 #[doc = "Guard time and prescaler register"]
 pub struct GTPR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Guard time and prescaler register"]
 pub mod gtpr;
 #[doc = "Receiver timeout register"]
 pub struct RTOR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Receiver timeout register"]
 pub mod rtor;
 #[doc = "Request register"]
 pub struct RQR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Request register"]
 pub mod rqr;
 #[doc = "Interrupt & status register"]
 pub struct ISR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Interrupt & status register"]
 pub mod isr;
 #[doc = "Interrupt flag clear register"]
 pub struct ICR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Interrupt flag clear register"]
 pub mod icr;
 #[doc = "Receive data register"]
 pub struct RDR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Receive data register"]
 pub mod rdr;
 #[doc = "Transmit data register"]
 pub struct TDR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "Transmit data register"]
 pub mod tdr;

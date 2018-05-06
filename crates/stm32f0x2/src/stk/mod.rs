@@ -1,4 +1,3 @@
-use vcell::VolatileCell;
 #[doc = r" Register block"]
 #[repr(C)]
 pub struct RegisterBlock {
@@ -13,25 +12,25 @@ pub struct RegisterBlock {
 }
 #[doc = "SysTick control and status register"]
 pub struct CSR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "SysTick control and status register"]
 pub mod csr;
 #[doc = "SysTick reload value register"]
 pub struct RVR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "SysTick reload value register"]
 pub mod rvr;
 #[doc = "SysTick current value register"]
 pub struct CVR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "SysTick current value register"]
 pub mod cvr;
 #[doc = "SysTick calibration value register"]
 pub struct CALIB {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "SysTick calibration value register"]
 pub mod calib;

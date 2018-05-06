@@ -1,4 +1,3 @@
-use vcell::VolatileCell;
 #[doc = r" Register block"]
 #[repr(C)]
 pub struct RegisterBlock {
@@ -20,43 +19,43 @@ pub struct RegisterBlock {
 }
 #[doc = "configuration register 1"]
 pub struct SYSCFG_CFGR1 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "configuration register 1"]
 pub mod syscfg_cfgr1;
 #[doc = "external interrupt configuration register 1"]
 pub struct SYSCFG_EXTICR1 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "external interrupt configuration register 1"]
 pub mod syscfg_exticr1;
 #[doc = "external interrupt configuration register 2"]
 pub struct SYSCFG_EXTICR2 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "external interrupt configuration register 2"]
 pub mod syscfg_exticr2;
 #[doc = "external interrupt configuration register 3"]
 pub struct SYSCFG_EXTICR3 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "external interrupt configuration register 3"]
 pub mod syscfg_exticr3;
 #[doc = "external interrupt configuration register 4"]
 pub struct SYSCFG_EXTICR4 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "external interrupt configuration register 4"]
 pub mod syscfg_exticr4;
 #[doc = "configuration register 2"]
 pub struct SYSCFG_CFGR2 {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "configuration register 2"]
 pub mod syscfg_cfgr2;
 #[doc = "control and status register"]
 pub struct COMP_CSR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "control and status register"]
 pub mod comp_csr;

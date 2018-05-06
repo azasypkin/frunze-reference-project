@@ -1,4 +1,3 @@
-use vcell::VolatileCell;
 #[doc = r" Register block"]
 #[repr(C)]
 pub struct RegisterBlock {
@@ -9,13 +8,13 @@ pub struct RegisterBlock {
 }
 #[doc = "power control register"]
 pub struct CR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "power control register"]
 pub mod cr;
 #[doc = "power control/status register"]
 pub struct CSR {
-    register: VolatileCell<u32>,
+    register: ::vcell::VolatileCell<u32>,
 }
 #[doc = "power control/status register"]
 pub mod csr;
