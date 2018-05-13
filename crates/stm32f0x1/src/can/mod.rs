@@ -17,7 +17,7 @@ pub struct RegisterBlock {
     pub can_esr: CAN_ESR,
     #[doc = "0x1c - CAN BTR"]
     pub can_btr: CAN_BTR,
-    _reserved0: [u8; 352usize],
+    _reserved8: [u8; 352usize],
     #[doc = "0x180 - CAN_TI0R"]
     pub can_ti0r: CAN_TI0R,
     #[doc = "0x184 - CAN_TDT0R"]
@@ -58,21 +58,21 @@ pub struct RegisterBlock {
     pub can_rdl1r: CAN_RDL1R,
     #[doc = "0x1cc - CAN_RDH1R"]
     pub can_rdh1r: CAN_RDH1R,
-    _reserved1: [u8; 48usize],
+    _reserved28: [u8; 48usize],
     #[doc = "0x200 - CAN_FMR"]
     pub can_fmr: CAN_FMR,
     #[doc = "0x204 - CAN_FM1R"]
     pub can_fm1r: CAN_FM1R,
-    _reserved2: [u8; 4usize],
+    _reserved30: [u8; 4usize],
     #[doc = "0x20c - CAN_FS1R"]
     pub can_fs1r: CAN_FS1R,
-    _reserved3: [u8; 4usize],
+    _reserved31: [u8; 4usize],
     #[doc = "0x214 - CAN_FFA1R"]
     pub can_ffa1r: CAN_FFA1R,
-    _reserved4: [u8; 4usize],
+    _reserved32: [u8; 4usize],
     #[doc = "0x21c - CAN_FA1R"]
     pub can_fa1r: CAN_FA1R,
-    _reserved5: [u8; 32usize],
+    _reserved33: [u8; 32usize],
     #[doc = "0x240 - Filter bank 0 register 1"]
     pub f0r1: F0R1,
     #[doc = "0x244 - Filter bank 0 register 2"]

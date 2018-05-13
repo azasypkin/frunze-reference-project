@@ -13,7 +13,7 @@ pub struct RegisterBlock {
     pub cpar1: CPAR1,
     #[doc = "0x14 - DMA channel 1 memory address register"]
     pub cmar1: CMAR1,
-    _reserved0: [u8; 4usize],
+    _reserved6: [u8; 4usize],
     #[doc = "0x1c - DMA channel configuration register (DMA_CCR)"]
     pub ccr2: CCR2,
     #[doc = "0x20 - DMA channel 2 number of data register"]
@@ -22,7 +22,7 @@ pub struct RegisterBlock {
     pub cpar2: CPAR2,
     #[doc = "0x28 - DMA channel 2 memory address register"]
     pub cmar2: CMAR2,
-    _reserved1: [u8; 4usize],
+    _reserved10: [u8; 4usize],
     #[doc = "0x30 - DMA channel configuration register (DMA_CCR)"]
     pub ccr3: CCR3,
     #[doc = "0x34 - DMA channel 3 number of data register"]
@@ -31,7 +31,7 @@ pub struct RegisterBlock {
     pub cpar3: CPAR3,
     #[doc = "0x3c - DMA channel 3 memory address register"]
     pub cmar3: CMAR3,
-    _reserved2: [u8; 4usize],
+    _reserved14: [u8; 4usize],
     #[doc = "0x44 - DMA channel configuration register (DMA_CCR)"]
     pub ccr4: CCR4,
     #[doc = "0x48 - DMA channel 4 number of data register"]
@@ -40,7 +40,7 @@ pub struct RegisterBlock {
     pub cpar4: CPAR4,
     #[doc = "0x50 - DMA channel 4 memory address register"]
     pub cmar4: CMAR4,
-    _reserved3: [u8; 4usize],
+    _reserved18: [u8; 4usize],
     #[doc = "0x58 - DMA channel configuration register (DMA_CCR)"]
     pub ccr5: CCR5,
     #[doc = "0x5c - DMA channel 5 number of data register"]
@@ -49,7 +49,7 @@ pub struct RegisterBlock {
     pub cpar5: CPAR5,
     #[doc = "0x64 - DMA channel 5 memory address register"]
     pub cmar5: CMAR5,
-    _reserved4: [u8; 4usize],
+    _reserved22: [u8; 4usize],
     #[doc = "0x6c - DMA channel configuration register (DMA_CCR)"]
     pub ccr6: CCR6,
     #[doc = "0x70 - DMA channel 6 number of data register"]
@@ -58,7 +58,7 @@ pub struct RegisterBlock {
     pub cpar6: CPAR6,
     #[doc = "0x78 - DMA channel 6 memory address register"]
     pub cmar6: CMAR6,
-    _reserved5: [u8; 4usize],
+    _reserved26: [u8; 4usize],
     #[doc = "0x80 - DMA channel configuration register (DMA_CCR)"]
     pub ccr7: CCR7,
     #[doc = "0x84 - DMA channel 7 number of data register"]

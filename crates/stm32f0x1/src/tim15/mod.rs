@@ -13,9 +13,9 @@ pub struct RegisterBlock {
     pub sr: SR,
     #[doc = "0x14 - event generation register"]
     pub egr: EGR,
-    #[doc = "0x18 - capture/compare mode register (output mode)"]
-    pub ccmr1_output: CCMR1_OUTPUT,
-    _reserved0: [u8; 4usize],
+    #[doc = "capture/compare mode register 1 (input\n          mode) capture/compare mode register (output\n          mode)"]
+    pub ccmr1: Ccmr1Union,
+    _reserved7: [u8; 4usize],
     #[doc = "0x20 - capture/compare enable register"]
     pub ccer: CCER,
     #[doc = "0x24 - counter"]
@@ -30,13 +30,21 @@ pub struct RegisterBlock {
     pub ccr1: CCR1,
     #[doc = "0x38 - capture/compare register 2"]
     pub ccr2: CCR2,
-    _reserved1: [u8; 8usize],
+    _reserved14: [u8; 8usize],
     #[doc = "0x44 - break and dead-time register"]
     pub bdtr: BDTR,
     #[doc = "0x48 - DMA control register"]
     pub dcr: DCR,
     #[doc = "0x4c - DMA address for full transfer"]
     pub dmar: DMAR,
+}
+#[doc = "capture/compare mode register 1 (input\n          mode) capture/compare mode register (output\n          mode)"]
+#[repr(C)]
+pub union Ccmr1Union {
+    #[doc = "0x18 - capture/compare mode register 1 (input mode)"]
+    pub ccmr1_input: CCMR1_INPUT,
+    #[doc = "0x18 - capture/compare mode register (output mode)"]
+    pub ccmr1_output: CCMR1_OUTPUT,
 }
 #[doc = "control register 1"]
 pub struct CR1 {

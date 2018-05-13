@@ -13,16 +13,16 @@ pub struct RegisterBlock {
     pub cfgr2: CFGR2,
     #[doc = "0x14 - sampling time register"]
     pub smpr: SMPR,
-    _reserved0: [u8; 8usize],
+    _reserved6: [u8; 8usize],
     #[doc = "0x20 - watchdog threshold register"]
     pub tr: TR,
-    _reserved1: [u8; 4usize],
+    _reserved7: [u8; 4usize],
     #[doc = "0x28 - channel selection register"]
     pub chselr: CHSELR,
-    _reserved2: [u8; 20usize],
+    _reserved8: [u8; 20usize],
     #[doc = "0x40 - data register"]
     pub dr: DR,
-    _reserved3: [u8; 708usize],
+    _reserved9: [u8; 708usize],
     #[doc = "0x308 - common configuration register"]
     pub ccr: CCR,
 }

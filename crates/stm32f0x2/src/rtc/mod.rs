@@ -11,10 +11,10 @@ pub struct RegisterBlock {
     pub isr: ISR,
     #[doc = "0x10 - prescaler register"]
     pub prer: PRER,
-    _reserved0: [u8; 8usize],
+    _reserved5: [u8; 8usize],
     #[doc = "0x1c - alarm A register"]
     pub alrmar: ALRMAR,
-    _reserved1: [u8; 4usize],
+    _reserved6: [u8; 4usize],
     #[doc = "0x24 - write protection register"]
     pub wpr: WPR,
     #[doc = "0x28 - sub second register"]
@@ -33,7 +33,7 @@ pub struct RegisterBlock {
     pub tafcr: TAFCR,
     #[doc = "0x44 - alarm A sub second register"]
     pub alrmassr: ALRMASSR,
-    _reserved2: [u8; 8usize],
+    _reserved15: [u8; 8usize],
     #[doc = "0x50 - backup register"]
     pub bkp0r: BKP0R,
     #[doc = "0x54 - backup register"]

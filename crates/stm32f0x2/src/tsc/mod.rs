@@ -11,16 +11,16 @@ pub struct RegisterBlock {
     pub isr: ISR,
     #[doc = "0x10 - I/O hysteresis control register"]
     pub iohcr: IOHCR,
-    _reserved0: [u8; 4usize],
+    _reserved5: [u8; 4usize],
     #[doc = "0x18 - I/O analog switch control register"]
     pub ioascr: IOASCR,
-    _reserved1: [u8; 4usize],
+    _reserved6: [u8; 4usize],
     #[doc = "0x20 - I/O sampling control register"]
     pub ioscr: IOSCR,
-    _reserved2: [u8; 4usize],
+    _reserved7: [u8; 4usize],
     #[doc = "0x28 - I/O channel control register"]
     pub ioccr: IOCCR,
-    _reserved3: [u8; 4usize],
+    _reserved8: [u8; 4usize],
     #[doc = "0x30 - I/O group control status register"]
     pub iogcsr: IOGCSR,
     #[doc = "0x34 - I/O group x counter register"]

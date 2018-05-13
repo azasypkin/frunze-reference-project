@@ -13,7 +13,7 @@ pub struct RegisterBlock {
     pub cr: CR,
     #[doc = "0x14 - Flash address register"]
     pub ar: AR,
-    _reserved0: [u8; 4usize],
+    _reserved6: [u8; 4usize],
     #[doc = "0x1c - Option byte register"]
     pub obr: OBR,
     #[doc = "0x20 - Write protection register"]

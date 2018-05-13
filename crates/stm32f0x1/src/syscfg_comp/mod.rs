@@ -3,7 +3,7 @@
 pub struct RegisterBlock {
     #[doc = "0x00 - configuration register 1"]
     pub syscfg_cfgr1: SYSCFG_CFGR1,
-    _reserved0: [u8; 4usize],
+    _reserved1: [u8; 4usize],
     #[doc = "0x08 - external interrupt configuration register 1"]
     pub syscfg_exticr1: SYSCFG_EXTICR1,
     #[doc = "0x0c - external interrupt configuration register 2"]

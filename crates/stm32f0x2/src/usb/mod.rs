@@ -17,7 +17,7 @@ pub struct RegisterBlock {
     pub ep6r: EP6R,
     #[doc = "0x1c - endpoint 7 register"]
     pub ep7r: EP7R,
-    _reserved0: [u8; 32usize],
+    _reserved8: [u8; 32usize],
     #[doc = "0x40 - control register"]
     pub cntr: CNTR,
     #[doc = "0x44 - interrupt status register"]

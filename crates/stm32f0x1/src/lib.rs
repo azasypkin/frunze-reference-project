@@ -1,36 +1,261 @@
-#![cfg_attr(feature = "rt", feature(global_asm))]
-#![cfg_attr(feature = "rt", feature(use_extern_macros))]
-#![cfg_attr(feature = "rt", feature(used))]
-#![doc = "Peripheral access API for STM32F0X1 microcontrollers (generated using svd2rust v0.12.1)\n\nYou can find an overview of the API [here].\n\n[here]: https://docs.rs/svd2rust/0.12.1/svd2rust/#peripheral-api"]
-#![allow(private_no_mangle_statics)]
+#![doc = "Peripheral access API for STM32F0X1 microcontrollers (generated using svd2rust v0.13.0)\n\nYou can find an overview of the API [here].\n\n[here]: https://docs.rs/svd2rust/0.13.0/svd2rust/#peripheral-api"]
 #![deny(missing_docs)]
 #![deny(warnings)]
 #![allow(non_camel_case_types)]
-#![feature(const_fn)]
-#![feature(try_from)]
 #![no_std]
+#![feature(untagged_unions)]
+extern crate bare_metal;
 extern crate cortex_m;
 #[cfg(feature = "rt")]
 extern crate cortex_m_rt;
-#[cfg(feature = "rt")]
-pub use cortex_m_rt::{default_handler, exception};
-extern crate bare_metal;
 extern crate vcell;
 use core::marker::PhantomData;
 use core::ops::Deref;
 #[doc = r" Number available in the NVIC for configuring priority"]
 pub const NVIC_PRIO_BITS: u8 = 3;
-pub use interrupt::Interrupt;
+#[cfg(feature = "rt")]
+extern "C" {
+    fn WWDG();
+    fn PVD();
+    fn RTC();
+    fn FLASH();
+    fn RCC_CRS();
+    fn EXTI0_1();
+    fn EXTI2_3();
+    fn EXTI4_15();
+    fn TSC();
+    fn DMA1_CH1();
+    fn DMA1_CH2_3_DMA2_CH1_2();
+    fn DMA1_CH4_5_6_7_DMA2_CH3_4_5();
+    fn ADC_COMP();
+    fn TIM1_BRK_UP_TRG_COM();
+    fn TIM1_CC();
+    fn TIM2();
+    fn TIM3();
+    fn TIM6_DAC();
+    fn TIM7();
+    fn TIM14();
+    fn TIM15();
+    fn TIM16();
+    fn TIM17();
+    fn I2C1();
+    fn I2C2();
+    fn SPI1();
+    fn SPI2();
+    fn USART1();
+    fn USART2();
+    fn USART3_4_5_6_7_8();
+    fn CEC_CAN();
+    fn USB();
+}
+#[doc(hidden)]
+pub union Vector {
+    _handler: unsafe extern "C" fn(),
+    _reserved: u32,
+}
+#[cfg(feature = "rt")]
+#[doc(hidden)]
+#[link_section = ".vector_table.interrupts"]
+#[no_mangle]
+pub static __INTERRUPTS: [Vector; 32] = [
+    Vector { _handler: WWDG },
+    Vector { _handler: PVD },
+    Vector { _handler: RTC },
+    Vector { _handler: FLASH },
+    Vector { _handler: RCC_CRS },
+    Vector { _handler: EXTI0_1 },
+    Vector { _handler: EXTI2_3 },
+    Vector { _handler: EXTI4_15 },
+    Vector { _handler: TSC },
+    Vector { _handler: DMA1_CH1 },
+    Vector {
+        _handler: DMA1_CH2_3_DMA2_CH1_2,
+    },
+    Vector {
+        _handler: DMA1_CH4_5_6_7_DMA2_CH3_4_5,
+    },
+    Vector { _handler: ADC_COMP },
+    Vector {
+        _handler: TIM1_BRK_UP_TRG_COM,
+    },
+    Vector { _handler: TIM1_CC },
+    Vector { _handler: TIM2 },
+    Vector { _handler: TIM3 },
+    Vector { _handler: TIM6_DAC },
+    Vector { _handler: TIM7 },
+    Vector { _handler: TIM14 },
+    Vector { _handler: TIM15 },
+    Vector { _handler: TIM16 },
+    Vector { _handler: TIM17 },
+    Vector { _handler: I2C1 },
+    Vector { _handler: I2C2 },
+    Vector { _handler: SPI1 },
+    Vector { _handler: SPI2 },
+    Vector { _handler: USART1 },
+    Vector { _handler: USART2 },
+    Vector {
+        _handler: USART3_4_5_6_7_8,
+    },
+    Vector { _handler: CEC_CAN },
+    Vector { _handler: USB },
+];
+#[doc = r" Macro to override a device specific interrupt handler"]
+#[doc = r""]
+#[doc = r" # Syntax"]
+#[doc = r""]
+#[doc = r" ``` ignore"]
+#[doc = r" interrupt!("]
+#[doc = r"     // Name of the interrupt"]
+#[doc = r"     $Name:ident,"]
+#[doc = r""]
+#[doc = r"     // Path to the interrupt handler (a function)"]
+#[doc = r"     $handler:path,"]
+#[doc = r""]
+#[doc = r"     // Optional, state preserved across invocations of the handler"]
+#[doc = r"     state: $State:ty = $initial_state:expr,"]
+#[doc = r" );"]
+#[doc = r" ```"]
+#[doc = r""]
+#[doc = r" Where `$Name` must match the name of one of the variants of the `Interrupt`"]
+#[doc = r" enum."]
+#[doc = r""]
+#[doc = r" The handler must have signature `fn()` is no state was associated to it;"]
+#[doc = r" otherwise its signature must be `fn(&mut $State)`."]
+#[cfg(feature = "rt")]
+#[macro_export]
+macro_rules! interrupt {
+    ($Name:ident, $handler:path,state: $State:ty = $initial_state:expr) => {
+        #[allow(unsafe_code)]
+        #[deny(private_no_mangle_fns)]
+        #[no_mangle]
+        pub unsafe extern "C" fn $Name() {
+            static mut STATE: $State = $initial_state;
+            let _ = $crate::Interrupt::$Name;
+            let f: fn(&mut $State) = $handler;
+            f(&mut STATE)
+        }
+    };
+    ($Name:ident, $handler:path) => {
+        #[allow(unsafe_code)]
+        #[deny(private_no_mangle_fns)]
+        #[no_mangle]
+        pub unsafe extern "C" fn $Name() {
+            let _ = $crate::Interrupt::$Name;
+            let f: fn() = $handler;
+            f()
+        }
+    };
+}
+#[doc = r" Enumeration of all the interrupts"]
+pub enum Interrupt {
+    #[doc = "0 - Window Watchdog interrupt"]
+    WWDG,
+    #[doc = "1 - PVD and VDDIO2 supply comparator interrupt"]
+    PVD,
+    #[doc = "2 - RTC interrupts"]
+    RTC,
+    #[doc = "3 - Flash global interrupt"]
+    FLASH,
+    #[doc = "4 - RCC and CRS global interrupts"]
+    RCC_CRS,
+    #[doc = "5 - EXTI Line[1:0] interrupts"]
+    EXTI0_1,
+    #[doc = "6 - EXTI Line[3:2] interrupts"]
+    EXTI2_3,
+    #[doc = "7 - EXTI Line15 and EXTI4 interrupts"]
+    EXTI4_15,
+    #[doc = "8 - Touch sensing interrupt"]
+    TSC,
+    #[doc = "9 - DMA1 channel 1 interrupt"]
+    DMA1_CH1,
+    #[doc = "10 - DMA1 channel 2 and 3 and DMA2 channel 1 and 2 interrupt"]
+    DMA1_CH2_3_DMA2_CH1_2,
+    #[doc = "11 - DMA1 channel 4, 5, 6 and 7 and DMA2 channel 3, 4 and 5 interrupts"]
+    DMA1_CH4_5_6_7_DMA2_CH3_4_5,
+    #[doc = "12 - ADC and comparator interrupts"]
+    ADC_COMP,
+    #[doc = "13 - TIM1 break, update, trigger and commutation interrupt"]
+    TIM1_BRK_UP_TRG_COM,
+    #[doc = "14 - TIM1 Capture Compare interrupt"]
+    TIM1_CC,
+    #[doc = "15 - TIM2 global interrupt"]
+    TIM2,
+    #[doc = "16 - TIM3 global interrupt"]
+    TIM3,
+    #[doc = "17 - TIM6 global interrupt and DAC underrun interrupt"]
+    TIM6_DAC,
+    #[doc = "18 - TIM7 global interrupt"]
+    TIM7,
+    #[doc = "19 - TIM14 global interrupt"]
+    TIM14,
+    #[doc = "20 - TIM15 global interrupt"]
+    TIM15,
+    #[doc = "21 - TIM16 global interrupt"]
+    TIM16,
+    #[doc = "22 - TIM17 global interrupt"]
+    TIM17,
+    #[doc = "23 - I2C1 global interrupt"]
+    I2C1,
+    #[doc = "24 - I2C2 global interrupt"]
+    I2C2,
+    #[doc = "25 - SPI1_global_interrupt"]
+    SPI1,
+    #[doc = "26 - SPI2 global interrupt"]
+    SPI2,
+    #[doc = "27 - USART1 global interrupt"]
+    USART1,
+    #[doc = "28 - USART2 global interrupt"]
+    USART2,
+    #[doc = "29 - USART3, USART4, USART5, USART6, USART7, USART8 global interrupt"]
+    USART3_4_5_6_7_8,
+    #[doc = "30 - CEC and CAN global interrupt"]
+    CEC_CAN,
+    #[doc = "31 - USB global interrupt"]
+    USB,
+}
+unsafe impl ::bare_metal::Nr for Interrupt {
+    #[inline]
+    fn nr(&self) -> u8 {
+        match *self {
+            Interrupt::WWDG => 0,
+            Interrupt::PVD => 1,
+            Interrupt::RTC => 2,
+            Interrupt::FLASH => 3,
+            Interrupt::RCC_CRS => 4,
+            Interrupt::EXTI0_1 => 5,
+            Interrupt::EXTI2_3 => 6,
+            Interrupt::EXTI4_15 => 7,
+            Interrupt::TSC => 8,
+            Interrupt::DMA1_CH1 => 9,
+            Interrupt::DMA1_CH2_3_DMA2_CH1_2 => 10,
+            Interrupt::DMA1_CH4_5_6_7_DMA2_CH3_4_5 => 11,
+            Interrupt::ADC_COMP => 12,
+            Interrupt::TIM1_BRK_UP_TRG_COM => 13,
+            Interrupt::TIM1_CC => 14,
+            Interrupt::TIM2 => 15,
+            Interrupt::TIM3 => 16,
+            Interrupt::TIM6_DAC => 17,
+            Interrupt::TIM7 => 18,
+            Interrupt::TIM14 => 19,
+            Interrupt::TIM15 => 20,
+            Interrupt::TIM16 => 21,
+            Interrupt::TIM17 => 22,
+            Interrupt::I2C1 => 23,
+            Interrupt::I2C2 => 24,
+            Interrupt::SPI1 => 25,
+            Interrupt::SPI2 => 26,
+            Interrupt::USART1 => 27,
+            Interrupt::USART2 => 28,
+            Interrupt::USART3_4_5_6_7_8 => 29,
+            Interrupt::CEC_CAN => 30,
+            Interrupt::USB => 31,
+        }
+    }
+}
 #[doc(hidden)]
 pub mod interrupt;
 pub use cortex_m::peripheral::Peripherals as CorePeripherals;
-pub use cortex_m::peripheral::CPUID;
-pub use cortex_m::peripheral::DCB;
-pub use cortex_m::peripheral::DWT;
-pub use cortex_m::peripheral::MPU;
-pub use cortex_m::peripheral::NVIC;
-pub use cortex_m::peripheral::SCB;
-pub use cortex_m::peripheral::SYST;
+pub use cortex_m::peripheral::{CBP, CPUID, DCB, DWT, FPB, FPU, ITM, MPU, NVIC, SCB, SYST, TPIU};
 #[doc = "cyclic redundancy check calculation unit"]
 pub struct CRC {
     _marker: PhantomData<*const ()>,
@@ -890,6 +1115,7 @@ impl Deref for STK {
 }
 #[doc = "SysTick timer"]
 pub mod stk;
+#[allow(private_no_mangle_statics)]
 #[no_mangle]
 static mut DEVICE_PERIPHERALS: bool = false;
 #[doc = r" All the peripherals"]
