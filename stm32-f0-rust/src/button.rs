@@ -111,10 +111,10 @@ impl<'a> Button<'a> {
         // Clear exti line 0 flag.
         self.peripherals.EXTI.pr.modify(|_, w| {
             #[cfg(feature = "stm32f051")]
-                return w.pr0().set_bit();
+            return w.pr0().set_bit();
 
             #[cfg(feature = "stm32f042")]
-                return w.pif0().set_bit();
+            return w.pif0().set_bit();
         });
     }
 }

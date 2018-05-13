@@ -172,10 +172,13 @@ impl<'a> Beeper<'a> {
         // Enable PWM mode 2 - In up-counting, channel 1 is inactive as long as TIMx_CNT<TIMx_CCR1
         // else active. In down-counting, channel 1 is active as long as TIMx_CNT>TIMx_CCR1 else
         //inactive.
-        peripherals
-            .TIM1
-            .ccmr1_output
-            .modify(|_, w| unsafe { w.oc1m().bits(0b111) });
+        unsafe {
+            peripherals
+                .TIM1
+                .ccmr1
+                .ccmr1_output
+                .modify(|_, w| w.oc1m().bits(0b111));
+        }
 
         // Configure capture/compare enable register.
         peripherals.TIM1.ccer.modify(|_, w| {
