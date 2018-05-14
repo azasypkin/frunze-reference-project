@@ -25,24 +25,14 @@ opt-level = 1
 
 [dependencies]
 cortex-m = "0.5.1"
-cortex-m-rt = "0.5.0"
+cortex-m-rt = "0.5.1"
 cortex-m-semihosting = "0.3.0"
 panic-semihosting = "0.2.0"
-
-[dependencies.stm32f0x1]
-version = "0.1.0"
-path = "../crates/stm32f0x1"
-features = ["rt"]
-optional = true
-
-[dependencies.stm32f0x2]
-version = "0.1.0"
-path = "../crates/stm32f0x2"
-features = ["rt"]
-optional = true
+stm32f0x1 = { version = "0.1.0", optional = true, path = "../crates/stm32f0x1" }
+stm32f0x2 = { version = "0.1.0", optional = true, path = "../crates/stm32f0x2" }
 
 [features]
-stm32f051 = ["stm32f0x1"]
-stm32f042 = ["stm32f0x2"]
+stm32f051 = ["stm32f0x1", "stm32f0x1/rt"]
+stm32f042 = ["stm32f0x2", "stm32f0x2/rt"]
 
 
