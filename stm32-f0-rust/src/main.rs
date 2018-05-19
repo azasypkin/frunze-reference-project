@@ -72,7 +72,7 @@ fn main() -> ! {
             rtc.toggle_alarm(false);
         });
 
-        configure_standby_mode(&cp, p);
+        configure_standby_mode(&mut cp, p);
 
         Beeper::acquire(&mut cp, p, |mut beeper| {
             beeper.play_melody();
@@ -84,7 +84,7 @@ fn main() -> ! {
     }
 }
 
-fn configure_standby_mode(core_peripherals: &CorePeripherals, peripherals: &Peripherals) {
+fn configure_standby_mode(core_peripherals: &mut CorePeripherals, peripherals: &Peripherals) {
     // Select STANDBY mode.
     peripherals.PWR.cr.modify(|_, w| w.pdds().set_bit());
 
@@ -92,7 +92,7 @@ fn configure_standby_mode(core_peripherals: &CorePeripherals, peripherals: &Peri
     peripherals.PWR.cr.modify(|_, w| w.cwuf().set_bit());
 
     // Set SLEEPDEEP bit of Cortex-M0 System Control Register.
-    unsafe { core_peripherals.SCB.scr.modify(|w| w | 0b100) }
+    core_peripherals.SCB.set_sleepdeep();
 }
 
 interrupt!(EXTI0_1, button_handler);
