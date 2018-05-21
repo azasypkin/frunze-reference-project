@@ -1,7 +1,7 @@
 (export (version D)
   (design
     (source /projects/frunze/reference-projects/stm32-f0-rust/docs/schematics/blocks/stm32/stm32.sch)
-    (date "Tue 01 May 2018 09:04:51 PM CEST")
+    (date "Mon 21 May 2018 11:17:30 PM CEST")
     (tool "Eeschema (5.0.0-rc2-dev-607-gccb668c10)")
     (sheet (number 1) (name /) (tstamps /)
       (title_block
@@ -17,7 +17,7 @@
   (components
     (comp (ref U1)
       (value STM32F042F4Px)
-      (footprint Package_SO:TSSOP-20_4.4x6.5mm_P0.65mm)
+      (footprint digikey-footprints:TSSOP-20_W4.4mm)
       (datasheet http://www.st.com/st-web-ui/static/active/en/resource/technical/document/datasheet/DM00105814.pdf)
       (libsource (lib MCU_ST_STM32) (part STM32F042F4Px))
       (sheetpath (names /) (tstamps /))

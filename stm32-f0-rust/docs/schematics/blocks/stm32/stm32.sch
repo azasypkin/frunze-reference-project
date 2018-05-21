@@ -52,7 +52,7 @@ U 1 1 5AE8A70D
 P 5700 3150
 F 0 "U1" H 4650 3400 50  0000 C CNN
 F 1 "STM32F042F4Px" H 5700 1900 50  0000 C CNN
-F 2 "Package_SO:TSSOP-20_4.4x6.5mm_P0.65mm" H 8500 4025 50  0001 R TNN
+F 2 "digikey-footprints:TSSOP-20_W4.4mm" H 8500 4025 50  0001 R TNN
 F 3 "http://www.st.com/st-web-ui/static/active/en/resource/technical/document/datasheet/DM00105814.pdf" H 5700 3150 50  0001 C CNN
 	1    5700 3150
 	1    0    0    -1  

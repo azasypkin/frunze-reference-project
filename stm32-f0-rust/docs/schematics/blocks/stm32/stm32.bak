@@ -14,15 +14,15 @@ Comment2 ""
 Comment3 ""
 Comment4 ""
 $EndDescr
-Text GLabel 9100 1500 0    50   Input ~ 0
-SWCLK
-Text GLabel 9100 1400 0    50   Input ~ 0
-SWDIO
-Text GLabel 9100 1600 0    50   Input ~ 0
-NRST
 Text GLabel 9100 1700 0    50   Input ~ 0
-Button
+SWCLK
+Text GLabel 9100 1600 0    50   Input ~ 0
+SWDIO
 Text GLabel 9100 1800 0    50   Input ~ 0
+NRST
+Text GLabel 9100 1200 0    50   Input ~ 0
+Button
+Text GLabel 9100 1300 0    50   Input ~ 0
 Buzzer
 Text GLabel 2800 2550 0    50   Input ~ 0
 NRST
@@ -72,7 +72,7 @@ F 3 "" H 10000 2700 50  0001 C CNN
 	1    10000 2700
 	0    1    1    0   
 $EndComp
-Text GLabel 9100 1200 0    50   Input ~ 0
+Text GLabel 9100 1400 0    50   Input ~ 0
 GND
 Wire Wire Line
 	5600 2150 5650 2150
@@ -96,7 +96,7 @@ F 3 "" H 10000 2850 50  0001 C CNN
 	1    10000 2850
 	0    1    1    0   
 $EndComp
-Text GLabel 9100 1300 0    50   Input ~ 0
+Text GLabel 9100 1500 0    50   Input ~ 0
 VDD
 $Comp
 L Connector_Generic:Conn_01x07_Female J1
