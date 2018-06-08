@@ -1,4 +1,6 @@
 **/*.rs.bk
+docs/**/*.bak
+docs/**/*.kicad_pcb-bak
 .gdb_history
 target/
 *.iml
