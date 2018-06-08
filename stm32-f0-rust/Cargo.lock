@@ -10,7 +10,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
 name = "cc"
-version = "1.0.15"
+version = "1.0.17"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
@@ -20,7 +20,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
  "aligned 0.2.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "bare-metal 0.2.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "cc 1.0.15 (registry+https://github.com/rust-lang/crates.io-index)",
+ "cc 1.0.17 (registry+https://github.com/rust-lang/crates.io-index)",
  "volatile-register 0.2.0 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
@@ -29,7 +29,7 @@ name = "cortex-m-rt"
 version = "0.5.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
- "cc 1.0.15 (registry+https://github.com/rust-lang/crates.io-index)",
+ "cc 1.0.17 (registry+https://github.com/rust-lang/crates.io-index)",
  "r0 0.2.2 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
@@ -38,7 +38,7 @@ name = "cortex-m-semihosting"
 version = "0.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
- "cc 1.0.15 (registry+https://github.com/rust-lang/crates.io-index)",
+ "cc 1.0.17 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
@@ -48,14 +48,14 @@ dependencies = [
  "cortex-m 0.5.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "cortex-m-rt 0.5.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "cortex-m-semihosting 0.3.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "panic-semihosting 0.2.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "panic-semihosting 0.3.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "stm32f0x1 0.1.0",
  "stm32f0x2 0.1.0",
 ]
 
 [[package]]
 name = "panic-semihosting"
-version = "0.2.0"
+version = "0.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
  "cortex-m 0.5.2 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -103,11 +103,11 @@ dependencies = [
 [metadata]
 "checksum aligned 0.2.0 (registry+https://github.com/rust-lang/crates.io-index)" = "d39da9b88ae1a81c03c9c082b8db83f1d0e93914126041962af61034ab44c4a5"
 "checksum bare-metal 0.2.0 (registry+https://github.com/rust-lang/crates.io-index)" = "517bf6fd0a06665f8a6d094d3a520f1d0a989c3d114470a75a84a39204e69e96"
-"checksum cc 1.0.15 (registry+https://github.com/rust-lang/crates.io-index)" = "0ebb87d1116151416c0cf66a0e3fb6430cccd120fd6300794b4dfaa050ac40ba"
+"checksum cc 1.0.17 (registry+https://github.com/rust-lang/crates.io-index)" = "49ec142f5768efb5b7622aebc3fdbdbb8950a4b9ba996393cb76ef7466e8747d"
 "checksum cortex-m 0.5.2 (registry+https://github.com/rust-lang/crates.io-index)" = "93ceb454f8942689dae03a0b1d6b6e866f30acb5358ada9698e71f2728cd4924"
 "checksum cortex-m-rt 0.5.1 (registry+https://github.com/rust-lang/crates.io-index)" = "6d5c26952ec2bdfd3c66cddb22cb6432b042ca9ccda55762ebba68b73adbae5a"
 "checksum cortex-m-semihosting 0.3.0 (registry+https://github.com/rust-lang/crates.io-index)" = "0b3d0df96d537c4f66dd9f4d1da21d83f9a5917990196925b3603be85e46071e"
-"checksum panic-semihosting 0.2.0 (registry+https://github.com/rust-lang/crates.io-index)" = "40c8cc147a3c82dd57f35e62d9e65d72cc35b13af67fca486fbc3ae1c2aeebed"
+"checksum panic-semihosting 0.3.0 (registry+https://github.com/rust-lang/crates.io-index)" = "52f64dcd9aebf9d40f8c40ab4400bab503c89997330b8d775c20f373bf0e13fc"
 "checksum r0 0.2.2 (registry+https://github.com/rust-lang/crates.io-index)" = "e2a38df5b15c8d5c7e8654189744d8e396bddc18ad48041a500ce52d6948941f"
 "checksum vcell 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)" = "45c297f0afb6928cd08ab1ff9d95e99392595ea25ae1b5ecf822ff8764e57a0d"
 "checksum volatile-register 0.2.0 (registry+https://github.com/rust-lang/crates.io-index)" = "0d67cb4616d99b940db1d6bd28844ff97108b498a6ca850e5b6191a532063286"

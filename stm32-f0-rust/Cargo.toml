@@ -27,7 +27,7 @@ opt-level = 1
 cortex-m = "0.5.2"
 cortex-m-rt = "0.5.1"
 cortex-m-semihosting = "0.3.0"
-panic-semihosting = "0.2.0"
+panic-semihosting = "0.3.0"
 stm32f0x1 = { version = "0.1.0", optional = true, path = "../crates/stm32f0x1" }
 stm32f0x2 = { version = "0.1.0", optional = true, path = "../crates/stm32f0x2" }
 

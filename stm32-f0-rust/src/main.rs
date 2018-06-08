@@ -105,13 +105,16 @@ fn button_handler() {
 
         match press_type {
             PressType::Short => {
+                let mut num_sec = 0;
                 if let Mode::Setup(ref s) = mode {
-                    let num_sec = if *s == PRESET_COUNT { 1 } else { s + 1 };
+                    num_sec = if *s == PRESET_COUNT { 1 } else { s + 1 };
 
                     Beeper::acquire(&mut cp, p, |mut beeper| {
                         beeper.beep_n(num_sec);
                     });
+                }
 
+                if num_sec != 0 {
                     *mode = Mode::Setup(num_sec);
                 }
             }
@@ -138,14 +141,13 @@ fn button_handler() {
                         });
                     }
                     _ => {
-                        if let Mode::Setup(ref s) = mode {
-                            *mode = Mode::Alarm;
-
+                        *mode = if let Mode::Setup(ref s) = mode {
                             RTC::acquire(&mut cp, p, |mut rtc| {
                                 set_alarm(&mut rtc, &(s * 10));
                             });
+                            Mode::Alarm
                         } else {
-                            *mode = Mode::Setup(0);
+                            Mode::Setup(0)
                         }
                     }
                 }
