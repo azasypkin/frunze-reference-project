@@ -1,0 +1,62 @@
+(export (version D)
+  (design
+    (source /projects/frunze/reference-projects/stm32-f0-rust/docs/schematics/blocks/button/button.sch)
+    (date "Sat 09 Jun 2018 11:20:55 PM CEST")
+    (tool "Eeschema (5.0.0-rc2-108-g8444b1b61)")
+    (sheet (number 1) (name /) (tstamps /)
+      (title_block
+        (title)
+        (company)
+        (rev)
+        (date)
+        (source button.sch)
+        (comment (number 1) (value ""))
+        (comment (number 2) (value ""))
+        (comment (number 3) (value ""))
+        (comment (number 4) (value "")))))
+  (components
+    (comp (ref SW1)
+      (value SW_Push)
+      (footprint Button_Switch_SMD:SW_SPST_TL3342)
+      (libsource (lib Switch) (part SW_Push) (description "Push button switch, generic, two pins"))
+      (sheetpath (names /) (tstamps /))
+      (tstamp 5B1C43FE))
+    (comp (ref J1)
+      (value Conn_01x02_Female)
+      (footprint Connector_PinSocket_2.54mm:PinSocket_1x02_P2.54mm_Vertical)
+      (datasheet ~)
+      (libsource (lib Connector_Generic) (part Conn_01x02_Female) (description "Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)"))
+      (sheetpath (names /) (tstamps /))
+      (tstamp 5B1C451E)))
+  (libparts
+    (libpart (lib Connector_Generic) (part Conn_01x02_Female)
+      (description "Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)")
+      (docs ~)
+      (footprints
+        (fp Connector*:*_1x??_*))
+      (fields
+        (field (name Reference) J)
+        (field (name Value) Conn_01x02_Female))
+      (pins
+        (pin (num 1) (name Pin_1) (type passive))
+        (pin (num 2) (name Pin_2) (type passive))))
+    (libpart (lib Switch) (part SW_Push)
+      (description "Push button switch, generic, two pins")
+      (fields
+        (field (name Reference) SW)
+        (field (name Value) SW_Push))
+      (pins
+        (pin (num 1) (name 1) (type passive))
+        (pin (num 2) (name 2) (type passive)))))
+  (libraries
+    (library (logical Connector_Generic)
+      (uri /usr/share/kicad/library//Connector_Generic.lib))
+    (library (logical Switch)
+      (uri /usr/share/kicad/library//Switch.lib)))
+  (nets
+    (net (code 1) (name "Net-(J1-Pad2)")
+      (node (ref SW1) (pin 1))
+      (node (ref J1) (pin 2)))
+    (net (code 2) (name "Net-(J1-Pad1)")
+      (node (ref SW1) (pin 2))
+      (node (ref J1) (pin 1)))))
