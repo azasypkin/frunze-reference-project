@@ -4,8 +4,8 @@ version = "0.1.0"
 authors = ["Aleh Zasypkin <aleh.zasypkin@gmail.com>"]
 
 [dependencies]
-bare-metal = "0.2.0"
-cortex-m = "0.5.2"
+bare-metal = "0.2.1"
+cortex-m = "0.5.3"
 cortex-m-rt = { version = "0.5.1", optional = true }
 vcell = "0.1.0"
 
