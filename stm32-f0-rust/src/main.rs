@@ -2,7 +2,6 @@
 #![no_std]
 
 extern crate cortex_m;
-#[macro_use(entry, exception)]
 extern crate cortex_m_rt;
 extern crate cortex_m_semihosting;
 extern crate panic_semihosting;
@@ -31,7 +30,7 @@ use cortex_m_semihosting::hio;
 use cortex_m::Peripherals as CorePeripherals;
 use stm32f0x::Peripherals;
 
-use cortex_m_rt::ExceptionFrame;
+use cortex_m_rt::{entry, exception, ExceptionFrame};
 
 use beeper::Beeper;
 use button::{Button, PressType};
@@ -50,10 +49,9 @@ static MODE: Mutex<RefCell<Mode>> = Mutex::new(RefCell::new(Mode::Sleep));
 
 const PRESET_COUNT: u8 = 3;
 
-entry!(main);
-
 // Read about interrupt setup sequence at:
 // http://www.hertaville.com/external-interrupts-on-the-stm32f0.html
+#[entry]
 fn main() -> ! {
     //let mut stdout = hio::hstdout().unwrap();
     //writeln!(stdout, "Starting...").unwrap();
@@ -226,12 +224,12 @@ where
     });
 }
 
-exception!(*, default_handler);
-fn default_handler(irqn: i16) {
+#[exception]
+fn DefaultHandler(irqn: i16) {
     panic!("unhandled exception (IRQn={})", irqn);
 }
 
-exception!(HardFault, hard_fault);
-fn hard_fault(_ef: &ExceptionFrame) -> ! {
+#[exception]
+fn HardFault(_ef: &ExceptionFrame) -> ! {
     loop {}
 }

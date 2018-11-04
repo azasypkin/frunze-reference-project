@@ -175,7 +175,6 @@ impl<'a> Beeper<'a> {
         unsafe {
             peripherals
                 .TIM1
-                .ccmr1
                 .ccmr1_output
                 .modify(|_, w| w.oc1m().bits(0b111));
         }

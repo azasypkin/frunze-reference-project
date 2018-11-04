@@ -3,7 +3,6 @@
 #![deny(warnings)]
 #![allow(non_camel_case_types)]
 #![no_std]
-#![feature(untagged_unions)]
 extern crate bare_metal;
 extern crate cortex_m;
 #[cfg(feature = "rt")]
@@ -116,7 +115,7 @@ pub static __INTERRUPTS: [Vector; 32] = [
 #[cfg(feature = "rt")]
 #[macro_export]
 macro_rules! interrupt {
-    ($Name:ident, $handler:path,state: $State:ty = $initial_state:expr) => {
+    ( $ Name : ident , $ handler : path , state : $ State : ty = $ initial_state : expr ) => {
         #[allow(unsafe_code)]
         #[deny(private_no_mangle_fns)]
         #[no_mangle]
@@ -127,7 +126,7 @@ macro_rules! interrupt {
             f(&mut STATE)
         }
     };
-    ($Name:ident, $handler:path) => {
+    ( $ Name : ident , $ handler : path ) => {
         #[allow(unsafe_code)]
         #[deny(private_no_mangle_fns)]
         #[no_mangle]
@@ -1016,7 +1015,6 @@ impl Deref for STK {
 }
 #[doc = "SysTick timer"]
 pub mod stk;
-#[allow(private_no_mangle_statics)]
 #[no_mangle]
 static mut DEVICE_PERIPHERALS: bool = false;
 #[doc = r" All the peripherals"]
