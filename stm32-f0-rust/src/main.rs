@@ -7,11 +7,9 @@ extern crate cortex_m_semihosting;
 extern crate panic_semihosting;
 
 #[cfg(feature = "stm32f051")]
-#[macro_use(interrupt)]
 extern crate stm32f0x1 as stm32f0x;
 
 #[cfg(feature = "stm32f042")]
-#[macro_use(interrupt)]
 extern crate stm32f0x2 as stm32f0x;
 
 mod beeper;
@@ -24,17 +22,17 @@ use core::cell::RefCell;
 use core::fmt::Write;
 
 use cortex_m::asm;
-use cortex_m::interrupt::{self, Mutex};
+use cortex_m::interrupt::{free, Mutex};
 use cortex_m_semihosting::hio;
 
 use cortex_m::Peripherals as CorePeripherals;
 use stm32f0x::Peripherals;
+use stm32f0x::interrupt;
 
 use cortex_m_rt::{entry, exception, ExceptionFrame};
 
 use beeper::Beeper;
 use button::{Button, PressType};
-use rtc::{Time, RTC};
 
 #[derive(Debug)]
 enum Mode {
@@ -56,7 +54,7 @@ fn main() -> ! {
     //let mut stdout = hio::hstdout().unwrap();
     //writeln!(stdout, "Starting...").unwrap();
 
-    interrupt::free(|cs| {
+    free(|cs| {
         *PERIPHERALS.borrow(cs).borrow_mut() = Some(Peripherals::take().unwrap());
         *CORE_PERIPHERALS.borrow(cs).borrow_mut() = Some(cortex_m::Peripherals::take().unwrap());
     });
@@ -64,9 +62,9 @@ fn main() -> ! {
     interrupt_free(|mut cp, p, _| {
         Beeper::configure(&p);
         Button::configure(&p, &mut cp);
-        RTC::configure(cp, p);
+        rtc::RTC::configure(cp, p);
 
-        RTC::acquire(cp, p, |mut rtc| {
+        rtc::RTC::acquire(cp, p, |mut rtc| {
             rtc.toggle_alarm(false);
         });
 
@@ -93,9 +91,8 @@ fn configure_standby_mode(core_peripherals: &mut CorePeripherals, peripherals: &
     core_peripherals.SCB.set_sleepdeep();
 }
 
-interrupt!(EXTI0_1, button_handler);
-
-fn button_handler() {
+#[interrupt]
+fn EXTI0_1() {
     interrupt_free(|mut cp, p, mode| {
         let press_type = Button::acquire(&mut cp, p, |mut button| {
             button.get_press_type(PressType::Long)
@@ -118,7 +115,7 @@ fn button_handler() {
             }
 
             PressType::Long => {
-                RTC::acquire(&mut cp, p, |mut rtc| {
+                rtc::RTC::acquire(&mut cp, p, |mut rtc| {
                     reset_alarm(&mut rtc);
                 });
 
@@ -140,7 +137,7 @@ fn button_handler() {
                     }
                     _ => {
                         *mode = if let Mode::Setup(ref s) = mode {
-                            RTC::acquire(&mut cp, p, |mut rtc| {
+                            rtc::RTC::acquire(&mut cp, p, |mut rtc| {
                                 set_alarm(&mut rtc, &(s * 10));
                             });
                             Mode::Alarm
@@ -161,16 +158,15 @@ fn button_handler() {
     });
 }
 
-interrupt!(RTC, on_alarm);
-
-fn on_alarm() {
+#[interrupt]
+fn RTC() {
     interrupt_free(|mut cp, p, _| {
         Beeper::acquire(&mut cp, p, |mut beeper| {
             beeper.play_melody();
         });
 
         // Repeat alarm in 10 seconds until it's reset.
-        RTC::acquire(&mut cp, p, |mut rtc| {
+        rtc::RTC::acquire(&mut cp, p, |mut rtc| {
             reset_alarm(&mut rtc);
             set_alarm(&mut rtc, &10);
         });
@@ -180,8 +176,8 @@ fn on_alarm() {
     });
 }
 
-fn reset_alarm(rtc: &mut RTC) {
-    let reset_time = Time {
+fn reset_alarm(rtc: &mut rtc::RTC) {
+    let reset_time = rtc::Time {
         hours: 0,
         minutes: 0,
         seconds: 0,
@@ -193,14 +189,14 @@ fn reset_alarm(rtc: &mut RTC) {
     rtc.clear_pending_interrupt();
 }
 
-fn set_alarm(rtc: &mut RTC, num_secs: &u8) {
-    rtc.configure_time(&Time {
+fn set_alarm(rtc: &mut rtc::RTC, num_secs: &u8) {
+    rtc.configure_time(&rtc::Time {
         hours: 1,
         minutes: 0,
         seconds: 0,
     });
 
-    rtc.configure_alarm(&Time {
+    rtc.configure_alarm(&rtc::Time {
         hours: 1,
         minutes: 0,
         seconds: *num_secs,
@@ -211,7 +207,7 @@ fn interrupt_free<F>(f: F) -> ()
 where
     F: FnOnce(&mut CorePeripherals, &Peripherals, &mut Mode),
 {
-    interrupt::free(|cs| {
+    free(|cs| {
         if let (Some(cp), Some(p), mut m) = (
             CORE_PERIPHERALS.borrow(cs).borrow_mut().as_mut(),
             PERIPHERALS.borrow(cs).borrow_mut().as_mut(),
