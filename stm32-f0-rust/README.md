@@ -37,6 +37,34 @@ $ cargo build --features stm32f042 --target=thumbv6m-none-eabi --release
 2. Run `openocd -f openocd.cfg`
 3. In another terminal run `arm-none-eabi-gdb target/thumbv6m-none-eabi/release/frunze-reference-project`
 
+# Firmware Upload via USB DFU
+
+| `Micro USB` | `STM32F042F4P6`        |
+| ------------------------------------:|
+| 1 - VBUS +  | NC                     |
+| 2 - DATA -  | 09 - PA11 - USB DM     |
+| 3 - DATA +  | 10 - PA12 - USB DP     |
+| 4 - ID      | NC                     |
+| 5 - GND     | 15 - GND               |
+
+Pin 1 (PB8-BOOT0) should be connected to VDD\VDDA (+3.3V).
+
+Also make sure you read documentation for [cargo-binutils](https://github.com/rust-embedded/cargo-binutils) and [dfu-util](http://dfu-util.sourceforge.net/dfuse.html).
+
+1. Build binary with:
+```bash
+$ cargo objcopy --bin frunze-reference-project --release -- -O binary firmware-to-device.bin
+```
+
+2. Upload binary with:
+```bash
+$ dfu-util -a 0 -d 0483:df11 -s 0x08000000:leave -D ./firmware-to-device.bin
+```
+
+3. Backup binary with:
+```bash
+$ dfu-util -U firmware-from-device.bin -a 0 -d 0483:df11
+``` 
 
 ## Notes
 
